@@ -1,0 +1,19 @@
+
+> game-studio-portfolio-mvp@0.1.0 start
+> next start
+
+▲ Next.js 16.1.6
+- Local:         http://localhost:3000
+- Network:       http://100.118.59.11:3000
+
+✓ Starting...
+✓ Ready in 845ms
+[contact_submission]
+**New portfolio inquiry**
+Name: QA User
+Email: qa@example.test
+Company / project: QA Project
+Budget: Not provided
+Timeline: Not provided
+Brief: Need a scoped MVP for QA verification with enough detail to pass validation.
+^C

@@ -1,0 +1,11 @@
+.git
+.next
+.sanity
+node_modules
+npm-debug.log
+qa-server.log
+.env
+.env.*
+README.md
+*.docx
+tsconfig.tsbuildinfo

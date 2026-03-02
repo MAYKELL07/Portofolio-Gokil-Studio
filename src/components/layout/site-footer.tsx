@@ -1,0 +1,104 @@
+"use client";
+
+import Link from "next/link";
+import { ArrowUpRight } from "lucide-react";
+
+import { trackEvent } from "@/lib/analytics";
+
+type SiteFooterProps = {
+  studioName: string;
+  email: string;
+  socials: { label: string; href: string }[];
+};
+
+function FooterLink({
+  href,
+  label,
+  external = false,
+}: {
+  href: string;
+  label: string;
+  external?: boolean;
+}) {
+  const className = "text-sm text-[var(--color-fog-300)] transition hover:text-white";
+
+  if (external) {
+    return (
+      <a
+        href={href}
+        target="_blank"
+        rel="noreferrer"
+        className={className}
+        onClick={() => trackEvent("external_contact_click", { label })}
+      >
+        {label}
+      </a>
+    );
+  }
+
+  return (
+    <Link href={href} className={className}>
+      {label}
+    </Link>
+  );
+}
+
+export function SiteFooter({ studioName, email, socials }: SiteFooterProps) {
+  return (
+    <footer className="border-t border-white/5 bg-[rgba(9,10,13,0.96)]">
+      <div className="site-container grid gap-10 py-12 md:grid-cols-[1.4fr,1fr,1fr]">
+        <div className="space-y-5">
+          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--color-fog-500)]">
+            Ready to scope?
+          </p>
+          <h2 className="max-w-md text-3xl font-semibold text-white md:text-4xl">
+            Let&apos;s build the strongest version of your next Roblox release.
+          </h2>
+          <a
+            href={`mailto:${email}`}
+            className="inline-flex items-center gap-2 text-base font-semibold text-[var(--color-vol-blue)]"
+            onClick={() => trackEvent("external_contact_click", { label: "footer_email" })}
+          >
+            {email}
+            <ArrowUpRight className="h-4 w-4" />
+          </a>
+        </div>
+        <div className="space-y-4">
+          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--color-fog-500)]">
+            Navigate
+          </p>
+          <div className="flex flex-col gap-3">
+            <FooterLink href="/" label="Home" />
+            <FooterLink href="/work" label="Work" />
+            <FooterLink href="/services" label="Services" />
+            <FooterLink href="/about" label="About" />
+            <FooterLink href="/contact" label="Contact" />
+          </div>
+        </div>
+        <div className="space-y-4">
+          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--color-fog-500)]">
+            Studio
+          </p>
+          <div className="flex flex-col gap-3">
+            {socials.map((social) => (
+              <FooterLink
+                key={social.label}
+                href={social.href}
+                label={social.label}
+                external
+              />
+            ))}
+            <FooterLink href="/privacy" label="Privacy" />
+            <FooterLink href="/terms" label="Terms" />
+          </div>
+        </div>
+      </div>
+      <div className="border-t border-white/5 py-4 text-xs text-[var(--color-fog-500)]">
+        <div className="site-container flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+          <span>{studioName}. Conversion-first game studio portfolio MVP.</span>
+          <span>Built for clear motion, CMS scale, and launch readiness.</span>
+        </div>
+      </div>
+    </footer>
+  );
+}
