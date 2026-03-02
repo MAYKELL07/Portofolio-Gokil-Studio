@@ -10,6 +10,7 @@ export function formatNumber(value: number) {
 
 export function createAbsoluteUrl(path = "/") {
   const baseUrl =
+    process.env.SITE_URL?.replace(/\/$/, "") ??
     process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ??
     "https://example.com";
 
