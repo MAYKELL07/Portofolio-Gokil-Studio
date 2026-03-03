@@ -209,6 +209,20 @@ Rebuild after environment changes:
 4. Verify the new container is running:
    `docker compose ps`
 
+For Sanity Studio env changes specifically, use a hard rebuild if the Studio still points at an old project or dataset:
+
+```bash
+docker compose down -v
+docker compose build --no-cache
+docker compose up
+```
+
+If the issue persists, clear cached Studio/Vite artifacts before rebuilding:
+
+```bash
+rm -rf .sanity node_modules/.sanity node_modules/.vite dist
+```
+
 Notes:
 
 - The compose file passes `SITE_URL` into both the build stage and runtime environment so prerendered metadata and runtime URL helpers use the same canonical domain.

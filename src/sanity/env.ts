@@ -1,40 +1,23 @@
-type SanityEnvKey =
-  | "NEXT_PUBLIC_SANITY_PROJECT_ID"
-  | "NEXT_PUBLIC_SANITY_DATASET"
-  | "NEXT_PUBLIC_SANITY_API_VERSION"
-  | "SANITY_API_READ_TOKEN"
-  | "SANITY_STUDIO_PROJECT_ID"
-  | "SANITY_STUDIO_DATASET"
-  | "SANITY_STUDIO_TITLE";
-
 const DEFAULT_SANITY_API_VERSION = "2026-03-03";
 const DEFAULT_SANITY_STUDIO_TITLE = "Game Studio Portfolio CMS";
 
-function readEnv(...keys: SanityEnvKey[]) {
-  for (const key of keys) {
-    const value = process.env[key]?.trim();
-
-    if (value) {
-      return value;
-    }
-  }
-
-  return "";
+function normalizeEnvValue(value?: string) {
+  return value?.trim() || "";
 }
 
-export const sanityProjectId = readEnv(
-  "SANITY_STUDIO_PROJECT_ID",
-  "NEXT_PUBLIC_SANITY_PROJECT_ID",
-);
-export const sanityDataset = readEnv(
-  "SANITY_STUDIO_DATASET",
-  "NEXT_PUBLIC_SANITY_DATASET",
-);
+const studioProjectId = normalizeEnvValue(process.env.SANITY_STUDIO_PROJECT_ID);
+const publicProjectId = normalizeEnvValue(process.env.NEXT_PUBLIC_SANITY_PROJECT_ID);
+const studioDataset = normalizeEnvValue(process.env.SANITY_STUDIO_DATASET);
+const publicDataset = normalizeEnvValue(process.env.NEXT_PUBLIC_SANITY_DATASET);
+
+export const sanityProjectId = studioProjectId || publicProjectId;
+export const sanityDataset = studioDataset || publicDataset;
 export const sanityApiVersion =
-  readEnv("NEXT_PUBLIC_SANITY_API_VERSION") || DEFAULT_SANITY_API_VERSION;
-export const sanityApiReadToken = readEnv("SANITY_API_READ_TOKEN");
+  normalizeEnvValue(process.env.NEXT_PUBLIC_SANITY_API_VERSION) ||
+  DEFAULT_SANITY_API_VERSION;
+export const sanityApiReadToken = normalizeEnvValue(process.env.SANITY_API_READ_TOKEN);
 export const sanityStudioTitle =
-  readEnv("SANITY_STUDIO_TITLE") || DEFAULT_SANITY_STUDIO_TITLE;
+  normalizeEnvValue(process.env.SANITY_STUDIO_TITLE) || DEFAULT_SANITY_STUDIO_TITLE;
 
 export const sanityEnabled = Boolean(sanityProjectId && sanityDataset);
 
