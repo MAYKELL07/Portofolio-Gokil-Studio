@@ -2,29 +2,55 @@ import type { QueryParams } from "next-sanity";
 import { createClient } from "next-sanity";
 
 import {
+  logSanityConfigWarning,
   sanityApiVersion,
+  sanityApiReadToken,
   sanityDataset,
   sanityEnabled,
   sanityProjectId,
+  requireSanityConfig,
 } from "@/sanity/env";
 
-const fallbackProjectId = sanityProjectId || "replace-me";
-const fallbackDataset = sanityDataset || "production";
+type CreateSanityClientOptions = {
+  requireConfig?: boolean;
+  useCdn?: boolean;
+  withReadToken?: boolean;
+};
 
-export const sanityClient = createClient({
-  projectId: fallbackProjectId,
-  dataset: fallbackDataset,
-  apiVersion: sanityApiVersion,
-  useCdn: true,
-  perspective: "published",
-  stega: false,
-});
+export function createSanityClient(options?: CreateSanityClientOptions) {
+  const config = options?.requireConfig
+    ? requireSanityConfig("createSanityClient")
+    : sanityEnabled
+      ? {
+          projectId: sanityProjectId,
+          dataset: sanityDataset,
+          apiVersion: sanityApiVersion,
+        }
+      : null;
+
+  if (!config) {
+    return null;
+  }
+
+  return createClient({
+    projectId: config.projectId,
+    dataset: config.dataset,
+    apiVersion: config.apiVersion,
+    useCdn: options?.useCdn ?? true,
+    perspective: "published",
+    stega: false,
+    token: options?.withReadToken ? sanityApiReadToken || undefined : undefined,
+  });
+}
+
+export const sanityClient = createSanityClient();
 
 export async function safeSanityFetch<T>(
   query: string,
   params?: QueryParams,
 ): Promise<T | null> {
-  if (!sanityEnabled) {
+  if (!sanityClient) {
+    logSanityConfigWarning("safeSanityFetch");
     return null;
   }
 

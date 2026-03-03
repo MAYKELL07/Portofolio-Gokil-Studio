@@ -5,7 +5,7 @@ import { ArrowRight, RotateCcw } from "lucide-react";
 
 import { ProjectCard } from "@/components/marketing/project-card";
 import { Button, ButtonLink } from "@/components/ui/button";
-import { trackEvent } from "@/lib/analytics";
+import { ANALYTICS_EVENTS, trackEvent } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
 import type { Project } from "@/lib/site-content";
 
@@ -53,7 +53,10 @@ export function FilterableWorkGrid({ projects }: FilterableWorkGridProps) {
     setCategory("All");
     setPlatform("All");
     setServiceType("All");
-    trackEvent("portfolio_filter_reset", { location: "work_grid" });
+    trackEvent(ANALYTICS_EVENTS.WORK_FILTER_RESET, {
+      page: "work",
+      section: "filters",
+    });
   }
 
   function renderChipRow(
@@ -84,9 +87,11 @@ export function FilterableWorkGrid({ projects }: FilterableWorkGridProps) {
                 )}
                 onClick={() => {
                   setValue(value);
-                  trackEvent("portfolio_filter_usage", {
-                    filter: eventLabel,
-                    value,
+                  trackEvent(ANALYTICS_EVENTS.WORK_FILTER_USED, {
+                    page: "work",
+                    section: "filters",
+                    filter_name: eventLabel,
+                    filter_value: value,
                   });
                 }}
               >

@@ -6,6 +6,7 @@ import { FeaturedWorkStrip } from "@/components/marketing/featured-work-strip";
 import { HomeHero } from "@/components/marketing/home-hero";
 import { MetricChip } from "@/components/marketing/metric-chip";
 import { ProcessStepCard } from "@/components/marketing/process-step-card";
+import { SectionTextureDivider } from "@/components/marketing/section-texture-divider";
 import { ServiceCard } from "@/components/marketing/service-card";
 import { TeamCard } from "@/components/marketing/team-card";
 import { TestimonialCard } from "@/components/marketing/testimonial-card";
@@ -75,7 +76,11 @@ export default async function Home() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
       />
 
-      <HomeHero settings={settings} />
+      <HomeHero
+        settings={settings}
+        heroImageUrl={homePage.heroBackgroundImageUrl}
+        heroImageAlt={homePage.heroBackgroundImageAlt}
+      />
 
       <section className="site-container">
         <div className="grid-responsive-3">
@@ -152,6 +157,8 @@ export default async function Home() {
         </div>
       </section>
 
+      <SectionTextureDivider projects={featuredProjects} />
+
       <section id="featured-work" className="site-container scroll-mt-28">
         <FeaturedWorkStrip projects={featuredProjects} />
       </section>
@@ -184,6 +191,8 @@ export default async function Home() {
           </div>
         </div>
       </section>
+
+      <SectionTextureDivider projects={featuredProjects.slice().reverse()} />
 
       <section className="site-container">
         <Reveal className="mb-8">

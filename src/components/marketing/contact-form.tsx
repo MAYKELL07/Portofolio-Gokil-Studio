@@ -58,18 +58,21 @@ export function ContactForm() {
       if (response.ok) {
         formRef.current?.reset();
         trackEvent(ANALYTICS_EVENTS.CONTACT_FORM_SUBMIT_SUCCESS, {
-          source: "contact_page",
+          page: "contact",
+          section: "contact_form",
         });
       } else {
         trackEvent(ANALYTICS_EVENTS.CONTACT_FORM_SUBMIT_FAILED, {
-          source: "contact_page",
+          page: "contact",
+          section: "contact_form",
           failure_type: "validation_or_delivery",
           error_count: Object.keys(result.errors ?? {}).length,
         });
       }
     } catch {
       trackEvent(ANALYTICS_EVENTS.CONTACT_FORM_SUBMIT_FAILED, {
-        source: "contact_page",
+        page: "contact",
+        section: "contact_form",
         failure_type: "network",
       });
       setState({
@@ -95,7 +98,8 @@ export function ContactForm() {
 
         setHasStarted(true);
         trackEvent(ANALYTICS_EVENTS.CONTACT_FORM_STARTED, {
-          source: "contact_page",
+          page: "contact",
+          section: "contact_form",
         });
       }}
     >

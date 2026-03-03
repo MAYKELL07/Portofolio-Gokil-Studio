@@ -16,6 +16,7 @@ import {
   processStepType,
   projectMediaType,
   projectMetricType,
+  richImageType,
   sectionIntroType,
   serviceOverviewType,
   socialLinkType,
@@ -24,6 +25,7 @@ import {
 export const singletonSchemaTypes = new Set(["siteSettings", "homePage"]);
 
 export const schemaTypes = [
+  richImageType,
   linkItemType,
   socialLinkType,
   metricItemType,

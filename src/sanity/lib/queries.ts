@@ -28,6 +28,9 @@ export const siteSettingsQuery = groq`
 
 export const homePageQuery = groq`
   *[_type == "homePage"][0]{
+    heroBackgroundImage,
+    "heroBackgroundImageUrl": heroBackgroundImage.asset->url,
+    "heroBackgroundImageAlt": heroBackgroundImage.alt,
     "outcomeCards": outcomeCards[]{
       eyebrow,
       title,
@@ -87,9 +90,12 @@ const projectSelection = `
   serviceTags,
   year,
   featured,
+  coverImage,
+  "coverImageUrl": coverImage.asset->url,
   summary,
   challenge,
   goals,
+  outcomes,
   solution,
   gameplayFeatures,
   productionProcess,
@@ -102,8 +108,12 @@ const projectSelection = `
     label,
     description,
     type,
-    alt,
+    "alt": coalesce(image.alt, poster.alt),
+    "caption": coalesce(image.caption, poster.caption),
+    "imageRole": coalesce(image.imageRole, poster.imageRole),
     videoUrl,
+    image,
+    poster,
     "imageUrl": image.asset->url,
     "posterUrl": poster.asset->url
   },
@@ -146,7 +156,10 @@ export const servicesQuery = groq`
     engagementModel,
     idealFor,
     deliverables,
-    inquiryLabel
+    inquiryLabel,
+    featuredImage,
+    "featuredImageUrl": featuredImage.asset->url,
+    "featuredImageAlt": featuredImage.alt
   }
 `;
 
@@ -156,7 +169,10 @@ export const teamQuery = groq`
     role,
     bio,
     skills,
-    focus
+    focus,
+    portrait,
+    "portraitUrl": portrait.asset->url,
+    "portraitAlt": portrait.alt
   }
 `;
 
@@ -166,7 +182,10 @@ export const testimonialsQuery = groq`
     quote,
     name,
     role,
-    company
+    company,
+    portrait,
+    "portraitUrl": portrait.asset->url,
+    "portraitAlt": portrait.alt
   }
 `;
 

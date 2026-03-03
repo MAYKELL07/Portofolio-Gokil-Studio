@@ -4,6 +4,7 @@ import { Reveal } from "@/components/animation/reveal";
 import { ContactForm } from "@/components/marketing/contact-form";
 import { FaqAccordion } from "@/components/marketing/faq-accordion";
 import { TrackedAnchor } from "@/components/ui/tracked-anchor";
+import { ANALYTICS_EVENTS } from "@/lib/analytics";
 import { buildMetadata } from "@/lib/seo";
 import { getFaqItems, getSiteSettings } from "@/lib/site-content";
 
@@ -56,8 +57,13 @@ export default async function ContactPage() {
               <div className="mt-5 grid gap-4">
                 <TrackedAnchor
                   href={`mailto:${settings.primaryEmail}`}
-                  eventName="external_contact_click"
-                  eventPayload={{ label: "contact_email" }}
+                  eventName={ANALYTICS_EVENTS.OUTBOUND_LINK_CLICK}
+                  eventPayload={{
+                    page: "contact",
+                    section: "direct_channels",
+                    link_label: "contact_email",
+                    link_type: "email",
+                  }}
                   className="rounded-[var(--radius-lg)] border border-[var(--color-border-strong)] bg-white/[0.03] p-5 transition hover:border-[var(--color-border-accent)]"
                 >
                   <div className="flex items-center gap-3 text-sm font-semibold text-white">
@@ -74,8 +80,13 @@ export default async function ContactPage() {
                     href={social.href}
                     target="_blank"
                     rel="noreferrer"
-                    eventName="external_contact_click"
-                    eventPayload={{ label: `contact_${social.label.toLowerCase()}` }}
+                    eventName={ANALYTICS_EVENTS.OUTBOUND_LINK_CLICK}
+                    eventPayload={{
+                      page: "contact",
+                      section: "direct_channels",
+                      link_label: `contact_${social.label.toLowerCase()}`,
+                      link_type: "social",
+                    }}
                     className="rounded-[var(--radius-lg)] border border-[var(--color-border-strong)] bg-white/[0.03] p-5 transition hover:border-[var(--color-border-accent)]"
                   >
                     <div className="flex items-center gap-3 text-sm font-semibold text-white">

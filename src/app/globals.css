@@ -238,6 +238,61 @@ textarea {
   border-radius: var(--radius-md);
 }
 
+.media-surface {
+  isolation: isolate;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-lg);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01)),
+    rgba(255, 255, 255, 0.02);
+  box-shadow: var(--shadow-sm);
+}
+
+.media-reveal {
+  contain: layout paint;
+}
+
+.media-surface-image {
+  pointer-events: none;
+  object-fit: cover;
+  transition:
+    transform 260ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 260ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.media-surface-overlay {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  transition:
+    opacity 220ms cubic-bezier(0.22, 1, 0.36, 1),
+    background 220ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.media-surface-content {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.media-surface-interactive:hover .media-surface-image,
+.media-surface-interactive:focus-within .media-surface-image {
+  transform: scale(1.035);
+}
+
+.media-surface-interactive:hover .media-surface-overlay,
+.media-surface-interactive:focus-within .media-surface-overlay {
+  opacity: 0.92;
+}
+
+.media-surface-interactive:hover .media-surface-content,
+.media-surface-interactive:focus-within .media-surface-content {
+  transform: translateY(-2px);
+}
+
 .section-heading {
   font-family: var(--font-display), sans-serif;
   line-height: var(--line-height-tight);
@@ -409,6 +464,15 @@ textarea {
     will-change: auto;
   }
 
+  .media-surface-image {
+    transition: none;
+  }
+
+  .media-surface-overlay,
+  .media-surface-content {
+    transition: none;
+  }
+
   .interactive-card:hover,
   .interactive-card:focus-within {
     transform: none;
@@ -434,6 +498,14 @@ textarea {
     transform: none;
     border-color: var(--color-border-soft);
     box-shadow: var(--shadow-lg);
+  }
+
+  .media-surface-interactive:hover .media-surface-image {
+    transform: none;
+  }
+
+  .media-surface-interactive:hover .media-surface-content {
+    transform: none;
   }
 }
 

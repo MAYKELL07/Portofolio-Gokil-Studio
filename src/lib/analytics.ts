@@ -5,18 +5,19 @@ type AnalyticsPayload = Record<string, AnalyticsValue>;
 
 export const ANALYTICS_EVENTS = {
   PAGE_VIEW: "page_view",
+  HERO_CTA_CLICK: "hero_cta_click",
   CTA_CLICK: "cta_click",
   PROJECT_CARD_CLICK: "project_card_click",
   PROJECT_PAGE_CTA_CLICK: "project_page_cta_click",
   CONTACT_FORM_STARTED: "contact_form_started",
   CONTACT_FORM_SUBMIT_SUCCESS: "contact_form_submit_success",
   CONTACT_FORM_SUBMIT_FAILED: "contact_form_submit_failed",
-  PORTFOLIO_FILTER_USAGE: "portfolio_filter_usage",
-  PORTFOLIO_FILTER_RESET: "portfolio_filter_reset",
+  WORK_FILTER_USED: "work_filter_used",
+  WORK_FILTER_RESET: "work_filter_reset",
   PROJECT_SCROLL_DEPTH: "project_scroll_depth",
   NAV_CLICK: "nav_click",
   NAV_LOGO_CLICK: "nav_logo_click",
-  EXTERNAL_CONTACT_CLICK: "external_contact_click",
+  OUTBOUND_LINK_CLICK: "outbound_link_click",
 } as const;
 
 export type AnalyticsEventName =
@@ -131,7 +132,7 @@ export function trackPageView(payload: {
   title?: string;
 }) {
   trackEvent(ANALYTICS_EVENTS.PAGE_VIEW, {
-    path: payload.path,
+    page: payload.path,
     page_type: payload.pageType,
     title: payload.title ?? "",
   });

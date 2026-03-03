@@ -2,15 +2,17 @@ import { visionTool } from "@sanity/vision";
 import { defineConfig } from "sanity";
 import { structureTool } from "sanity/structure";
 
-import { sanityDataset, sanityEnabled, sanityProjectId, sanityStudioTitle } from "./src/sanity/env";
+import { requireSanityConfig, sanityStudioTitle } from "./src/sanity/env";
 import { schemaTypes, singletonSchemaTypes } from "./src/sanity/schemaTypes";
 import { structure } from "./src/sanity/structure";
 
+const sanityConfig = requireSanityConfig("sanity.config.ts");
+
 export default defineConfig({
   name: "default",
-  title: sanityEnabled ? sanityStudioTitle : `${sanityStudioTitle} (Configure Env)`,
-  projectId: sanityProjectId || "replace-me",
-  dataset: sanityDataset || "production",
+  title: sanityStudioTitle,
+  projectId: sanityConfig.projectId,
+  dataset: sanityConfig.dataset,
   plugins: [structureTool({ structure }), visionTool()],
   schema: {
     types: schemaTypes,

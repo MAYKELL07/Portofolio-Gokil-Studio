@@ -1,5 +1,6 @@
 import { cmsCollections } from "@/lib/cms-model";
 import { safeSanityFetch } from "@/sanity/lib/client";
+import { resolveSanityImageUrl, type SanityImageSource } from "@/sanity/lib/image";
 import {
   faqItemsQuery,
   homePageQuery,
@@ -27,6 +28,9 @@ export type Testimonial = {
   name: string;
   role: string;
   company: string;
+  portrait?: SanityImageSource;
+  portraitUrl?: string;
+  portraitAlt?: string;
 };
 
 export type ProjectMetric = {
@@ -40,6 +44,10 @@ export type ProjectMediaItem = {
   description: string;
   type?: "image" | "video";
   alt?: string;
+  caption?: string;
+  imageRole?: string;
+  image?: SanityImageSource;
+  poster?: SanityImageSource;
   imageUrl?: string;
   posterUrl?: string;
   videoUrl?: string;
@@ -68,9 +76,12 @@ export type Project = {
   serviceTags: string[];
   year: number;
   featured: boolean;
+  coverImage?: SanityImageSource;
+  coverImageUrl?: string;
   summary: string;
   challenge?: string;
   goals?: string[];
+  outcomes?: string[];
   solution?: string;
   gameplayFeatures: string[];
   productionProcess: string[];
@@ -103,6 +114,9 @@ export type Service = {
   idealFor: string;
   deliverables: string[];
   inquiryLabel?: string;
+  featuredImage?: SanityImageSource;
+  featuredImageUrl?: string;
+  featuredImageAlt?: string;
 };
 
 export type TeamMember = {
@@ -111,6 +125,9 @@ export type TeamMember = {
   bio: string;
   skills: string[];
   focus: string;
+  portrait?: SanityImageSource;
+  portraitUrl?: string;
+  portraitAlt?: string;
 };
 
 export type FAQItem = {
@@ -153,6 +170,9 @@ export type HomeProcessStep = {
 };
 
 export type HomePageContent = {
+  heroBackgroundImage?: SanityImageSource;
+  heroBackgroundImageUrl?: string;
+  heroBackgroundImageAlt?: string;
   outcomeCards: HomeOutcomeCard[];
   buyerTypes: HomeBuyerType[];
   serviceOverview: {
@@ -230,6 +250,7 @@ const siteSettings: SiteSettings = {
 };
 
 const homePageContent: HomePageContent = {
+  heroBackgroundImageAlt: "Cinematic Roblox environment placeholder",
   outcomeCards: [
     {
       eyebrow: "Offer",
@@ -802,6 +823,10 @@ const serviceCategoryOptions = [
 ] as const;
 
 const faqCategoryOptions = ["General", "Process", "Contact"] as const;
+const SANITY_IMAGE_SIZES = {
+  projectGallery: { width: 1600, quality: 76 } as const,
+  projectCover: { width: 1440, quality: 74 } as const,
+};
 
 function sanitizeText(value: unknown) {
   return typeof value === "string" ? value.trim() : "";
@@ -948,6 +973,21 @@ function normalizeHomePageContent(data: Partial<HomePageContent> | null | undefi
     : [];
 
   return {
+    heroBackgroundImage:
+      typeof data.heroBackgroundImage === "object" && data.heroBackgroundImage
+        ? data.heroBackgroundImage
+        : homePageContent.heroBackgroundImage,
+    heroBackgroundImageUrl:
+      resolveSanityImageUrl(
+        typeof data.heroBackgroundImage === "object" && data.heroBackgroundImage
+          ? data.heroBackgroundImage
+          : homePageContent.heroBackgroundImage,
+        { width: 1600, quality: 74 },
+      ) ||
+      sanitizeText(data.heroBackgroundImageUrl) ||
+      homePageContent.heroBackgroundImageUrl,
+    heroBackgroundImageAlt:
+      sanitizeText(data.heroBackgroundImageAlt) || homePageContent.heroBackgroundImageAlt,
     outcomeCards: outcomeCards.length > 0 ? outcomeCards : homePageContent.outcomeCards,
     buyerTypes: buyerTypes.length > 0 ? buyerTypes : homePageContent.buyerTypes,
     serviceOverview: {
@@ -999,10 +1039,24 @@ function normalizeProjectMediaItem(
   item: Partial<ProjectMediaItem> | null | undefined,
   fallback?: ProjectMediaItem,
 ): ProjectMediaItem | null {
+  const image =
+    typeof item?.image === "object" && item?.image
+      ? item.image
+      : fallback?.image;
+  const poster =
+    typeof item?.poster === "object" && item?.poster
+      ? item.poster
+      : fallback?.poster;
   const label = sanitizeText(item?.label) || sanitizeText(fallback?.label);
   const description = sanitizeText(item?.description) || sanitizeText(fallback?.description);
-  const imageUrl = sanitizeText(item?.imageUrl);
-  const posterUrl = sanitizeText(item?.posterUrl);
+  const imageUrl =
+    resolveSanityImageUrl(image, SANITY_IMAGE_SIZES.projectGallery) ||
+    sanitizeText(item?.imageUrl) ||
+    sanitizeText(fallback?.imageUrl);
+  const posterUrl =
+    resolveSanityImageUrl(poster, SANITY_IMAGE_SIZES.projectGallery) ||
+    sanitizeText(item?.posterUrl) ||
+    sanitizeText(fallback?.posterUrl);
   const videoUrl = sanitizeText(item?.videoUrl);
   const type = sanitizeText(item?.type);
 
@@ -1017,6 +1071,10 @@ function normalizeProjectMediaItem(
       "Add a short note about what this image or video shows so buyers understand the proof quickly.",
     type: type === "video" ? "video" : "image",
     alt: sanitizeText(item?.alt),
+    caption: sanitizeText(item?.caption) || sanitizeText(fallback?.caption),
+    imageRole: sanitizeText(item?.imageRole) || sanitizeText(fallback?.imageRole),
+    image,
+    poster,
     imageUrl,
     posterUrl,
     videoUrl,
@@ -1081,6 +1139,14 @@ function normalizeProject(
   }
 
   const projectType = sanitizeText(data?.projectType);
+  const coverImage =
+    typeof data?.coverImage === "object" && data?.coverImage
+      ? data.coverImage
+      : fallback?.coverImage;
+  const coverImageUrl =
+    resolveSanityImageUrl(coverImage, SANITY_IMAGE_SIZES.projectCover) ||
+    sanitizeText(data?.coverImageUrl) ||
+    sanitizeText(fallback?.coverImageUrl);
   const projectMedia = Array.isArray(data?.galleryMedia)
     ? data?.galleryMedia
         .map((item, index) =>
@@ -1124,11 +1190,16 @@ function normalizeProject(
         ? data.year
         : fallback?.year ?? new Date().getFullYear(),
     featured: typeof data?.featured === "boolean" ? data.featured : fallback?.featured ?? false,
+    coverImage,
+    coverImageUrl,
     summary: sanitizeText(data?.summary) || fallback?.summary || "",
     challenge: sanitizeText(data?.challenge) || fallback?.challenge,
     goals: sanitizeStringArray(data?.goals).length > 0
       ? sanitizeStringArray(data?.goals)
       : fallback?.goals,
+    outcomes: sanitizeStringArray(data?.outcomes).length > 0
+      ? sanitizeStringArray(data?.outcomes)
+      : fallback?.outcomes,
     solution: sanitizeText(data?.solution) || fallback?.solution,
     gameplayFeatures: sanitizeStringArray(data?.gameplayFeatures).length > 0
       ? sanitizeStringArray(data?.gameplayFeatures)
@@ -1185,6 +1256,21 @@ function normalizeService(
       ? sanitizeStringArray(data?.deliverables)
       : fallback?.deliverables ?? [],
     inquiryLabel: sanitizeText(data?.inquiryLabel) || fallback?.inquiryLabel,
+    featuredImage:
+      typeof data?.featuredImage === "object" && data.featuredImage
+        ? data.featuredImage
+        : fallback?.featuredImage,
+    featuredImageUrl:
+      resolveSanityImageUrl(
+        typeof data?.featuredImage === "object" && data.featuredImage
+          ? data.featuredImage
+          : fallback?.featuredImage,
+        { width: 960, quality: 72 },
+      ) ||
+      sanitizeText(data?.featuredImageUrl) ||
+      fallback?.featuredImageUrl,
+    featuredImageAlt:
+      sanitizeText(data?.featuredImageAlt) || fallback?.featuredImageAlt,
   };
 }
 
@@ -1207,6 +1293,20 @@ function normalizeTeamMember(
       ? sanitizeStringArray(data?.skills)
       : fallback?.skills ?? [],
     focus: sanitizeText(data?.focus) || fallback?.focus || "",
+    portrait:
+      typeof data?.portrait === "object" && data.portrait
+        ? data.portrait
+        : fallback?.portrait,
+    portraitUrl:
+      resolveSanityImageUrl(
+        typeof data?.portrait === "object" && data.portrait
+          ? data.portrait
+          : fallback?.portrait,
+        { width: 720, height: 900, quality: 74 },
+      ) ||
+      sanitizeText(data?.portraitUrl) ||
+      fallback?.portraitUrl,
+    portraitAlt: sanitizeText(data?.portraitAlt) || fallback?.portraitAlt,
   };
 }
 
@@ -1227,6 +1327,20 @@ function normalizeTestimonial(
     name,
     role: sanitizeText(data?.role) || fallback?.role || "",
     company: sanitizeText(data?.company) || fallback?.company || "",
+    portrait:
+      typeof data?.portrait === "object" && data.portrait
+        ? data.portrait
+        : fallback?.portrait,
+    portraitUrl:
+      resolveSanityImageUrl(
+        typeof data?.portrait === "object" && data.portrait
+          ? data.portrait
+          : fallback?.portrait,
+        { width: 360, height: 360, quality: 72 },
+      ) ||
+      sanitizeText(data?.portraitUrl) ||
+      fallback?.portraitUrl,
+    portraitAlt: sanitizeText(data?.portraitAlt) || fallback?.portraitAlt,
   };
 }
 

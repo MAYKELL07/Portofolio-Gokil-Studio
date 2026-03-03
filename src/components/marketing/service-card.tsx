@@ -1,5 +1,6 @@
 import { ArrowRight } from "lucide-react";
 
+import { ProjectCoverMedia } from "@/components/media/site-media";
 import { ButtonLink } from "@/components/ui/button";
 import type { Service } from "@/lib/site-content";
 
@@ -14,11 +15,30 @@ export function ServiceCard({ service, compact = false }: ServiceCardProps) {
   const ctaLabel = service.inquiryLabel || "Start this conversation";
   const hasOutcomes = outcomes.length > 0;
   const hasDeliverables = deliverables.length > 0;
+  const visualSrc = service.featuredImageUrl || "/placeholders/studio-signal-texture.svg";
 
   return (
     <article className="section-shell interactive-card rounded-[var(--radius-xl)] p-6 md:p-7">
+      <div className="mb-5">
+        <ProjectCoverMedia
+          src={visualSrc}
+          alt={service.featuredImageAlt || service.title}
+          ratio="landscape"
+          sizes="(max-width: 767px) 100vw, (max-width: 1279px) 50vw, 40vw"
+          quality={70}
+          interactive={false}
+          overlayClassName="bg-[linear-gradient(135deg,rgba(76,201,255,0.18),rgba(9,10,13,0.2),rgba(139,92,246,0.28))]"
+        >
+          <div className="absolute inset-x-0 bottom-0 h-20 bg-[linear-gradient(180deg,transparent,rgba(9,10,13,0.82))]" />
+          <div className="absolute inset-x-4 bottom-4 flex items-center justify-between gap-3">
+            <span className="chip text-xs text-white">{service.category}</span>
+            <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/70">
+              {compact ? "Service preview" : "Delivery shape"}
+            </span>
+          </div>
+        </ProjectCoverMedia>
+      </div>
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <span className="chip text-xs text-white">{service.category}</span>
         <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-[var(--color-fog-500)]">
           {service.timeline}
         </p>

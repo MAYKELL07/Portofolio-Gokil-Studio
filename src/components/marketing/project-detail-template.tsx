@@ -1,9 +1,10 @@
-import Image from "next/image";
-import { ArrowRight, ArrowUpRight, Image as ImageIcon, LockKeyhole, Play } from "lucide-react";
+import { ArrowRight, ArrowUpRight, LockKeyhole } from "lucide-react";
 
 import { Reveal } from "@/components/animation/reveal";
+import { GalleryMediaCard } from "@/components/media/site-media";
 import { MetricChip } from "@/components/marketing/metric-chip";
 import { ProjectCard } from "@/components/marketing/project-card";
+import { SectionTextureDivider } from "@/components/marketing/section-texture-divider";
 import { TestimonialCard } from "@/components/marketing/testimonial-card";
 import { ButtonLink } from "@/components/ui/button";
 import { ANALYTICS_EVENTS } from "@/lib/analytics";
@@ -21,6 +22,38 @@ function cleanText(value?: string) {
 
 function cleanList(items?: string[]) {
   return (items ?? []).map((item) => item.trim()).filter(Boolean);
+}
+
+function getGalleryItemClass(item: Project["galleryMedia"][number], index: number) {
+  if (item.imageRole === "cover" || index === 0) {
+    return "md:col-span-2";
+  }
+
+  if (item.imageRole === "portrait") {
+    return "md:row-span-2 md:self-start";
+  }
+
+  if (item.imageRole === "background" || item.imageRole === "texture") {
+    return "md:col-span-2 lg:col-span-1";
+  }
+
+  return "";
+}
+
+function getGalleryMediaRatio(item: Project["galleryMedia"][number], index: number) {
+  if (item.imageRole === "portrait") {
+    return "portrait" as const;
+  }
+
+  if (item.imageRole === "cover" || item.imageRole === "background" || index === 0) {
+    return "landscape" as const;
+  }
+
+  if (item.imageRole === "texture") {
+    return "square" as const;
+  }
+
+  return "standard" as const;
 }
 
 export function ProjectDetailTemplate({
@@ -42,6 +75,21 @@ export function ProjectDetailTemplate({
   const mediaItems = project.galleryMedia.filter(
     (item) => cleanText(item.label) || cleanText(item.description),
   );
+  const effectiveMediaItems =
+    mediaItems.length > 0
+      ? mediaItems
+      : project.coverImageUrl
+        ? [
+            {
+              label: "Cover image",
+              description:
+                "Primary case-study cover image shown while the gallery is still being populated.",
+              type: "image" as const,
+              alt: project.title,
+              imageUrl: project.coverImageUrl,
+            },
+          ]
+        : [];
   const primaryCtaLabel = cleanText(project.cta?.primaryLabel) ?? "Start a similar project";
   const primaryCtaHref = cleanText(project.cta?.primaryHref) ?? "/contact";
   const secondaryCtaLabel = cleanText(project.cta?.secondaryLabel) ?? "Review services";
@@ -108,9 +156,10 @@ export function ProjectDetailTemplate({
                   href={primaryCtaHref}
                   eventName={ANALYTICS_EVENTS.PROJECT_PAGE_CTA_CLICK}
                   eventPayload={{
-                    placement: "project_hero",
+                    page: "project_detail",
+                    section: "hero",
                     slug: project.slug,
-                    label: primaryCtaLabel,
+                    cta_label: primaryCtaLabel,
                   }}
                 >
                   {primaryCtaLabel}
@@ -120,7 +169,12 @@ export function ProjectDetailTemplate({
                   href="/work"
                   variant="secondary"
                   eventName={ANALYTICS_EVENTS.PROJECT_PAGE_CTA_CLICK}
-                  eventPayload={{ placement: "project_hero", label: "Back to work" }}
+                  eventPayload={{
+                    page: "project_detail",
+                    section: "hero",
+                    slug: project.slug,
+                    cta_label: "Back to work",
+                  }}
                 >
                   Back to work
                   <ArrowUpRight className="h-4 w-4" />
@@ -201,59 +255,23 @@ export function ProjectDetailTemplate({
             <p className="eyebrow">Media gallery</p>
             <h2 className="type-h2 mt-4 font-semibold text-white">Visual proof first.</h2>
             <div className="mt-6 grid gap-4 md:grid-cols-2">
-              {mediaItems.length > 0 ? (
-                mediaItems.map((item, index) => {
+              {effectiveMediaItems.length > 0 ? (
+                effectiveMediaItems.map((item, index) => {
                   const isVideo = item.type === "video";
 
                   return (
-                    <div
+                    <GalleryMediaCard
                       key={`${item.label}-${index}`}
-                      className="overflow-hidden rounded-[var(--radius-lg)] border border-[var(--color-border-strong)] bg-white/[0.03]"
-                    >
-                      <div
-                        className="relative flex h-40 items-end justify-between border-b border-white/6 p-4"
-                        style={{
-                          background: `linear-gradient(135deg, ${project.palette[0]}28, transparent), linear-gradient(180deg, ${project.palette[1]}, ${project.palette[2]})`,
-                        }}
-                      >
-                        {item.imageUrl || item.posterUrl ? (
-                          <>
-                            <Image
-                              src={item.imageUrl || item.posterUrl || ""}
-                              alt={item.alt || item.label}
-                              fill
-                              sizes="(max-width: 767px) 100vw, 50vw"
-                              quality={72}
-                              className="object-cover"
-                            />
-                            <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(9,10,13,0.2),rgba(9,10,13,0.72))]" />
-                          </>
-                        ) : (
-                          <div className="absolute inset-0 flex items-center justify-center p-4">
-                            <div className="rounded-[var(--radius-md)] border border-white/10 bg-black/20 px-4 py-3 text-center backdrop-blur-sm">
-                              <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/60">
-                                Media placeholder
-                              </div>
-                              <div className="mt-2 max-w-[16rem] text-xs leading-6 text-white/75">
-                                Replace this slot with a still, poster, or short clip that best supports the case study.
-                              </div>
-                            </div>
-                          </div>
-                        )}
-                        <span className="relative z-10 chip border-white/14 bg-black/18 text-xs text-white">
-                          {isVideo ? "Video" : "Image"}
-                        </span>
-                        <div className="relative z-10 flex h-10 w-10 items-center justify-center rounded-full border border-white/12 bg-black/18 text-white">
-                          {isVideo ? <Play className="h-4 w-4" /> : <ImageIcon className="h-4 w-4" />}
-                        </div>
-                      </div>
-                      <div className="p-5">
-                        <div className="text-sm font-semibold text-white">{item.label}</div>
-                        <div className="mt-3 text-sm leading-7 text-[var(--color-fog-300)]">
-                          {item.description}
-                        </div>
-                      </div>
-                    </div>
+                      src={item.imageUrl || item.posterUrl}
+                      alt={item.alt || item.label}
+                      title={item.label}
+                      description={item.description}
+                      caption={item.caption}
+                      type={isVideo ? "video" : "image"}
+                      ratio={getGalleryMediaRatio(item, index)}
+                      className={getGalleryItemClass(item, index)}
+                      featured={index === 0}
+                    />
                   );
                 })
               ) : (
@@ -301,6 +319,8 @@ export function ProjectDetailTemplate({
           </Reveal>
         </div>
       </section>
+
+      <SectionTextureDivider projects={[project, ...relatedProjects].slice(0, 3)} />
 
       <section className="site-container">
         <div className="grid gap-8 lg:grid-cols-3">
@@ -418,9 +438,10 @@ export function ProjectDetailTemplate({
                 href={primaryCtaHref}
                 eventName={ANALYTICS_EVENTS.PROJECT_PAGE_CTA_CLICK}
                 eventPayload={{
-                  placement: "project_final_cta",
+                  page: "project_detail",
+                  section: "final_cta",
                   slug: project.slug,
-                  label: primaryCtaLabel,
+                  cta_label: primaryCtaLabel,
                 }}
               >
                 {primaryCtaLabel}
@@ -431,8 +452,10 @@ export function ProjectDetailTemplate({
                 variant="secondary"
                 eventName={ANALYTICS_EVENTS.PROJECT_PAGE_CTA_CLICK}
                 eventPayload={{
-                  placement: "project_final_cta",
-                  label: secondaryCtaLabel,
+                  page: "project_detail",
+                  section: "final_cta",
+                  slug: project.slug,
+                  cta_label: secondaryCtaLabel,
                 }}
               >
                 {secondaryCtaLabel}
@@ -455,7 +478,12 @@ export function ProjectDetailTemplate({
             href="/contact"
             variant="ghost"
             eventName={ANALYTICS_EVENTS.PROJECT_PAGE_CTA_CLICK}
-            eventPayload={{ placement: "related_projects", slug: project.slug }}
+            eventPayload={{
+              page: "project_detail",
+              section: "related_projects",
+              slug: project.slug,
+              cta_label: "Discuss your brief",
+            }}
             className="justify-start px-0 py-0 text-[var(--color-vol-blue)]"
           >
             Discuss your brief

@@ -1,10 +1,12 @@
 import { defineCliConfig } from "sanity/cli";
 
-import { sanityDataset, sanityProjectId } from "./src/sanity/env";
+import { requireSanityConfig } from "./src/sanity/env";
+
+const sanityConfig = requireSanityConfig("sanity.cli.ts");
 
 export default defineCliConfig({
   api: {
-    projectId: sanityProjectId || "replace-me",
-    dataset: sanityDataset || "production",
+    projectId: sanityConfig.projectId,
+    dataset: sanityConfig.dataset,
   },
 });

@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 
-import { trackEvent } from "@/lib/analytics";
+import { ANALYTICS_EVENTS, trackEvent } from "@/lib/analytics";
 
 type SiteFooterProps = {
   studioName: string;
@@ -29,7 +29,13 @@ function FooterLink({
         target="_blank"
         rel="noreferrer"
         className={className}
-        onClick={() => trackEvent("external_contact_click", { label })}
+        onClick={() =>
+          trackEvent(ANALYTICS_EVENTS.OUTBOUND_LINK_CLICK, {
+            page: "global",
+            section: "footer",
+            link_label: label,
+            link_type: "external",
+          })}
       >
         {label}
       </a>
@@ -57,7 +63,13 @@ export function SiteFooter({ studioName, email, socials }: SiteFooterProps) {
           <a
             href={`mailto:${email}`}
             className="inline-flex items-center gap-2 text-base font-semibold text-[var(--color-vol-blue)]"
-            onClick={() => trackEvent("external_contact_click", { label: "footer_email" })}
+            onClick={() =>
+              trackEvent(ANALYTICS_EVENTS.OUTBOUND_LINK_CLICK, {
+                page: "global",
+                section: "footer",
+                link_label: "footer_email",
+                link_type: "email",
+              })}
           >
             {email}
             <ArrowUpRight className="h-4 w-4" />

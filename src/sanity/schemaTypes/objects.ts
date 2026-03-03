@@ -1,5 +1,72 @@
 import { defineArrayMember, defineField, defineType } from "sanity";
 
+const imageRoleOptions = [
+  { title: "Cover", value: "cover" },
+  { title: "Gallery", value: "gallery" },
+  { title: "Background", value: "background" },
+  { title: "Texture", value: "texture" },
+  { title: "Portrait", value: "portrait" },
+  { title: "Poster", value: "poster" },
+  { title: "Logo", value: "logo" },
+];
+
+export const richImageType = defineType({
+  name: "richImage",
+  title: "Rich Image",
+  type: "image",
+  description:
+    "Upload high-quality source imagery only. Prefer clean, well-lit assets with clear subject focus so responsive crops stay premium across desktop and mobile.",
+  options: {
+    hotspot: true,
+  },
+  fields: [
+    defineField({
+      name: "alt",
+      title: "Alt Text",
+      type: "string",
+      description:
+        "Required. Describe what matters in the image in plain language. Mention the visible subject or proof shown, not styling alone. For decorative textures, use a short label such as 'Abstract blue signal texture' only if the image is still exposed to assistive tech.",
+      validation: (rule) => rule.required().min(4).max(160),
+    }),
+    defineField({
+      name: "caption",
+      title: "Caption",
+      type: "string",
+      description:
+        "Optional. Add only when the image needs context, attribution, or a short proof note. Keep it concise.",
+      validation: (rule) => rule.max(180),
+    }),
+    defineField({
+      name: "imageRole",
+      title: "Image Role / Type",
+      type: "string",
+      description:
+        "Choose the intended visual job for this asset. Use landscape roles like Cover, Gallery, or Background for wide compositions. Use Portrait when the subject is vertically framed. Use Texture only for decorative atmosphere, not proof.",
+      options: {
+        list: imageRoleOptions,
+      },
+      initialValue: "gallery",
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: "focalIntent",
+      title: "Focal Intent",
+      type: "string",
+      description:
+        "Optional editor note describing what must stay in frame, such as 'keep character face centered' or 'UI stats top-right'. This helps future editors set hotspot correctly for responsive crops.",
+      validation: (rule) => rule.max(180),
+    }),
+    defineField({
+      name: "credit",
+      title: "Credit / Source",
+      type: "string",
+      description:
+        "Optional source, photographer, renderer, stock source, or internal asset note.",
+      validation: (rule) => rule.max(180),
+    }),
+  ],
+});
+
 export const linkItemType = defineType({
   name: "linkItem",
   title: "Link Item",
@@ -351,15 +418,17 @@ export const projectMediaType = defineType({
     defineField({
       name: "image",
       title: "Image",
-      type: "image",
-      options: { hotspot: true },
+      type: "richImage",
+      description:
+        "Use for stills, UI captures, renders, or gallery frames. Recommended: 1600 to 2400px wide, under 800 KB when possible. Use landscape for environments and UI walkthroughs, portrait only when the subject is vertically composed.",
       hidden: ({ parent }) => parent?.type === "video",
     }),
     defineField({
       name: "poster",
       title: "Video Poster",
-      type: "image",
-      options: { hotspot: true },
+      type: "richImage",
+      description:
+        "Optional poster used for video previews and thumbnails. Recommended: 1600px+ wide, under 500 KB. Set hotspot on the key visual area because this image may crop differently in cards and gallery layouts.",
       hidden: ({ parent }) => parent?.type !== "video",
     }),
     defineField({
@@ -369,43 +438,19 @@ export const projectMediaType = defineType({
       description: "Optional hosted video URL for embeds or previews.",
       hidden: ({ parent }) => parent?.type !== "video",
     }),
-    defineField({
-      name: "alt",
-      title: "Alt Text",
-      type: "string",
-      description: "Short accessibility label for image-based previews.",
-      validation: (rule) =>
-        rule.max(120).custom((value, context) => {
-          const parent = context.parent as
-            | {
-                type?: "image" | "video";
-                image?: unknown;
-                poster?: unknown;
-              }
-            | undefined;
-          const hasVisibleMedia =
-            (parent?.type === "image" && Boolean(parent.image)) ||
-            (parent?.type === "video" && Boolean(parent.poster));
-
-          if (hasVisibleMedia && !String(value ?? "").trim()) {
-            return "Add alt text when an image or video poster is shown.";
-          }
-
-          return true;
-        }),
-    }),
   ],
   preview: {
     select: {
       title: "label",
       subtitle: "type",
       media: "image",
+      poster: "poster",
     },
     prepare(selection) {
       return {
         title: selection.title,
         subtitle: selection.subtitle === "video" ? "Video media" : "Image media",
-        media: selection.media,
+        media: selection.media || selection.poster,
       };
     },
   },

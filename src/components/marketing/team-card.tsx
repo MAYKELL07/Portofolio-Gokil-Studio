@@ -1,3 +1,4 @@
+import { ProjectCoverMedia } from "@/components/media/site-media";
 import type { TeamMember } from "@/lib/site-content";
 
 export function TeamCard({ member }: { member: TeamMember }) {
@@ -8,11 +9,24 @@ export function TeamCard({ member }: { member: TeamMember }) {
     .join("")
     .slice(0, 2);
   const hasSkills = member.skills.length > 0;
+  const portraitSrc = member.portraitUrl || "/placeholders/portrait-signal.svg";
 
   return (
     <article className="section-shell interactive-card rounded-[var(--radius-xl)] p-6">
-      <div className="flex h-16 w-16 items-center justify-center rounded-[var(--radius-lg)] border border-[var(--color-border-strong)] bg-[linear-gradient(135deg,rgba(76,201,255,0.2),rgba(255,255,255,0.03))] text-xl font-semibold text-white">
-        {initials}
+      <div>
+        <ProjectCoverMedia
+          src={portraitSrc}
+          alt={member.portraitAlt || displayName}
+          ratio="standard"
+          sizes="(max-width: 767px) 100vw, (max-width: 1279px) 33vw, 20vw"
+          quality={72}
+          interactive={false}
+          overlayClassName="bg-[linear-gradient(180deg,rgba(9,10,13,0.08),rgba(9,10,13,0.72))]"
+        >
+          <div className="absolute bottom-4 left-4 flex h-14 w-14 items-center justify-center rounded-[var(--radius-lg)] border border-white/10 bg-black/25 text-xl font-semibold text-white backdrop-blur-sm">
+            {initials}
+          </div>
+        </ProjectCoverMedia>
       </div>
       <h3 className="mt-5 text-2xl font-semibold text-white">{displayName}</h3>
       <p className="mt-1 text-sm text-[var(--color-vol-blue)]">{member.role || "Studio role"}</p>

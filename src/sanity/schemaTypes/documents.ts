@@ -1,5 +1,20 @@
 import { defineArrayMember, defineField, defineType } from "sanity";
 
+const heroImageGuidance =
+  "Use a premium, atmospheric landscape image for the homepage hero. Recommended: 2400x1350 or larger (16:9), ideally under 1.2 MB. Use this for mood and brand tone, not dense proof details. Keep the main focal area off the edges and set hotspot around the subject that must survive mobile crops.";
+
+const projectCoverGuidance =
+  "Primary project proof image for cards and case-study hero fallback. Recommended: 1600x900 to 2400x1350 (16:9), ideally under 900 KB. Use a landscape asset that communicates outcome fast. Prefer gameplay, UI, or a strong branded scene over decorative artwork.";
+
+const serviceImageGuidance =
+  "Optional supporting image for service cards or section accents. Recommended: 1200x900 (4:3) or 1600x900 (16:9), ideally under 700 KB. Use clean proof or directional mood imagery, not noisy backgrounds that compete with copy.";
+
+const portraitGuidance =
+  "Use a clean portrait or logo lockup with strong subject separation. Recommended: 1200x1500 (4:5) or 1080x1350, ideally under 500 KB. Use portrait orientation when the subject is a person, speaker, or brand mark that reads best vertically.";
+
+const shareImageGuidance =
+  "Used for metadata and link previews. Recommended: 1200x630 (social share ratio), ideally under 500 KB. Keep text minimal, high contrast, and safely inset from edges.";
+
 export const siteSettingsType = defineType({
   name: "siteSettings",
   title: "Site Settings",
@@ -43,6 +58,19 @@ export const siteSettingsType = defineType({
       title: "Primary Email",
       type: "string",
       validation: (rule) => rule.required().email(),
+    }),
+    defineField({
+      name: "studioLogo",
+      title: "Studio Logo",
+      type: "richImage",
+      description:
+        "Optional brand mark for future header, share image, or presentation use. Recommended: square or transparent PNG/SVG-friendly artwork at 800x800 minimum. Keep file size lean and use a clean silhouette that reads on dark backgrounds.",
+    }),
+    defineField({
+      name: "defaultShareImage",
+      title: "Default Share Image",
+      type: "richImage",
+      description: shareImageGuidance,
     }),
     defineField({
       name: "timezone",
@@ -107,6 +135,12 @@ export const homePageType = defineType({
   title: "Home Page",
   type: "document",
   fields: [
+    defineField({
+      name: "heroBackgroundImage",
+      title: "Hero Background Image",
+      type: "richImage",
+      description: heroImageGuidance,
+    }),
     defineField({
       name: "outcomeCards",
       title: "Outcome Cards",
@@ -282,6 +316,12 @@ export const projectType = defineType({
       initialValue: false,
     }),
     defineField({
+      name: "coverImage",
+      title: "Cover Image",
+      type: "richImage",
+      description: projectCoverGuidance,
+    }),
+    defineField({
       name: "headline",
       title: "Headline",
       type: "string",
@@ -308,6 +348,14 @@ export const projectType = defineType({
       title: "Goals",
       type: "array",
       description: "Short success criteria the project was built around.",
+      of: [defineArrayMember({ type: "string" })],
+      validation: (rule) => rule.max(6),
+    }),
+    defineField({
+      name: "outcomes",
+      title: "Outcomes",
+      type: "array",
+      description: "Short buyer-facing result statements. Keep concise and proof-oriented.",
       of: [defineArrayMember({ type: "string" })],
       validation: (rule) => rule.max(6),
     }),
@@ -343,9 +391,10 @@ export const projectType = defineType({
     }),
     defineField({
       name: "galleryMedia",
-      title: "Gallery Media",
+      title: "Gallery Images and Video",
       type: "array",
-      description: "Supports both images and video references. Leave empty for confidential work.",
+      description:
+        "Add image entries for gallery stills and optional video entries with a hosted URL plus poster image. Mix wide proof images with occasional portrait frames for visual rhythm. Recommended stills: 1600 to 2400px on the long edge, usually under 800 KB. Leave empty for confidential work.",
       of: [defineArrayMember({ type: "projectMedia" })],
       validation: (rule) => rule.max(8),
     }),
@@ -410,7 +459,7 @@ export const projectType = defineType({
     select: {
       title: "title",
       subtitle: "projectType",
-      media: "galleryMedia.0.image",
+      media: "coverImage",
     },
   },
 });
@@ -498,11 +547,18 @@ export const serviceType = defineType({
       initialValue: "Start this conversation",
       validation: (rule) => rule.max(60),
     }),
+    defineField({
+      name: "featuredImage",
+      title: "Featured Image",
+      type: "richImage",
+      description: serviceImageGuidance,
+    }),
   ],
   preview: {
     select: {
       title: "title",
       subtitle: "category",
+      media: "featuredImage",
     },
   },
 });
@@ -582,11 +638,20 @@ export const testimonialType = defineType({
       type: "string",
       validation: (rule) => rule.required().min(2).max(80),
     }),
+    defineField({
+      name: "portrait",
+      title: "Portrait",
+      type: "richImage",
+      description:
+        "Optional headshot or logo lockup for quote presentation. Use a portrait asset when featuring a person; use a clean square or vertical logo lockup when the brand should carry the trust signal. " +
+        portraitGuidance,
+    }),
   ],
   preview: {
     select: {
       title: "name",
       subtitle: "company",
+      media: "portrait",
     },
   },
 });
@@ -630,11 +695,21 @@ export const teamMemberType = defineType({
       of: [defineArrayMember({ type: "string" })],
       validation: (rule) => rule.max(8),
     }),
+    defineField({
+      name: "portrait",
+      title: "Portrait",
+      type: "richImage",
+      description:
+        "Optional profile image. Leave empty if the team profile is text-only. " +
+        portraitGuidance +
+        " Set hotspot on the eyes or face so tight crops still feel intentional on smaller cards.",
+    }),
   ],
   preview: {
     select: {
       title: "name",
       subtitle: "role",
+      media: "portrait",
     },
   },
 });

@@ -1,8 +1,10 @@
 import { ArrowRight, ArrowUpRight, Gauge, Sparkles } from "lucide-react";
 
 import { Reveal } from "@/components/animation/reveal";
+import { DecorativeBackgroundMedia, HeroMedia } from "@/components/media/site-media";
 import { MetricChip } from "@/components/marketing/metric-chip";
 import { ButtonLink } from "@/components/ui/button";
+import { ANALYTICS_EVENTS } from "@/lib/analytics";
 import type { Metric, SiteSettings } from "@/lib/site-content";
 
 function HeroMetric({ metric }: { metric: Metric }) {
@@ -16,12 +18,21 @@ function HeroMetric({ metric }: { metric: Metric }) {
   );
 }
 
-export function HomeHero({ settings }: { settings: SiteSettings }) {
+export function HomeHero({
+  settings,
+  heroImageUrl,
+  heroImageAlt,
+}: {
+  settings: SiteSettings;
+  heroImageUrl?: string;
+  heroImageAlt?: string;
+}) {
   const offerPoints = [
     "Full Roblox MVPs for new launches",
     "Feature and systems sprints for live games",
     "UI / UX polish and post-launch support",
   ];
+  const visualImageUrl = heroImageUrl || "/placeholders/studio-signal-texture.svg";
 
   return (
     <section className="site-container pb-10 pt-6 md:pb-16">
@@ -62,8 +73,13 @@ export function HomeHero({ settings }: { settings: SiteSettings }) {
             <ButtonLink
               href="/contact"
               size="lg"
-              eventName="cta_click"
-              eventPayload={{ placement: "hero", label: "Start a Project" }}
+              eventName={ANALYTICS_EVENTS.HERO_CTA_CLICK}
+              eventPayload={{
+                page: "home",
+                section: "hero_primary",
+                cta_label: "Start a Project",
+                destination: "/contact",
+              }}
             >
               Start a Project
               <ArrowRight className="h-4 w-4" />
@@ -72,8 +88,13 @@ export function HomeHero({ settings }: { settings: SiteSettings }) {
               href="#featured-work"
               variant="secondary"
               size="lg"
-              eventName="cta_click"
-              eventPayload={{ placement: "hero", label: "See proof now" }}
+              eventName={ANALYTICS_EVENTS.HERO_CTA_CLICK}
+              eventPayload={{
+                page: "home",
+                section: "hero_secondary",
+                cta_label: "See proof now",
+                destination: "#featured-work",
+              }}
             >
               See proof now
               <ArrowUpRight className="h-4 w-4" />
@@ -83,8 +104,13 @@ export function HomeHero({ settings }: { settings: SiteSettings }) {
           <ButtonLink
             href="/services"
             variant="ghost"
-            eventName="cta_click"
-            eventPayload={{ placement: "hero", label: "Explore services" }}
+            eventName={ANALYTICS_EVENTS.HERO_CTA_CLICK}
+            eventPayload={{
+              page: "home",
+              section: "hero_tertiary",
+              cta_label: "Explore services",
+              destination: "/services",
+            }}
             className="mt-4 justify-start px-0 py-0 text-[var(--color-fog-300)] hover:text-white"
           >
             Explore services
@@ -105,6 +131,11 @@ export function HomeHero({ settings }: { settings: SiteSettings }) {
           delay={0.04}
           distance={12}
         >
+          <HeroMedia
+            src={visualImageUrl}
+            alt={heroImageUrl ? heroImageAlt || settings.heroHeadline : ""}
+            priority
+          />
           <div className="hero-orb right-12 top-10 h-24 w-24 bg-[var(--color-vol-blue)]" />
           <div className="hero-orb bottom-20 left-10 h-28 w-28 bg-[var(--color-arc-purple)]" />
           <div className="hero-orb bottom-8 right-16 h-24 w-24 bg-[var(--color-signal-lime)]" />
@@ -116,6 +147,15 @@ export function HomeHero({ settings }: { settings: SiteSettings }) {
                   <span>Readable in one glance</span>
                 </div>
                 <div className="mt-5 rounded-[1.4rem] border border-white/6 bg-[linear-gradient(135deg,#101726,#090a0d)] p-6">
+                  <DecorativeBackgroundMedia
+                    src={visualImageUrl}
+                    ratio="landscape"
+                    sizes="(max-width: 1023px) 100vw, 36vw"
+                    quality={64}
+                    className="mb-4"
+                    overlayClassName="bg-[linear-gradient(90deg,rgba(9,10,13,0.84),rgba(9,10,13,0.32),rgba(9,10,13,0.84))]"
+                    imageClassName="opacity-65"
+                  />
                   <div className="grid gap-4">
                     <div className="grid grid-cols-2 gap-4">
                       <div className="signal-panel rounded-3xl p-4">

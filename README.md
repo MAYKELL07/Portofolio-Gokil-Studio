@@ -31,6 +31,8 @@ These implementation choices were made intentionally to maximize conversion clar
 - The site ships with structured fallback content in `src/lib/site-content.ts`, so the frontend remains launchable while CMS content is still being populated.
 - Motion is lightweight and interruptible by default, using Framer Motion for reveals/transitions and CSS transitions for microinteractions, with reduced-motion fallbacks built in.
 - Analytics is event-based and provider-agnostic, with GA4, Plausible, and PostHog supported through the same modular tracking helpers.
+- PostHog uses the official `posthog-js` SDK and React provider pattern instead of an inline snippet, so initialization stays isolated from page components.
+- PostHog proxying through the app domain is optional. If enabled, Next.js rewrites a non-obvious local path to the configured regional PostHog ingestion host.
 - Form notifications are webhook-based by default for MVP speed; if durable lead storage is required, extend `src/app/api/contact/route.ts` with a database or CRM integration.
 - The default metadata base falls back to `https://example.com` until `SITE_URL` or `NEXT_PUBLIC_SITE_URL` is set, so production deployment must override that before launch.
 
@@ -56,23 +58,54 @@ SITE_URL=https://your-domain.com
 NEXT_PUBLIC_SITE_URL=https://your-domain.com
 NEXT_PUBLIC_SANITY_PROJECT_ID=
 NEXT_PUBLIC_SANITY_DATASET=production
-NEXT_PUBLIC_SANITY_API_VERSION=2026-03-02
+NEXT_PUBLIC_SANITY_API_VERSION=2026-03-03
+SANITY_API_READ_TOKEN=
+SANITY_STUDIO_PROJECT_ID=
+SANITY_STUDIO_DATASET=production
 SANITY_STUDIO_TITLE=Game Studio Portfolio CMS
 NEXT_PUBLIC_GA_ID=
 NEXT_PUBLIC_PLAUSIBLE_DOMAIN=
 NEXT_PUBLIC_POSTHOG_KEY=
-NEXT_PUBLIC_POSTHOG_HOST=https://app.posthog.com
+NEXT_PUBLIC_POSTHOG_HOST=https://us.i.posthog.com
+NEXT_PUBLIC_POSTHOG_PROXY_PATH=
 DISCORD_WEBHOOK_URL=
 SLACK_WEBHOOK_URL=
 FORM_RATE_LIMIT_MAX=5
 FORM_RATE_LIMIT_WINDOW_MS=600000
 ```
 
+Recommended local setup flow:
+
+1. Copy the template:
+   `cp .env.example .env.local`
+2. Set the public site origin for local or deployed environments:
+   `SITE_URL=https://your-domain.com`
+   `NEXT_PUBLIC_SITE_URL=https://your-domain.com`
+3. Set both Sanity frontend and Studio values to the same project and dataset:
+   `NEXT_PUBLIC_SANITY_PROJECT_ID=your-project-id`
+   `NEXT_PUBLIC_SANITY_DATASET=production`
+   `SANITY_STUDIO_PROJECT_ID=your-project-id`
+   `SANITY_STUDIO_DATASET=production`
+4. Set the shared Sanity API version:
+   `NEXT_PUBLIC_SANITY_API_VERSION=2026-03-03`
+5. Set `SANITY_STUDIO_TITLE` to the editor-facing label you want for the Studio.
+6. Add `SANITY_API_READ_TOKEN` only if you need authenticated server-side reads.
+7. Add analytics keys only for providers you actually want enabled.
+8. Restart the Next.js app and Sanity Studio after changing env values.
+
 Notes:
 
 - `SITE_URL` is the canonical server-side base URL and should always be set in staging and production.
 - `NEXT_PUBLIC_SITE_URL` should match `SITE_URL` for consistency across any client-exposed runtime needs.
+- Sanity env resolution is shared across the app, Studio, and CLI via `src/sanity/env.ts`.
+- Sanity project and dataset resolve from `SANITY_STUDIO_*` first, then `NEXT_PUBLIC_SANITY_*` as a fallback. Keep both pairs aligned if you define both.
+- `NEXT_PUBLIC_SANITY_API_VERSION` is the shared API version used by the frontend, Studio, and CLI helpers.
+- `SANITY_API_READ_TOKEN` is optional and server-only. Use it only when you need authenticated reads outside the public CDN path.
+- The app falls back to seeded local content when Sanity env values are missing, but the Studio and CLI now fail fast with an explicit error instead of silently using placeholder IDs.
 - Analytics scripts only load when their matching `NEXT_PUBLIC_*` values are set.
+- PostHog only initializes when both `NEXT_PUBLIC_POSTHOG_KEY` and `NEXT_PUBLIC_POSTHOG_HOST` are set.
+- `NEXT_PUBLIC_POSTHOG_HOST` should match your PostHog project region. Use `https://us.i.posthog.com` for US projects or `https://eu.i.posthog.com` for EU projects unless you are self-hosting.
+- `NEXT_PUBLIC_POSTHOG_PROXY_PATH` is optional. If you set it, the app will proxy PostHog requests through the same origin using a Next.js rewrite. Use a non-obvious path such as `/ingest/pulse-telemetry`.
 - Form notifications only fire when a Discord or Slack webhook is configured.
 - If the Sanity environment values are not set, the site falls back to the seeded local content in `src/lib/site-content.ts`.
 
@@ -82,29 +115,55 @@ Analytics is wired through `src/lib/analytics.ts` and the route tracker in `src/
 
 Implementation notes:
 
-- GA4, Plausible, and PostHog are optional and only initialize when their env vars are set.
+- GA4 and Plausible are optional and only initialize when their env vars are set.
+- PostHog uses the official `posthog-js` SDK and only initializes when both `NEXT_PUBLIC_POSTHOG_KEY` and `NEXT_PUBLIC_POSTHOG_HOST` are present.
+- If `NEXT_PUBLIC_POSTHOG_PROXY_PATH` is also set, the PostHog SDK uses that same-origin path as `api_host`, and Next.js rewrites it to the configured regional PostHog host.
 - Route-level page views are tracked on client-side navigation so the funnel stays visible across the App Router.
 - Payloads are sanitized before dispatch: obvious PII keys are dropped and string values are trimmed.
 - Form analytics track lifecycle state only. No form field contents are sent to analytics providers.
+- Event capture stays isolated in `src/lib/analytics.ts`, while provider bootstrapping lives in `src/components/analytics/analytics-provider.tsx` and `src/components/analytics/posthog-analytics-provider.tsx`.
 
-Core funnel events:
+Optional PostHog proxy example:
 
-- `page_view`: Fired on first load and route changes. Props: `path`, `page_type`, `title`.
-- `project_card_click`: Fired when a user enters a case study from the portfolio grid or featured work. Props: `slug`, `placement`.
-- `project_page_cta_click`: Fired on project detail CTAs. Props: `slug` when available, `placement`, `label`.
-- `contact_form_started`: Fired once when the contact form receives first focus. Props: `source`.
-- `contact_form_submit_success`: Fired after a successful form submission. Props: `source`.
-- `contact_form_submit_failed`: Fired after a failed submission. Props: `source`, `failure_type`, `error_count` when available.
+```bash
+NEXT_PUBLIC_POSTHOG_KEY=phc_your_project_key
+NEXT_PUBLIC_POSTHOG_HOST=https://us.i.posthog.com
+NEXT_PUBLIC_POSTHOG_PROXY_PATH=/ingest/pulse-telemetry
+```
+
+With that configuration, the browser sends PostHog requests to `https://your-domain.com/ingest/pulse-telemetry/...`, and Next.js forwards them to the regional PostHog ingestion host. Leave `NEXT_PUBLIC_POSTHOG_PROXY_PATH` empty to use the direct PostHog host instead.
+
+PostHog setup steps:
+
+1. In PostHog, copy the project API key and confirm whether your project is in the US or EU region.
+2. Add the env vars:
+   `NEXT_PUBLIC_POSTHOG_KEY=phc_your_project_key`
+   `NEXT_PUBLIC_POSTHOG_HOST=https://us.i.posthog.com` or `https://eu.i.posthog.com`
+3. Optionally add `NEXT_PUBLIC_POSTHOG_PROXY_PATH=/ingest/pulse-telemetry` if you want same-origin proxying through the app domain.
+4. Restart the Next.js app after changing env values.
+5. Open the site locally, navigate across a few pages, click a hero CTA, open a project, and start the contact form.
+6. In PostHog, verify incoming events in the Live Events or Activity feed using the documented event names below.
+7. If no events appear, confirm the env vars are present in the running process, verify the region host is correct, and check the browser network panel for blocked requests.
+
+Core funnel and engagement events:
+
+- `page_view`: Fired on first load and route changes. Props: `page`, `page_type`, `title`.
+- `hero_cta_click`: Fired from the homepage hero CTAs. Props: `page`, `section`, `cta_label`, `destination`.
+- `project_card_click`: Fired when a user enters a case study from a project card. Props: `section`, `slug`, `interaction_target`, optional `cta_label`.
+- `project_page_cta_click`: Fired on project detail CTAs. Props: `page`, `section`, `slug`, `cta_label`.
+- `contact_form_started`: Fired once when the contact form receives first focus. Props: `page`, `section`.
+- `contact_form_submit_success`: Fired after a successful form submission. Props: `page`, `section`.
+- `contact_form_submit_failed`: Fired after a failed submission. Props: `page`, `section`, `failure_type`, optional `error_count`.
+- `work_filter_used`: Optional Work-page engagement event. Props: `page`, `section`, `filter_name`, `filter_value`.
+- `outbound_link_click`: Optional outbound contact/social event. Props: `page`, `section`, `link_label`, `link_type`.
 
 Additional supporting events already in use:
 
 - `cta_click`
 - `nav_click`
 - `nav_logo_click`
-- `portfolio_filter_usage`
-- `portfolio_filter_reset`
+- `work_filter_reset`
 - `project_scroll_depth`
-- `external_contact_click`
 
 To extend tracking later, add a new constant in `ANALYTICS_EVENTS`, then use `trackEvent(...)` or `trackPageView(...)` in the relevant component.
 
@@ -138,6 +197,17 @@ Build and run with Docker:
 docker compose build
 docker compose up -d
 ```
+
+Rebuild after environment changes:
+
+1. Update `.env` or the environment values you inject into the container.
+2. Rebuild so build-time values such as `SITE_URL` and public analytics config are baked into the Next.js output:
+   `docker compose up -d --build`
+3. If you want to force a clean container restart as well:
+   `docker compose down`
+   `docker compose up -d --build`
+4. Verify the new container is running:
+   `docker compose ps`
 
 Notes:
 
@@ -381,6 +451,51 @@ This opens the standalone Sanity Studio.
 
 ## CMS Setup
 
+### Create a Sanity Project and Dataset
+
+1. Create a Sanity account at `https://www.sanity.io/` if you do not already have one.
+2. From the Sanity dashboard, create a new project and copy the project ID.
+3. Create or confirm the dataset you want to use, typically `production` for live content and optionally a separate staging dataset later.
+4. Use that same project ID and dataset in both the frontend and Studio env variables:
+   `NEXT_PUBLIC_SANITY_PROJECT_ID`
+   `NEXT_PUBLIC_SANITY_DATASET`
+   `SANITY_STUDIO_PROJECT_ID`
+   `SANITY_STUDIO_DATASET`
+
+### Configure Next.js and Sanity Studio Env Vars
+
+Set these values in `.env.local` for local development:
+
+```bash
+NEXT_PUBLIC_SANITY_PROJECT_ID=your-project-id
+NEXT_PUBLIC_SANITY_DATASET=production
+NEXT_PUBLIC_SANITY_API_VERSION=2026-03-03
+SANITY_API_READ_TOKEN=
+SANITY_STUDIO_PROJECT_ID=your-project-id
+SANITY_STUDIO_DATASET=production
+SANITY_STUDIO_TITLE=Game Studio Portfolio CMS
+```
+
+Keep `NEXT_PUBLIC_SANITY_*` and `SANITY_STUDIO_*` aligned so the app, Studio, and CLI all point at the same content source.
+
+### Run Sanity Studio Locally
+
+1. Install dependencies:
+   `npm install`
+2. Confirm the Sanity env values above are present in `.env.local`.
+3. Start the Studio:
+   `npm run sanity:dev`
+4. Open the local Studio URL shown in the terminal and sign in to Sanity.
+
+### Connect the Next.js App to Sanity
+
+1. Start the frontend:
+   `npm run dev`
+2. Confirm the Sanity env vars are present in the same environment where the Next.js app is running.
+3. Open `http://localhost:3000` and publish or update content in Sanity Studio.
+4. Refresh the frontend and verify the updated content appears.
+5. If Sanity env vars are missing, the site will fall back to the local seeded content in `src/lib/site-content.ts`.
+
 Sanity is configured as a standalone Studio instead of an embedded `/studio` route. That keeps the editor isolated from the public marketing shell and avoids coupling Studio UX to the production site layout.
 
 Key files:
@@ -412,6 +527,53 @@ Projects include structured fields for:
 - SEO metadata
 
 Each schema uses validation rules, field descriptions, and sensible defaults where that improves the editing experience.
+
+Sanity implementation details:
+
+- The app uses the official `next-sanity` toolkit for client creation and GROQ queries.
+- Shared client utility: `src/sanity/lib/client.ts`
+- Shared image URL builder utility: `src/sanity/lib/image.ts`
+- Shared GROQ queries: `src/sanity/lib/queries.ts`
+- Shared environment resolver: `src/sanity/env.ts`
+
+The project and dataset are not hardcoded. The app can fall back to local seeded content when Sanity is not configured, but the Studio and CLI intentionally throw a clear configuration error until the required environment variables are set.
+
+## Image Content Guidelines
+
+Use high-quality source assets so the image pipeline can preserve a premium look without shipping oversized files.
+
+Recommended dimensions by slot:
+
+- Hero background / hero cover: `2400x1350` or larger (`16:9`)
+- Project cover thumbnail: `1600x900` to `2400x1350` (`16:9`)
+- Service image: `1200x900` (`4:3`) or `1600x900` (`16:9`)
+- Project gallery images: `1600` to `2400` px on the long edge
+- Portraits (team / testimonial): `1200x1500` or `1080x1350`
+- Social share image: `1200x630`
+
+Format and size guidance:
+
+- Prefer `JPG` or `WEBP` for photos, renders, and screenshots.
+- Use `PNG` only when transparency is required.
+- Use `SVG` for logos, icons, and lightweight decorative vector assets.
+- Keep most uploaded raster assets under `500 KB` to `900 KB` when possible.
+- Keep hero images under roughly `1.2 MB` unless there is a strong visual reason to exceed it.
+
+Art-direction guidance:
+
+- Use landscape images for hero, project cover, UI walkthroughs, and environment scenes.
+- Use portrait images only when the subject is vertically composed, such as a person, character, or vertical product crop.
+- Use proof images when the asset demonstrates real work: gameplay, interface, branded scenes, systems, or results.
+- Use decorative images only for atmosphere or section texture. They should never carry critical information.
+- Set the Sanity hotspot on the part of the image that must survive responsive crops, such as a face, UI panel, or key branded focal point.
+
+Optimization expectations:
+
+- The frontend renders Sanity-hosted images through the Sanity image pipeline plus Next.js `<Image>`.
+- Images are transformed to layout-appropriate widths before delivery and further optimized by Next.js.
+- Above-the-fold hero media is prioritized only when a real hero asset is present.
+- Non-critical media is lazy-loaded by default.
+- Avoid uploading tiny source assets for large slots; `fit=max` is used to avoid upscaling, so undersized images will stay soft.
 
 ## Staging and Production
 
