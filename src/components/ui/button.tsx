@@ -31,19 +31,19 @@ export function buttonClasses({
   const toneMap = {
     default: {
       primary:
-        "border-[var(--color-vol-blue)]/40 bg-[var(--color-vol-blue)] text-[var(--color-ink-950)] shadow-[0_10px_26px_rgba(76,201,255,0.14)] hover:border-[var(--color-vol-blue)] hover:bg-[#76d8ff] hover:shadow-[0_14px_34px_rgba(76,201,255,0.22)] focus-visible:shadow-[0_0_0_4px_rgba(76,201,255,0.18)]",
+        "border-[var(--color-vol-blue)]/40 bg-[var(--color-vol-blue)] text-[var(--color-ink-950)] shadow-[0_10px_26px_rgba(242,166,90,0.18)] hover:border-[var(--color-vol-blue)] hover:bg-[#f6b878] hover:shadow-[0_14px_34px_rgba(242,166,90,0.28)] focus-visible:shadow-[0_0_0_4px_rgba(242,166,90,0.18)]",
       secondary:
-        "border-[var(--color-border-strong)] bg-white/[0.03] text-white hover:border-[var(--color-border-accent)] hover:bg-white/[0.06] hover:shadow-[0_12px_28px_rgba(0,0,0,0.18)] focus-visible:shadow-[0_0_0_4px_rgba(76,201,255,0.14)]",
+        "border-[var(--color-border-strong)] bg-white/[0.03] text-white hover:border-[var(--color-border-accent)] hover:bg-white/[0.06] hover:shadow-[0_12px_28px_rgba(0,0,0,0.18)] focus-visible:shadow-[0_0_0_4px_rgba(242,166,90,0.14)]",
       ghost:
-        "border-transparent bg-transparent text-[var(--color-fog-300)] hover:text-white focus-visible:shadow-[0_0_0_4px_rgba(76,201,255,0.1)]",
+        "border-transparent bg-transparent text-[var(--color-fog-300)] hover:text-white focus-visible:shadow-[0_0_0_4px_rgba(242,166,90,0.1)]",
     },
     success: {
       primary:
-        "border-[var(--color-signal-lime)]/40 bg-[var(--color-signal-lime)] text-[var(--color-ink-950)] shadow-[0_10px_26px_rgba(183,255,74,0.12)] hover:border-[var(--color-signal-lime)] hover:bg-[#c7ff74] hover:shadow-[0_14px_34px_rgba(183,255,74,0.2)] focus-visible:shadow-[0_0_0_4px_rgba(183,255,74,0.16)]",
+        "border-[var(--color-signal-lime)]/40 bg-[var(--color-signal-lime)] text-[var(--color-ink-950)] shadow-[0_10px_26px_rgba(232,200,108,0.14)] hover:border-[var(--color-signal-lime)] hover:bg-[#efd489] hover:shadow-[0_14px_34px_rgba(232,200,108,0.24)] focus-visible:shadow-[0_0_0_4px_rgba(232,200,108,0.16)]",
       secondary:
-        "border-[var(--color-signal-lime)]/28 bg-[rgba(183,255,74,0.08)] text-white hover:bg-[rgba(183,255,74,0.14)] hover:shadow-[0_12px_28px_rgba(0,0,0,0.18)] focus-visible:shadow-[0_0_0_4px_rgba(183,255,74,0.14)]",
+        "border-[var(--color-signal-lime)]/28 bg-[rgba(232,200,108,0.1)] text-white hover:bg-[rgba(232,200,108,0.16)] hover:shadow-[0_12px_28px_rgba(0,0,0,0.18)] focus-visible:shadow-[0_0_0_4px_rgba(232,200,108,0.14)]",
       ghost:
-        "border-transparent bg-transparent text-[var(--color-signal-lime)] hover:text-[#d5ff93] focus-visible:shadow-[0_0_0_4px_rgba(183,255,74,0.1)]",
+        "border-transparent bg-transparent text-[var(--color-signal-lime)] hover:text-[#f4dd9b] focus-visible:shadow-[0_0_0_4px_rgba(232,200,108,0.1)]",
     },
     danger: {
       primary:

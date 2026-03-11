@@ -1,25 +1,25 @@
 @import "tailwindcss";
 
 :root {
-  --color-ink-950: #090a0d;
-  --color-ink-900: #11131a;
-  --color-ink-800: #1a1e28;
-  --color-ink-700: #232837;
-  --color-fog-100: #f4f6fb;
-  --color-fog-300: #c8cfda;
-  --color-fog-500: #8f98a7;
-  --color-fog-700: #9aa4b6;
-  --color-vol-blue: #4cc9ff;
-  --color-arc-purple: #8b5cf6;
-  --color-signal-lime: #b7ff4a;
-  --color-amber: #ffb454;
-  --color-coral: #ff6b6b;
-  --color-surface-1: rgba(17, 19, 26, 0.72);
-  --color-surface-2: rgba(26, 30, 40, 0.82);
-  --color-surface-3: rgba(9, 10, 13, 0.88);
+  --color-ink-950: #120908;
+  --color-ink-900: #1a0f0b;
+  --color-ink-800: #241611;
+  --color-ink-700: #342118;
+  --color-fog-100: #f7efe8;
+  --color-fog-300: #dccbbd;
+  --color-fog-500: #a99284;
+  --color-fog-700: #c2ac9c;
+  --color-vol-blue: #f2a65a;
+  --color-arc-purple: #cf6f49;
+  --color-signal-lime: #e8c86c;
+  --color-amber: #f4b15a;
+  --color-coral: #f07a56;
+  --color-surface-1: rgba(26, 15, 11, 0.72);
+  --color-surface-2: rgba(36, 22, 17, 0.82);
+  --color-surface-3: rgba(18, 9, 8, 0.9);
   --color-border-soft: rgba(255, 255, 255, 0.06);
   --color-border-strong: rgba(255, 255, 255, 0.1);
-  --color-border-accent: rgba(76, 201, 255, 0.32);
+  --color-border-accent: rgba(242, 166, 90, 0.32);
 
   --font-size-display-xl: clamp(3.25rem, 7vw, 6rem);
   --font-size-display-lg: clamp(2.75rem, 5.5vw, 4.5rem);
@@ -56,8 +56,8 @@
   --shadow-sm: 0 10px 24px rgba(0, 0, 0, 0.22);
   --shadow-md: 0 22px 54px rgba(0, 0, 0, 0.28);
   --shadow-lg: 0 30px 80px rgba(0, 0, 0, 0.35);
-  --shadow-focus: 0 0 0 4px rgba(76, 201, 255, 0.12);
-  --shadow-focus-strong: 0 0 0 4px rgba(76, 201, 255, 0.18);
+  --shadow-focus: 0 0 0 4px rgba(242, 166, 90, 0.12);
+  --shadow-focus-strong: 0 0 0 4px rgba(242, 166, 90, 0.18);
 
   --elevation-1:
     linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.01)),
@@ -96,9 +96,9 @@ body {
   margin: 0;
   min-height: 100vh;
   background:
-    radial-gradient(circle at top right, rgba(76, 201, 255, 0.12), transparent 30%),
-    radial-gradient(circle at 12% 22%, rgba(139, 92, 246, 0.08), transparent 24%),
-    radial-gradient(circle at 80% 82%, rgba(183, 255, 74, 0.06), transparent 24%),
+    radial-gradient(circle at top right, rgba(242, 166, 90, 0.14), transparent 32%),
+    radial-gradient(circle at 12% 22%, rgba(207, 111, 73, 0.1), transparent 25%),
+    radial-gradient(circle at 80% 82%, rgba(232, 200, 108, 0.08), transparent 24%),
     var(--color-ink-950);
 }
 
@@ -119,7 +119,7 @@ a,
 input,
 select,
 textarea {
-  outline-color: rgba(76, 201, 255, 0.72);
+  outline-color: rgba(242, 166, 90, 0.72);
   outline-offset: 3px;
 }
 
@@ -128,12 +128,12 @@ textarea {
 }
 
 :where(button, a, input, select, textarea):focus-visible {
-  outline: 2px solid rgba(76, 201, 255, 0.82);
+  outline: 2px solid rgba(242, 166, 90, 0.82);
   box-shadow: var(--shadow-focus-strong);
 }
 
 ::selection {
-  background: rgba(76, 201, 255, 0.22);
+  background: rgba(242, 166, 90, 0.22);
   color: var(--color-fog-100);
 }
 
@@ -204,7 +204,7 @@ textarea {
   border: 1px solid var(--color-border-strong);
   border-radius: var(--radius-lg);
   background:
-    linear-gradient(135deg, rgba(76, 201, 255, 0.12), transparent 28%),
+    linear-gradient(135deg, rgba(242, 166, 90, 0.12), transparent 28%),
     var(--elevation-3);
   box-shadow: var(--shadow-sm);
 }
@@ -234,7 +234,7 @@ textarea {
   pointer-events: none;
   position: absolute;
   inset: 12px;
-  border: 1px solid rgba(76, 201, 255, 0.12);
+  border: 1px solid rgba(242, 166, 90, 0.12);
   border-radius: var(--radius-md);
 }
 
@@ -446,6 +446,60 @@ textarea {
   opacity: 0.55;
 }
 
+.scrollstory-stage {
+  isolation: isolate;
+}
+
+.scrollstory-stage::before {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  inset: auto -8% 10% auto;
+  height: 16rem;
+  width: 16rem;
+  border-radius: 9999px;
+  background: radial-gradient(circle, rgba(242, 166, 90, 0.28), transparent 65%);
+  filter: blur(26px);
+  opacity: 0.85;
+}
+
+.scrollstory-card {
+  transition:
+    transform 220ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 220ms cubic-bezier(0.22, 1, 0.36, 1),
+    background 220ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 220ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.scrollstory-card-active {
+  transform: translateY(-4px);
+  border-color: rgba(242, 166, 90, 0.28);
+  background:
+    linear-gradient(180deg, rgba(242, 166, 90, 0.06), rgba(255, 255, 255, 0.02)),
+    var(--elevation-2);
+  box-shadow: 0 34px 88px rgba(0, 0, 0, 0.32);
+}
+
+.scrollstory-progress {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.6rem;
+}
+
+.scrollstory-progress-segment {
+  height: 0.35rem;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.14);
+  transition:
+    transform 200ms cubic-bezier(0.22, 1, 0.36, 1),
+    background 200ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.scrollstory-progress-segment-active {
+  transform: scaleY(1.15);
+  background: linear-gradient(90deg, var(--color-vol-blue), var(--color-signal-lime));
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -475,6 +529,11 @@ textarea {
 
   .interactive-card:hover,
   .interactive-card:focus-within {
+    transform: none;
+  }
+
+  .scrollstory-card-active,
+  .scrollstory-progress-segment-active {
     transform: none;
   }
 }

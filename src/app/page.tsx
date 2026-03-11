@@ -1,9 +1,10 @@
-import { ArrowRight, ArrowUpRight, Check, Layers3, ShieldCheck, TimerReset } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Layers3, ShieldCheck, TimerReset } from "lucide-react";
 
 import { Reveal } from "@/components/animation/reveal";
 import { FaqAccordion } from "@/components/marketing/faq-accordion";
 import { FeaturedWorkStrip } from "@/components/marketing/featured-work-strip";
 import { HomeHero } from "@/components/marketing/home-hero";
+import { HomeScrollStory } from "@/components/marketing/home-scrollstory";
 import { MetricChip } from "@/components/marketing/metric-chip";
 import { ProcessStepCard } from "@/components/marketing/process-step-card";
 import { SectionTextureDivider } from "@/components/marketing/section-texture-divider";
@@ -69,6 +70,50 @@ export default async function Home() {
     ],
   };
 
+  const scrollStorySteps = [
+    {
+      id: "offer",
+      eyebrow: "Offer alignment",
+      title: homePage.outcomeCards[0]?.title ?? homePage.serviceOverview.title,
+      body: homePage.serviceOverview.body,
+      points: homePage.serviceOverview.points.slice(0, 4),
+      ctaLabel: homePage.outcomeCards[0]?.label ?? "Review services",
+      ctaHref: homePage.outcomeCards[0]?.href ?? "/services",
+    },
+    {
+      id: "buyers",
+      eyebrow: "Buyer fit",
+      title: "Built for teams that need a shipping partner, not extra noise.",
+      body:
+        "The story moves from scope to fit quickly, so brand teams, agencies, and live-game operators can qualify the studio without digging through filler.",
+      points: homePage.buyerTypes.map((buyer) => `${buyer.title}: ${buyer.body}`),
+      ctaLabel: "Explore services",
+      ctaHref: "/services",
+    },
+    {
+      id: "proof",
+      eyebrow: "Proof fast",
+      title: homePage.outcomeCards[1]?.title ?? homePage.resultsSection.title,
+      body:
+        "The first proof layer stays readable before a call. Visitors can move from promise to evidence in the same browsing pass.",
+      points: homePage.resultsSection.metrics.map(
+        (metric) => `${metric.label}: ${metric.value}`,
+      ),
+      ctaLabel: homePage.outcomeCards[1]?.label ?? "See featured proof",
+      ctaHref: homePage.outcomeCards[1]?.href ?? "#featured-work",
+    },
+    {
+      id: "delivery",
+      eyebrow: "Delivery clarity",
+      title: "Milestones stay visible from kickoff through handoff.",
+      body:
+        "The final scroll beat shifts from promise to operating model, showing how the work stays constrained, readable, and launch-focused.",
+      points: homePage.processSteps.map((step) => `${step.title}: ${step.body}`),
+      ctaLabel: homePage.outcomeCards[2]?.label ?? "Start inquiry",
+      ctaHref: homePage.outcomeCards[2]?.href ?? "/contact",
+    },
+  ];
+
   return (
     <div className="page-stack pb-20 md:pb-28">
       <script
@@ -82,70 +127,14 @@ export default async function Home() {
         heroImageAlt={homePage.heroBackgroundImageAlt}
       />
 
-      <section className="site-container">
-        <div className="grid-responsive-3">
-          {homePage.outcomeCards.map((card, index) => (
-            <Reveal key={card.title} delay={index * 0.05}>
-              <article className="section-shell rounded-[var(--radius-xl)] p-5 md:p-6">
-                <p className="eyebrow">{card.eyebrow}</p>
-                <h2 className="type-h3 mt-3 font-semibold text-white">{card.title}</h2>
-                <p className="mt-3 text-sm leading-7 text-[var(--color-fog-300)]">
-                  {card.body}
-                </p>
-                <ButtonLink
-                  href={card.href}
-                  variant="ghost"
-                  eventName="cta_click"
-                  eventPayload={{ placement: "home_outcome_strip", label: card.label }}
-                  className="mt-5 justify-start px-0 py-0 text-[var(--color-vol-blue)]"
-                >
-                  {card.label}
-                  <ArrowUpRight className="h-4 w-4" />
-                </ButtonLink>
-              </article>
-            </Reveal>
-          ))}
-        </div>
-      </section>
-
-      <section className="site-container">
-        <div className="grid gap-6 lg:grid-cols-[0.85fr,1.15fr]">
-          <Reveal className="section-shell rounded-[var(--radius-xl)] p-6 md:p-8">
-            <p className="eyebrow">{homePage.serviceOverview.eyebrow}</p>
-            <h2 className="section-heading type-display-lg mt-3 font-semibold text-white">
-              {homePage.serviceOverview.title}
-            </h2>
-            <p className="type-body mt-5 text-[var(--color-fog-300)]">
-              {homePage.serviceOverview.body}
-            </p>
-            <div className="mt-8 space-y-3">
-              {homePage.serviceOverview.points.map((point) => (
-                <div
-                  key={point}
-                  className="flex items-start gap-3 text-sm text-[var(--color-fog-300)]"
-                >
-                  <Check className="mt-0.5 h-4 w-4 text-[var(--color-signal-lime)]" />
-                  <span>{point}</span>
-                </div>
-              ))}
-            </div>
-          </Reveal>
-
-          <div className="grid-responsive-3">
-            {homePage.buyerTypes.map((buyer, index) => (
-              <Reveal key={buyer.title} delay={index * 0.05}>
-                <article className="section-shell rounded-[var(--radius-xl)] p-5 md:p-6">
-                  <p className="eyebrow">Fit</p>
-                  <h3 className="type-h3 mt-3 font-semibold text-white">{buyer.title}</h3>
-                  <p className="mt-3 text-sm leading-7 text-[var(--color-fog-300)]">
-                    {buyer.body}
-                  </p>
-                </article>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
+      <HomeScrollStory
+        eyebrow="Scrollstory"
+        title="The first long scroll now sells the studio by sequence, not by stacked blocks."
+        intro="Offer, buyer fit, proof, and delivery stay in one visual thread so visitors qualify faster before they decide to contact you."
+        steps={scrollStorySteps}
+        mediaSrc={homePage.heroBackgroundImageUrl}
+        mediaAlt={homePage.heroBackgroundImageAlt}
+      />
 
       <section className="site-container">
         <div className="grid gap-6 md:grid-cols-2">

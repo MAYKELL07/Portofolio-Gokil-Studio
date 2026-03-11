@@ -19,9 +19,9 @@ const MEDIA_BLUR_DATA_URL = `data:image/svg+xml;charset=utf-8,${encodeURICompone
   `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
     <defs>
       <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
-        <stop offset="0%" stop-color="#101726"/>
-        <stop offset="50%" stop-color="#0A0D13"/>
-        <stop offset="100%" stop-color="#140F23"/>
+        <stop offset="0%" stop-color="#2a170f"/>
+        <stop offset="50%" stop-color="#120908"/>
+        <stop offset="100%" stop-color="#3b2416"/>
       </linearGradient>
     </defs>
     <rect width="64" height="64" fill="url(#g)"/>
@@ -91,7 +91,7 @@ function MediaSurface({
         <div
           className={clsx(
             "media-surface-overlay",
-            "bg-[linear-gradient(180deg,rgba(9,10,13,0.16),rgba(9,10,13,0.74))]",
+            "bg-[linear-gradient(180deg,rgba(18,10,8,0.18),rgba(18,10,8,0.76))]",
             overlayClassName,
           )}
         />
@@ -130,9 +130,9 @@ export function HeroMedia({
         blurDataURL={canUseBlur ? MEDIA_BLUR_DATA_URL : undefined}
         loading={usePriority ? "eager" : "lazy"}
         unoptimized={typeof resolvedSrc === "string" && resolvedSrc.toLowerCase().endsWith(".svg")}
-        className="media-surface-image opacity-28"
+        className="media-surface-image opacity-40"
       />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(76,201,255,0.18),transparent_30%),linear-gradient(180deg,rgba(9,10,13,0.22),rgba(9,10,13,0.82))]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(242,166,90,0.22),transparent_32%),radial-gradient(circle_at_bottom_left,rgba(207,111,73,0.16),transparent_28%),linear-gradient(180deg,rgba(18,10,8,0.18),rgba(18,10,8,0.84))]" />
     </div>
   );
 }
@@ -202,9 +202,7 @@ export function ProjectCoverMedia({
       quality={quality}
       className={className}
       interactive={interactive}
-      overlayClassName={
-        overlayClassName ?? "bg-[linear-gradient(180deg,rgba(9,10,13,0.14),rgba(9,10,13,0.78))]"
-      }
+      overlayClassName={overlayClassName ?? "bg-[linear-gradient(180deg,rgba(18,10,8,0.16),rgba(18,10,8,0.8))]"}
     >
       {children}
     </MediaSurface>
@@ -248,7 +246,7 @@ export function GalleryMediaCard({
         ratio={ratio}
         sizes="(max-width: 767px) 100vw, 50vw"
         quality={72}
-        overlayClassName="bg-[linear-gradient(180deg,rgba(9,10,13,0.18),rgba(9,10,13,0.74))]"
+        overlayClassName="bg-[linear-gradient(180deg,rgba(18,10,8,0.18),rgba(18,10,8,0.74))]"
         className="rounded-none border-x-0 border-t-0 border-b border-white/6"
       >
         <div className={clsx("flex items-end justify-between gap-3 p-4", featured && "p-5 md:p-6")}>

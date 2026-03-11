@@ -19,7 +19,7 @@ function controlClasses(state: FieldState = "default") {
     state === "error"
       ? "border-[var(--color-coral)]/50 bg-[rgba(255,107,107,0.06)] text-white hover:border-[var(--color-coral)]/70 focus-visible:border-[var(--color-coral)]"
       : state === "success"
-        ? "border-[var(--color-signal-lime)]/40 bg-[rgba(183,255,74,0.05)] text-white hover:border-[var(--color-signal-lime)]/60 focus-visible:border-[var(--color-signal-lime)]"
+        ? "border-[var(--color-signal-lime)]/40 bg-[rgba(232,200,108,0.08)] text-white hover:border-[var(--color-signal-lime)]/60 focus-visible:border-[var(--color-signal-lime)]"
         : "border-[var(--color-border-strong)] bg-white/[0.03] text-white hover:border-[var(--color-border-accent)] hover:bg-white/[0.045] focus-visible:border-[var(--color-border-accent)]",
   );
 }
@@ -199,7 +199,7 @@ export function FormStatus({
       className={cn(
         "mt-2 rounded-[var(--radius-md)] border px-3 py-2 text-sm",
         state === "success"
-          ? "border-[var(--color-signal-lime)]/28 bg-[rgba(183,255,74,0.08)] text-[var(--color-signal-lime)]"
+          ? "border-[var(--color-signal-lime)]/28 bg-[rgba(232,200,108,0.1)] text-[var(--color-signal-lime)]"
           : "border-[var(--color-coral)]/28 bg-[rgba(255,107,107,0.08)] text-[var(--color-coral)]",
       )}
       role={state === "success" ? "status" : "alert"}
