@@ -1,4 +1,10 @@
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+
 import type { NextConfig } from "next";
+
+const isVercel = process.env.VERCEL === "1";
+const projectRoot = path.dirname(fileURLToPath(import.meta.url));
 
 const securityHeaders = [
   {
@@ -46,9 +52,11 @@ const posthogProxyPath = normalizePostHogProxyPath(
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
-  output: "standalone",
+  output: isVercel ? undefined : "standalone",
+  outputFileTracingRoot: projectRoot,
   images: {
     formats: ["image/avif", "image/webp"],
+    qualities: [58, 64, 68, 70, 72, 75],
     deviceSizes: [640, 750, 828, 1080, 1200, 1440, 1600, 1920],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
     remotePatterns: [

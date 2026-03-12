@@ -180,6 +180,57 @@ npm run sanity:dev
 npm run sanity:deploy
 ```
 
+## Vercel Deployment
+
+This app is now configured to deploy cleanly on Vercel as a standard Next.js project.
+
+Files and behavior:
+
+- `vercel.json` pins the framework and the install/build/dev commands.
+- `next.config.ts` keeps `output: "standalone"` for Docker and VPS builds, but disables it automatically on Vercel so the platform can use its normal Next.js build pipeline.
+- `next.config.ts` pins `outputFileTracingRoot` to this app directory so Next.js does not trace from a higher-level workspace lockfile.
+- `package.json` uses webpack for the default `dev` and `build` scripts because this repo layout triggers a Turbopack workspace-root resolution failure when another lockfile exists higher in the directory tree.
+
+Recommended Vercel setup:
+
+1. Import the repository into Vercel.
+2. If this app lives inside a larger repository, set the Vercel Root Directory to this project folder.
+3. Add the required environment variables from `.env.example`.
+4. Set `SITE_URL` and `NEXT_PUBLIC_SITE_URL` to your final Vercel domain or custom domain.
+5. Deploy.
+
+Minimum production env vars:
+
+```bash
+SITE_URL=https://your-domain.com
+NEXT_PUBLIC_SITE_URL=https://your-domain.com
+NEXT_PUBLIC_SANITY_PROJECT_ID=your-project-id
+NEXT_PUBLIC_SANITY_DATASET=production
+NEXT_PUBLIC_SANITY_API_VERSION=2026-03-03
+SANITY_STUDIO_PROJECT_ID=your-project-id
+SANITY_STUDIO_DATASET=production
+SANITY_STUDIO_TITLE=Game Studio Portfolio CMS
+```
+
+Optional env vars stay the same as local setup:
+
+- `SANITY_API_READ_TOKEN`
+- `NEXT_PUBLIC_GA_ID`
+- `NEXT_PUBLIC_PLAUSIBLE_DOMAIN`
+- `NEXT_PUBLIC_POSTHOG_KEY`
+- `NEXT_PUBLIC_POSTHOG_HOST`
+- `NEXT_PUBLIC_POSTHOG_PROXY_PATH`
+- `DISCORD_WEBHOOK_URL`
+- `SLACK_WEBHOOK_URL`
+- `FORM_RATE_LIMIT_MAX`
+- `FORM_RATE_LIMIT_WINDOW_MS`
+
+Notes for Vercel:
+
+- If Sanity env vars are missing, the public site falls back to seeded local content, but the Studio and CLI still require valid Sanity project settings.
+- The contact route uses in-memory rate limiting. That is acceptable for a basic Vercel deployment, but it is per-instance and not durable across serverless invocations. If you need stricter global rate limiting, move that state to a shared store such as Upstash Redis.
+- Re-add the same environment variables to Preview and Production environments if you want both to behave consistently.
+
 ## Docker
 
 Production containerization is included for the Next.js app.
