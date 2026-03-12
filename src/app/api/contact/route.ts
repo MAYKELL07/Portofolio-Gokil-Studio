@@ -30,7 +30,7 @@ async function notifyDiscord(message: string) {
   });
 
   if (!response.ok) {
-    throw new Error("Discord webhook failed.");
+    throw new Error(`Discord webhook failed with ${response.status} ${response.statusText}.`);
   }
 
   return true;
@@ -51,7 +51,7 @@ async function notifySlack(message: string) {
   });
 
   if (!response.ok) {
-    throw new Error("Slack webhook failed.");
+    throw new Error(`Slack webhook failed with ${response.status} ${response.statusText}.`);
   }
 
   return true;
@@ -59,6 +59,10 @@ async function notifySlack(message: string) {
 
 function logSubmission(message: string) {
   console.info("[contact_submission]\n" + message);
+}
+
+function logNotificationFailure(channel: string, error: unknown) {
+  console.error(`[contact_submission] ${channel} notification failed`, error);
 }
 
 export async function POST(request: Request) {
@@ -122,22 +126,35 @@ export async function POST(request: Request) {
 
   const message = buildMessage(parsed.data);
   const configuredChannels = [
-    Boolean(process.env.DISCORD_WEBHOOK_URL),
-    Boolean(process.env.SLACK_WEBHOOK_URL),
-  ].filter(Boolean).length;
+    {
+      name: "discord",
+      send: () => notifyDiscord(message),
+      enabled: Boolean(process.env.DISCORD_WEBHOOK_URL),
+    },
+    {
+      name: "slack",
+      send: () => notifySlack(message),
+      enabled: Boolean(process.env.SLACK_WEBHOOK_URL),
+    },
+  ].filter((channel) => channel.enabled);
+
+  logSubmission(message);
 
   try {
-    const notificationResults = await Promise.allSettled([
-      notifyDiscord(message),
-      notifySlack(message),
-    ]);
+    const notificationResults = await Promise.allSettled(
+      configuredChannels.map((channel) => channel.send()),
+    );
     const deliveredCount = notificationResults.filter(
       (result) => result.status === "fulfilled" && result.value,
     ).length;
 
-    logSubmission(message);
+    notificationResults.forEach((result, index) => {
+      if (result.status === "rejected") {
+        logNotificationFailure(configuredChannels[index]?.name ?? "unknown", result.reason);
+      }
+    });
 
-    if (configuredChannels > 0 && deliveredCount === 0) {
+    if (configuredChannels.length > 0 && deliveredCount === 0) {
       return NextResponse.json(
         {
           success: false,
@@ -147,7 +164,9 @@ export async function POST(request: Request) {
         { status: 502 },
       );
     }
-  } catch {
+  } catch (error) {
+    logNotificationFailure("unknown", error);
+
     return NextResponse.json(
       {
         success: false,

@@ -1,5 +1,7 @@
 import { defineCliConfig } from "sanity/cli";
 
+import "./src/sanity/load-env";
+
 function normalizeEnvValue(value?: string) {
   return value?.trim() || "";
 }

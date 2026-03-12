@@ -30,6 +30,18 @@ const initialState: ContactFormState = {
   errors: {},
 };
 
+function normalizePayload(formData: FormData) {
+  return Object.fromEntries(
+    Array.from(formData.entries()).map(([key, value]) => {
+      if (typeof value !== "string") {
+        return [key, value];
+      }
+
+      return [key, value.trim()];
+    }),
+  );
+}
+
 export function ContactForm() {
   const [state, setState] = useState<ContactFormState>(initialState);
   const [isPending, setIsPending] = useState(false);
@@ -40,7 +52,7 @@ export function ContactForm() {
     setIsPending(true);
     setState(initialState);
 
-    const payload = Object.fromEntries(formData.entries());
+    const payload = normalizePayload(formData);
 
     try {
       const response = await fetch("/api/contact", {
@@ -142,6 +154,7 @@ export function ContactForm() {
           <TextField
             name="name"
             required
+            minLength={2}
             disabled={isPending}
             state={state.errors.name ? "error" : "default"}
             placeholder="Your name"
@@ -169,6 +182,8 @@ export function ContactForm() {
           <TextField
             name="companyOrProject"
             required
+            minLength={2}
+            maxLength={160}
             disabled={isPending}
             state={state.errors.companyOrProject ? "error" : "default"}
             placeholder="Company, studio, or project name"
@@ -232,6 +247,8 @@ export function ContactForm() {
             name="projectBrief"
             rows={6}
             required
+            minLength={20}
+            maxLength={2000}
             disabled={isPending}
             state={state.errors.projectBrief ? "error" : "default"}
             placeholder="What you need, what the goal is, and any key constraints..."

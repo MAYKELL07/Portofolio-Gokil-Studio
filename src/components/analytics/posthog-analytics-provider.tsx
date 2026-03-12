@@ -19,12 +19,14 @@ function normalizeProxyPath(path?: string) {
   return `/${trimmed.replace(/^\/+|\/+$/g, "")}`;
 }
 
+const DEFAULT_POSTHOG_PROXY_PATH = "/ingest/pulse-telemetry";
+
 const posthogKey = process.env.NEXT_PUBLIC_POSTHOG_KEY?.trim();
 const posthogHost = process.env.NEXT_PUBLIC_POSTHOG_HOST?.trim();
-const posthogProxyPath = normalizeProxyPath(
-  process.env.NEXT_PUBLIC_POSTHOG_PROXY_PATH,
-);
 const posthogEnabled = Boolean(posthogKey && posthogHost);
+const posthogProxyPath =
+  normalizeProxyPath(process.env.NEXT_PUBLIC_POSTHOG_PROXY_PATH) ??
+  (posthogEnabled ? DEFAULT_POSTHOG_PROXY_PATH : null);
 const posthogClient = posthog as typeof posthog & { __loaded?: boolean };
 
 export function PostHogAnalyticsProvider({

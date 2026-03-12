@@ -45,10 +45,13 @@ function normalizeExternalHost(host?: string) {
   return trimmed.replace(/\/+$/g, "");
 }
 
+const DEFAULT_POSTHOG_PROXY_PATH = "/ingest/pulse-telemetry";
+
+const posthogKey = process.env.NEXT_PUBLIC_POSTHOG_KEY?.trim();
 const posthogHost = normalizeExternalHost(process.env.NEXT_PUBLIC_POSTHOG_HOST);
-const posthogProxyPath = normalizePostHogProxyPath(
-  process.env.NEXT_PUBLIC_POSTHOG_PROXY_PATH,
-);
+const posthogProxyPath =
+  normalizePostHogProxyPath(process.env.NEXT_PUBLIC_POSTHOG_PROXY_PATH) ??
+  (posthogKey && posthogHost ? DEFAULT_POSTHOG_PROXY_PATH : null);
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,

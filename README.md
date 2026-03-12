@@ -105,7 +105,7 @@ Notes:
 - Analytics scripts only load when their matching `NEXT_PUBLIC_*` values are set.
 - PostHog only initializes when both `NEXT_PUBLIC_POSTHOG_KEY` and `NEXT_PUBLIC_POSTHOG_HOST` are set.
 - `NEXT_PUBLIC_POSTHOG_HOST` should match your PostHog project region. Use `https://us.i.posthog.com` for US projects or `https://eu.i.posthog.com` for EU projects unless you are self-hosting.
-- `NEXT_PUBLIC_POSTHOG_PROXY_PATH` is optional. If you set it, the app will proxy PostHog requests through the same origin using a Next.js rewrite. Use a non-obvious path such as `/ingest/pulse-telemetry`.
+- `NEXT_PUBLIC_POSTHOG_PROXY_PATH` is optional. If you leave it empty, the app now defaults to `/ingest/pulse-telemetry` so PostHog traffic stays on the same origin. Set it explicitly if you want a different non-obvious path.
 - Form notifications only fire when a Discord or Slack webhook is configured.
 - If the Sanity environment values are not set, the site falls back to the seeded local content in `src/lib/site-content.ts`.
 
@@ -117,7 +117,7 @@ Implementation notes:
 
 - GA4 and Plausible are optional and only initialize when their env vars are set.
 - PostHog uses the official `posthog-js` SDK and only initializes when both `NEXT_PUBLIC_POSTHOG_KEY` and `NEXT_PUBLIC_POSTHOG_HOST` are present.
-- If `NEXT_PUBLIC_POSTHOG_PROXY_PATH` is also set, the PostHog SDK uses that same-origin path as `api_host`, and Next.js rewrites it to the configured regional PostHog host.
+- The PostHog SDK uses a same-origin proxy path as `api_host`, and Next.js rewrites it to the configured regional PostHog host. By default that path is `/ingest/pulse-telemetry`, or you can override it with `NEXT_PUBLIC_POSTHOG_PROXY_PATH`.
 - Route-level page views are tracked on client-side navigation so the funnel stays visible across the App Router.
 - Payloads are sanitized before dispatch: obvious PII keys are dropped and string values are trimmed.
 - Form analytics track lifecycle state only. No form field contents are sent to analytics providers.
@@ -131,7 +131,7 @@ NEXT_PUBLIC_POSTHOG_HOST=https://us.i.posthog.com
 NEXT_PUBLIC_POSTHOG_PROXY_PATH=/ingest/pulse-telemetry
 ```
 
-With that configuration, the browser sends PostHog requests to `https://your-domain.com/ingest/pulse-telemetry/...`, and Next.js forwards them to the regional PostHog ingestion host. Leave `NEXT_PUBLIC_POSTHOG_PROXY_PATH` empty to use the direct PostHog host instead.
+With that configuration, the browser sends PostHog requests to `https://your-domain.com/ingest/pulse-telemetry/...`, and Next.js forwards them to the regional PostHog ingestion host. If you leave `NEXT_PUBLIC_POSTHOG_PROXY_PATH` empty, the app still uses `/ingest/pulse-telemetry` by default.
 
 PostHog setup steps:
 
@@ -139,7 +139,7 @@ PostHog setup steps:
 2. Add the env vars:
    `NEXT_PUBLIC_POSTHOG_KEY=phc_your_project_key`
    `NEXT_PUBLIC_POSTHOG_HOST=https://us.i.posthog.com` or `https://eu.i.posthog.com`
-3. Optionally add `NEXT_PUBLIC_POSTHOG_PROXY_PATH=/ingest/pulse-telemetry` if you want same-origin proxying through the app domain.
+3. Optionally add `NEXT_PUBLIC_POSTHOG_PROXY_PATH=/ingest/pulse-telemetry` if you want to override the default path with a specific same-origin proxy route.
 4. Restart the Next.js app after changing env values.
 5. Open the site locally, navigate across a few pages, click a hero CTA, open a project, and start the contact form.
 6. In PostHog, verify incoming events in the Live Events or Activity feed using the documented event names below.
