@@ -31,7 +31,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
   const previewLabel = previewMedia?.label ?? (previewImageUrl ? "Cover image" : "Media held back");
   const previewDescription =
     previewMedia?.description ??
-    (previewImageUrl ? "Primary case-study cover asset used while gallery media is still being populated." : undefined) ??
+    (previewImageUrl ? "" : undefined) ??
     project.confidentialityNote ??
     "Public media is limited for this engagement, but the case study still outlines scope, delivery role, and outcomes.";
 
@@ -58,18 +58,6 @@ export function ProjectCard({ project }: ProjectCardProps) {
               background: `radial-gradient(circle at top right, ${accentA}28, transparent 30%), linear-gradient(135deg, transparent, ${accentC}22)`,
             }}
           />
-          {!previewImageUrl ? (
-            <div className="absolute inset-0 flex items-center justify-center p-6">
-              <div className="rounded-[var(--radius-lg)] border border-white/10 bg-black/25 px-4 py-3 text-center backdrop-blur-sm">
-                <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/60">
-                  Media placeholder
-                </div>
-                <div className="mt-2 text-xs leading-6 text-white/75">
-                  Replace with the strongest project still, UI capture, or short gameplay clip.
-                </div>
-              </div>
-            </div>
-          ) : null}
           <div className="absolute inset-x-5 top-5 z-10 flex items-start justify-between gap-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-white/70 md:inset-x-6 md:top-6">
             <div className="flex flex-wrap gap-2">
               <span className="rounded-full border border-white/12 bg-black/15 px-3 py-1">
@@ -90,7 +78,9 @@ export function ProjectCard({ project }: ProjectCardProps) {
                 {previewMedia?.type === "video" ? "Video preview" : previewMedia ? "Media preview" : "Cover image"}
               </div>
               <p className="mt-2 text-sm font-semibold text-white">{previewLabel}</p>
-              <p className="mt-2 text-xs leading-6 text-white/75">{previewDescription}</p>
+              {previewDescription ? (
+                <p className="mt-2 text-xs leading-6 text-white/75">{previewDescription}</p>
+              ) : null}
             </div>
           </div>
         </ProjectCoverMedia>

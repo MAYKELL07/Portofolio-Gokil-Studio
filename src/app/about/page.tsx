@@ -51,6 +51,7 @@ export default async function AboutPage() {
   const projectTypes = new Set(projects.map((project) => project.projectType));
   const serviceCategories = new Set(services.map((service) => service.category));
   const teamCount = team.length;
+  const hasResponseSla = Boolean(settings.responseSla?.trim());
   const trustSignals = [
     "Brand clients and campaign work",
     "Agencies needing execution support",
@@ -75,6 +76,22 @@ export default async function AboutPage() {
       icon: TimerReset,
     },
   ];
+  const studioSnapshotMetrics = [
+    { label: "Projects tracked", value: `${projects.length}`, accent: "blue" as const },
+    { label: "Featured proof", value: `${featuredProjects.length}`, accent: "purple" as const },
+    { label: "Service groups", value: `${serviceCategories.size}`, accent: "lime" as const },
+    ...(hasResponseSla
+      ? [{ label: "Response speed", value: settings.responseSla, accent: "default" as const }]
+      : []),
+  ];
+  const trustMetricItems = [
+    { label: "Project types", value: `${projectTypes.size} tracked`, accent: "blue" as const },
+    { label: "Client paths", value: "Direct + partner-led", accent: "purple" as const },
+    { label: "Team visibility", value: teamCount > 0 ? `${teamCount} roles shown` : "Lean / private", accent: "lime" as const },
+    ...(hasResponseSla
+      ? [{ label: "Response speed", value: settings.responseSla, accent: "default" as const }]
+      : []),
+  ];
 
   return (
     <div className="page-stack pb-20 pt-6 md:pb-28">
@@ -87,9 +104,8 @@ export default async function AboutPage() {
                 A production partner built for teams that need Roblox work shipped well.
               </h1>
               <p className="type-body-lg mt-6 max-w-3xl text-[var(--color-fog-300)]">
-                {settings.tagline} This page is meant to reduce buyer uncertainty:
-                who the studio is, how it works, what standards it follows, and why
-                teams trust it with real delivery.
+                {settings.tagline} The studio keeps roles, working style, and production standards
+                visible so buyers can assess fit before the brief.
               </p>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                 <ButtonLink
@@ -116,10 +132,14 @@ export default async function AboutPage() {
                 Studio snapshot
               </div>
               <div className="mt-5 grid gap-3 sm:grid-cols-2">
-                <MetricChip label="Projects tracked" value={`${projects.length}`} accent="blue" />
-                <MetricChip label="Featured proof" value={`${featuredProjects.length}`} accent="purple" />
-                <MetricChip label="Service groups" value={`${serviceCategories.size}`} accent="lime" />
-                <MetricChip label="Response speed" value={settings.responseSla} accent="default" />
+                {studioSnapshotMetrics.map((metric) => (
+                  <MetricChip
+                    key={metric.label}
+                    label={metric.label}
+                    value={metric.value}
+                    accent={metric.accent}
+                  />
+                ))}
               </div>
               <div className="mt-5 grid gap-3">
                 {[
@@ -255,26 +275,14 @@ export default async function AboutPage() {
           <Reveal className="section-shell rounded-[var(--radius-xl)] p-6 md:p-8" delay={0.05}>
             <p className="eyebrow">Trust signals</p>
             <div className="mt-6 grid gap-4 sm:grid-cols-2">
-              <MetricChip
-                label="Project types"
-                value={`${projectTypes.size} tracked`}
-                accent="blue"
-              />
-              <MetricChip
-                label="Client paths"
-                value="Direct + partner-led"
-                accent="purple"
-              />
-              <MetricChip
-                label="Team visibility"
-                value={teamCount > 0 ? `${teamCount} roles shown` : "Lean / private"}
-                accent="lime"
-              />
-              <MetricChip
-                label="Response speed"
-                value={settings.responseSla}
-                accent="default"
-              />
+              {trustMetricItems.map((metric) => (
+                <MetricChip
+                  key={metric.label}
+                  label={metric.label}
+                  value={metric.value}
+                  accent={metric.accent}
+                />
+              ))}
             </div>
             <div className="mt-6 text-sm leading-7 text-[var(--color-fog-300)]">
               Proof is not just past work. It is also how clearly the studio shows scope,
@@ -318,8 +326,7 @@ export default async function AboutPage() {
                 If the standards and delivery style look right, review the work or move straight to the brief.
               </h2>
               <p className="mt-4 max-w-2xl text-sm leading-7 text-[var(--color-fog-300)]">
-                The point of this page is clarity, not corporate theater. If you have enough signal,
-                the next move should be immediate.
+                Review the work or move into a brief while the context is still fresh.
               </p>
             </div>
             <div className="flex flex-col gap-3 sm:flex-row">

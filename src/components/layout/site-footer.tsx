@@ -50,6 +50,8 @@ function FooterLink({
 }
 
 export function SiteFooter({ studioName, email, socials }: SiteFooterProps) {
+  const hasEmail = Boolean(email?.trim());
+
   return (
     <footer className="border-t border-white/5 bg-[rgba(9,10,13,0.96)]">
       <div className="site-container grid gap-10 py-12 md:grid-cols-[1.4fr,1fr,1fr]">
@@ -60,20 +62,22 @@ export function SiteFooter({ studioName, email, socials }: SiteFooterProps) {
           <h2 className="max-w-md text-3xl font-semibold text-white md:text-4xl">
             Let&apos;s build the strongest version of your next Roblox release.
           </h2>
-          <a
-            href={`mailto:${email}`}
-            className="inline-flex items-center gap-2 text-base font-semibold text-[var(--color-vol-blue)]"
-            onClick={() =>
-              trackEvent(ANALYTICS_EVENTS.OUTBOUND_LINK_CLICK, {
-                page: "global",
-                section: "footer",
-                link_label: "footer_email",
-                link_type: "email",
-              })}
-          >
-            {email}
-            <ArrowUpRight className="h-4 w-4" />
-          </a>
+          {hasEmail ? (
+            <a
+              href={`mailto:${email}`}
+              className="inline-flex items-center gap-2 text-base font-semibold text-[var(--color-vol-blue)]"
+              onClick={() =>
+                trackEvent(ANALYTICS_EVENTS.OUTBOUND_LINK_CLICK, {
+                  page: "global",
+                  section: "footer",
+                  link_label: "footer_email",
+                  link_type: "email",
+                })}
+            >
+              {email}
+              <ArrowUpRight className="h-4 w-4" />
+            </a>
+          ) : null}
         </div>
         <div className="space-y-4">
           <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--color-fog-500)]">
@@ -107,8 +111,8 @@ export function SiteFooter({ studioName, email, socials }: SiteFooterProps) {
       </div>
       <div className="border-t border-white/5 py-4 text-xs text-[var(--color-fog-500)]">
         <div className="site-container flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
-          <span>{studioName}. Conversion-first game studio portfolio MVP.</span>
-          <span>Built for clear motion, CMS scale, and launch readiness.</span>
+          <span>{studioName}. Roblox production studio.</span>
+          <span>Launch-ready work, service detail, and direct contact paths.</span>
         </div>
       </div>
     </footer>

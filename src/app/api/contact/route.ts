@@ -3,6 +3,8 @@ import { NextResponse } from "next/server";
 import { contactSchema } from "@/lib/contact-schema";
 import { checkRateLimit } from "@/lib/rate-limit";
 
+const NOTIFICATION_TIMEOUT_MS = 8000;
+
 function buildMessage(payload: Record<string, unknown>) {
   return [
     "**New portfolio inquiry**",
@@ -23,6 +25,7 @@ async function notifyDiscord(message: string) {
 
   const response = await fetch(url, {
     method: "POST",
+    signal: AbortSignal.timeout(NOTIFICATION_TIMEOUT_MS),
     headers: {
       "Content-Type": "application/json",
     },
@@ -44,6 +47,7 @@ async function notifySlack(message: string) {
 
   const response = await fetch(url, {
     method: "POST",
+    signal: AbortSignal.timeout(NOTIFICATION_TIMEOUT_MS),
     headers: {
       "Content-Type": "application/json",
     },
@@ -140,40 +144,28 @@ export async function POST(request: Request) {
 
   logSubmission(message);
 
-  try {
-    const notificationResults = await Promise.allSettled(
-      configuredChannels.map((channel) => channel.send()),
-    );
-    const deliveredCount = notificationResults.filter(
-      (result) => result.status === "fulfilled" && result.value,
-    ).length;
+  const notificationResults = await Promise.allSettled(
+    configuredChannels.map((channel) => channel.send()),
+  );
+  const deliveredCount = notificationResults.filter(
+    (result) => result.status === "fulfilled" && result.value,
+  ).length;
 
-    notificationResults.forEach((result, index) => {
-      if (result.status === "rejected") {
-        logNotificationFailure(configuredChannels[index]?.name ?? "unknown", result.reason);
-      }
-    });
-
-    if (configuredChannels.length > 0 && deliveredCount === 0) {
-      return NextResponse.json(
-        {
-          success: false,
-          message: "Submission failed while notifying the studio. Please email us directly and try again.",
-          errors: {},
-        },
-        { status: 502 },
-      );
+  notificationResults.forEach((result, index) => {
+    if (result.status === "rejected") {
+      logNotificationFailure(configuredChannels[index]?.name ?? "unknown", result.reason);
     }
-  } catch (error) {
-    logNotificationFailure("unknown", error);
+  });
 
+  if (configuredChannels.length > 0 && deliveredCount === 0) {
     return NextResponse.json(
       {
-        success: false,
-        message: "Submission failed while notifying the studio. Please email us directly and try again.",
+        success: true,
+        message:
+          "Thanks. Your inquiry was received. Notification delivery is delayed, so if your request is urgent please also email us directly.",
         errors: {},
       },
-      { status: 502 },
+      { status: 202 },
     );
   }
 

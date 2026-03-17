@@ -1,6 +1,7 @@
 import { cmsCollections } from "@/lib/cms-model";
 import { safeSanityFetch } from "@/sanity/lib/client";
 import { resolveSanityImageUrl, type SanityImageSource } from "@/sanity/lib/image";
+import { SANITY_CACHE_TAGS, getProjectCacheTag } from "@/sanity/lib/tags";
 import {
   faqItemsQuery,
   homePageQuery,
@@ -169,10 +170,31 @@ export type HomeProcessStep = {
   body: string;
 };
 
+export type HomeScrollStoryChapter = {
+  id: string;
+  eyebrow: string;
+  title: string;
+  body: string;
+  points: string[];
+  ctaLabel: string;
+  ctaHref: string;
+  media?: SanityImageSource;
+  mediaUrl?: string;
+  mediaAlt?: string;
+};
+
+export type HomeScrollStory = {
+  eyebrow: string;
+  title: string;
+  intro: string;
+  chapters: HomeScrollStoryChapter[];
+};
+
 export type HomePageContent = {
   heroBackgroundImage?: SanityImageSource;
   heroBackgroundImageUrl?: string;
   heroBackgroundImageAlt?: string;
+  scrollStory: HomeScrollStory;
   outcomeCards: HomeOutcomeCard[];
   buyerTypes: HomeBuyerType[];
   serviceOverview: {
@@ -207,40 +229,18 @@ export type HomePageContent = {
 };
 
 const siteSettings: SiteSettings = {
-  studioName: "[REPLACE: Studio Name]",
-  tagline: "[REPLACE: One-line positioning statement for your studio]",
+  studioName: "Gokil Studio",
+  tagline: "Roblox production support for launches, systems work, and live updates.",
   heroEyebrow: "Roblox production partner",
-  heroHeadline: "[REPLACE: Hero headline that states your strongest offer]",
+  heroHeadline: "Launch-ready Roblox work with clear scope, visible milestones, and dependable delivery.",
   heroDescription:
-    "We help brands, agencies, and game teams ship Roblox launches, feature sprints, and live updates with tight scope control, readable UX, and production-safe execution. [REPLACE: Tailor this summary to match your studio specialty.]",
-  primaryEmail: "[REPLACE: Contact Email]",
-  timezone: "[REPLACE: Primary Timezone, e.g. EST / GMT+8]",
-  responseSla: "[REPLACE: Response window, e.g. Replies within 24 hours]",
-  socials: [
-    { label: "Discord", href: "https://discord.com/" },
-    { label: "LinkedIn", href: "https://www.linkedin.com/" },
-    { label: "X", href: "https://x.com/" },
-  ],
-  proofChips: [
-    "[REPLACE: X+ projects shipped]",
-    "[REPLACE: Top proof metric, e.g. 14M+ visits supported]",
-    "Brands, agencies, and live-game teams",
-    "[REPLACE: Trust signal, e.g. White-label delivery available]",
-  ],
-  heroMetrics: [
-    {
-      label: "Delivery fit",
-      value: "Brand launches, execution support, and live ops",
-    },
-    {
-      label: "Proof path",
-      value: "Case studies, metrics, and process in the first scroll",
-    },
-    {
-      label: "Availability",
-      value: "[REPLACE: Current availability or start window]",
-    },
-  ],
+    "We help brands, agencies, and game teams ship Roblox launches, feature sprints, and live updates with tight scope control, readable UX, and production-safe execution.",
+  primaryEmail: "",
+  timezone: "",
+  responseSla: "",
+  socials: [],
+  proofChips: [],
+  heroMetrics: [],
   navLinks: [
     { label: "Work", href: "/work" },
     { label: "Services", href: "/services" },
@@ -250,7 +250,67 @@ const siteSettings: SiteSettings = {
 };
 
 const homePageContent: HomePageContent = {
-  heroBackgroundImageAlt: "Cinematic Roblox environment placeholder",
+  heroBackgroundImageAlt: "Cinematic Roblox environment",
+  scrollStory: {
+    eyebrow: "Studio story",
+    title: "Roblox production for teams that need launch-ready execution and a studio they can trust.",
+    intro:
+      "See what the studio offers, who it works best with, the proof behind the work, and the clearest next step when you are ready to talk.",
+    chapters: [
+      {
+        id: "offer",
+        eyebrow: "Studio offer",
+        title: "Roblox production support built for teams that need sharp scope and dependable delivery.",
+        body:
+          "The studio takes on launches, feature sprints, branded experiences, and live updates with a process designed to keep production readable, player-facing decisions strong, and the work moving toward ship.",
+        points: [
+          "Full Roblox MVPs for new launches",
+          "Feature and systems sprints for live games",
+          "UI / UX polish and post-launch support",
+        ],
+        ctaLabel: "Review services",
+        ctaHref: "/services",
+      },
+      {
+        id: "buyers",
+        eyebrow: "Who it serves",
+        title: "A strong fit for brands, agencies, and game teams that need a reliable Roblox partner.",
+        body:
+          "The studio plugs into campaign launches, white-label delivery plans, and active game roadmaps when internal teams need experienced production support without adding confusion or drag to the schedule.",
+        points: [
+          "Brand clients: launch and activation support without a messy production process",
+          "Agencies: dependable white-label execution with cleaner handoff",
+          "Game teams: systems, UI, polish, and live support without building a full internal team",
+        ],
+        ctaLabel: "Explore services",
+        ctaHref: "/services",
+      },
+      {
+        id: "proof",
+        eyebrow: "Proof",
+        title: "The work is backed by shipped projects, measurable outcomes, and clear communication.",
+        body:
+          "Case studies, delivery metrics, and client feedback show how the studio turns strategy into launch-ready work, whether the goal is stronger onboarding, better retention, or a cleaner release window.",
+        points: [],
+        ctaLabel: "See featured proof",
+        ctaHref: "#featured-work",
+      },
+      {
+        id: "next-action",
+        eyebrow: "Next action",
+        title: "Start with a brief, then move into a clear plan from discovery through launch.",
+        body:
+          "Once the goal is defined, the studio turns it into visible milestones, practical decisions, and steady execution so the next step feels concrete from the first conversation.",
+        points: [
+          "Discovery: clarify audience, platform constraints, KPIs, and the smallest shippable scope",
+          "Pre-production: lock the loop, milestone plan, risk map, and UX direction",
+          "Production to live ops: ship, optimize, QA, and support launch with the same quality bar",
+        ],
+        ctaLabel: "Start inquiry",
+        ctaHref: "/contact",
+      },
+    ],
+  },
   outcomeCards: [
     {
       eyebrow: "Offer",
@@ -292,7 +352,7 @@ const homePageContent: HomePageContent = {
     eyebrow: "Services overview",
     title: "Built for teams hiring a production partner, not browsing for inspiration.",
     body:
-      "This default homepage copy is intentionally direct: what the studio does, who it helps, how the work is delivered, and where the proof lives. Replace only the specifics that are unique to your studio.",
+      "The studio supports launches, feature work, and live updates with clear scope, readable UX, and delivery discipline that stays visible from kickoff through handoff.",
     points: [
       "Gameplay-first production before visual excess",
       "Readable milestones and visible scope control",
@@ -303,11 +363,7 @@ const homePageContent: HomePageContent = {
   resultsSection: {
     eyebrow: "Results and trust",
     title: "Show the outcome before the long explanation.",
-    metrics: [
-      { label: "Shipped engagements", value: "[REPLACE: 8+]" },
-      { label: "Top performance metric", value: "[REPLACE: +18% / 12M+ / similar]" },
-      { label: "Reply window", value: "[REPLACE: 24h]" },
-    ],
+    metrics: [],
   },
   processSteps: [
     {
@@ -335,7 +391,7 @@ const homePageContent: HomePageContent = {
   },
   finalCta: {
     eyebrow: "Final CTA",
-    title: 'Ready to move from "interesting" to "worth a call"?',
+    title: "Ready to scope the next release?",
     primaryLabel: "Start a Project",
     primaryHref: "/contact",
     secondaryLabel: "View Work",
@@ -343,294 +399,9 @@ const homePageContent: HomePageContent = {
   },
 };
 
-const testimonials: Testimonial[] = [
-  {
-    id: "placeholder-quote-1",
-    quote:
-      '"They kept the scope disciplined, surfaced risks early, and still gave us a polished launch that felt stronger than the original brief." [REPLACE: Testimonial Quote]',
-    name: "[REPLACE: Client Name]",
-    role: "[REPLACE: Client Role]",
-    company: "[REPLACE: Client Company]",
-  },
-  {
-    id: "placeholder-quote-2",
-    quote:
-      '"They fit into our delivery plan quickly, communicated like an execution partner, and made the handoff easy for our internal team." [REPLACE: Testimonial Quote]',
-    name: "[REPLACE: Client Name]",
-    role: "[REPLACE: Client Role]",
-    company: "[REPLACE: Client Company]",
-  },
-  {
-    id: "placeholder-quote-3",
-    quote:
-      '"The UX changes were immediately clearer to players, and the update shipped faster because the production path stayed organized." [REPLACE: Testimonial Quote]',
-    name: "[REPLACE: Client Name]",
-    role: "[REPLACE: Client Role]",
-    company: "[REPLACE: Client Company]",
-  },
-];
+const testimonials: Testimonial[] = [];
 
-const projects: Project[] = [
-  {
-    slug: "brand-launch-placeholder",
-    title: "Brand Launch for [REPLACE: Client / Campaign]",
-    clientName: "[REPLACE: Brand Client]",
-    projectType: "Brand Activation",
-    platform: "Roblox",
-    genreTags: ["Social", "Event"],
-    serviceTags: ["Full Production", "UI", "Live Ops"],
-    year: 2026,
-    featured: true,
-    summary:
-      "A campaign-led Roblox launch designed to turn awareness traffic into a stronger first session, clearer return hooks, and cleaner approval flow for stakeholders. [REPLACE: Project Summary]",
-    challenge:
-      "The client needed an experience that felt premium on-brand, loaded cleanly on mobile, and still stayed straightforward to approve under a fixed campaign timeline. [REPLACE: Challenge]",
-    goals: [
-      "Increase qualified first-session engagement during launch week. [REPLACE: Goal]",
-      "Reduce friction across desktop and mobile entry points. [REPLACE: Goal]",
-      "Give players a reason to return after the first traffic spike. [REPLACE: Goal]",
-    ],
-    solution:
-      "We scoped the launch loop first, simplified the onboarding path, and built the experience around repeatable return hooks so the launch could do more than absorb a short campaign spike. [REPLACE: Solution]",
-    gameplayFeatures: [
-      "Campaign-aligned core gameplay loop",
-      "Return mechanic or reward hook",
-      "UI onboarding pass for first-session clarity",
-      "Post-launch content or support layer",
-    ],
-    productionProcess: [
-      "[Process Step: Discovery and scope alignment]",
-      "[Process Step: Prototype or planning sprint]",
-      "[Process Step: Production with milestone reviews]",
-      "[Process Step: QA and optimization]",
-      "[Process Step: Launch or post-launch support]",
-    ],
-    resultsMetrics: [
-      { label: "[REPLACE: Launch engagement]", value: "[REPLACE: +22%]", accent: "blue" },
-      { label: "[REPLACE: Session depth]", value: "[REPLACE: +14%]", accent: "lime" },
-      { label: "[REPLACE: Return rate]", value: "[REPLACE: +9%]", accent: "amber" },
-    ],
-    galleryMedia: [
-      {
-        label: "[REPLACE: Key art / hero still]",
-        description:
-          "Use this slot for the first asset a prospect should see in the case study: key art, opening scene, or the strongest branded visual.",
-        type: "image",
-        alt: "[REPLACE: Alt text for hero still]",
-      },
-      {
-        label: "[REPLACE: Gameplay clip or launch trailer]",
-        description:
-          "Use this slot for a short gameplay or walkthrough clip that shows the loop, pacing, or event trigger in motion.",
-        type: "video",
-        alt: "[REPLACE: Alt text for video poster]",
-      },
-      {
-        label: "[REPLACE: UI / onboarding capture]",
-        description:
-          "Use this slot for the UI, onboarding, or player-flow screen that best explains why the launch was easier to read.",
-        type: "image",
-        alt: "[REPLACE: Alt text for UI capture]",
-      },
-    ],
-    palette: ["#4cc9ff", "#101726", "#0b0f16"],
-    headline:
-      "Campaign traffic converted into a clearer first-session experience. [REPLACE: Headline]",
-    testimonialId: "placeholder-quote-1",
-    seo: {
-      title: "Brand Launch for [REPLACE: Client] | [REPLACE: Studio Name]",
-      description:
-        "Branded Roblox launch case study covering scope, delivery role, gameplay flow, and measurable launch outcomes. [REPLACE: SEO Description]",
-    },
-  },
-  {
-    slug: "full-game-placeholder",
-    title: "Full Game Build for [REPLACE: Game / IP]",
-    clientName: "[REPLACE: Game Team]",
-    projectType: "Full Game",
-    platform: "Roblox",
-    genreTags: ["Tycoon", "RPG"],
-    serviceTags: ["Design", "Scripting", "Full Production"],
-    year: 2026,
-    featured: true,
-    summary:
-      "A full Roblox production engagement focused on shipping a repeatable core loop, readable progression, and a safer first-release scope. [REPLACE: Project Summary]",
-    challenge:
-      "The team needed a production partner who could protect the core loop, reduce scope creep, and still ship something that felt complete enough to learn from in market. [REPLACE: Challenge]",
-    goals: [
-      "Improve early progression clarity so players understand the loop faster. [REPLACE: Goal]",
-      "Strengthen repeat-session motivation with better reward pacing. [REPLACE: Goal]",
-      "Ship a release-safe scope that still feels complete to players. [REPLACE: Goal]",
-    ],
-    solution:
-      "We structured the build around the repeatable player action first, then used UI, pacing, and feature prioritization to make the first release more stable and easier to expand. [REPLACE: Solution]",
-    gameplayFeatures: [
-      "Economy or progression system pass",
-      "Core loop expansion and tuning",
-      "Reward or retention hook design",
-      "Post-launch balancing support",
-    ],
-    productionProcess: [
-      "[Process Step: Audit and prioritization]",
-      "[Process Step: Scope lock]",
-      "[Process Step: Production and QA]",
-      "[Process Step: Launch balancing and analytics]",
-    ],
-    resultsMetrics: [
-      { label: "[REPLACE: Retention metric]", value: "[REPLACE: +18%]", accent: "lime" },
-      { label: "[REPLACE: Session length]", value: "[REPLACE: +11%]", accent: "amber" },
-      { label: "[REPLACE: Scope delivery]", value: "[REPLACE: On time]", accent: "blue" },
-    ],
-    galleryMedia: [
-      {
-        label: "[REPLACE: Systems map or feature plan]",
-        description:
-          "Use this slot for the clearest visual explanation of your systems thinking: flowchart, feature map, or game loop plan.",
-        type: "image",
-        alt: "[REPLACE: Alt text for systems map]",
-      },
-      {
-        label: "[REPLACE: Gameplay flow clip]",
-        description:
-          "Use this slot for a short capture of the most important gameplay sequence, upgrade path, or player decision loop.",
-        type: "video",
-        alt: "[REPLACE: Alt text for gameplay clip poster]",
-      },
-      {
-        label: "[REPLACE: HUD / UI capture]",
-        description:
-          "Use this slot for the interface, HUD, or progression view that best demonstrates why the game became easier to read.",
-        type: "image",
-        alt: "[REPLACE: Alt text for HUD capture]",
-      },
-    ],
-    palette: ["#8b5cf6", "#1a1132", "#090a0d"],
-    headline:
-      "A first release shaped around retention, readability, and expansion headroom. [REPLACE: Headline]",
-    testimonialId: "placeholder-quote-2",
-    seo: {
-      title: "Full Game Build for [REPLACE: Game] | [REPLACE: Studio Name]",
-      description:
-        "Full Roblox production case study covering scope control, core loop development, and first-release outcomes. [REPLACE: SEO Description]",
-    },
-  },
-  {
-    slug: "feature-sprint-placeholder",
-    title: "Feature Sprint for [REPLACE: Live Game]",
-    clientName: "[REPLACE: Product Team]",
-    projectType: "System / Feature",
-    platform: "Roblox",
-    genreTags: ["Simulator", "Social"],
-    serviceTags: ["UI", "Optimization", "Live Ops"],
-    year: 2026,
-    featured: true,
-    summary:
-      "A focused sprint to improve a high-value player flow, make the feature legible on mobile, and reduce friction around a specific conversion or retention moment. [REPLACE: Project Summary]",
-    challenge:
-      "The existing flow was doing too much at once: players missed the intended action, the interface was harder to use on mobile, and the live team needed something clearer to ship and support. [REPLACE: Challenge]",
-    goals: [
-      "Make the targeted flow legible on smaller screens. [REPLACE: Goal]",
-      "Increase participation in the intended action or event. [REPLACE: Goal]",
-      "Reduce support overhead by simplifying state logic and UX. [REPLACE: Goal]",
-    ],
-    solution:
-      "We audited the friction points, simplified the decision path, and rebuilt the state logic around the one action players needed to understand first. [REPLACE: Solution]",
-    gameplayFeatures: [
-      "Control surface or UI system refresh",
-      "Priority or state logic cleanup",
-      "Mobile-first navigation pass",
-      "Content or live-ops slotting support",
-    ],
-    productionProcess: [
-      "[Process Step: Audit]",
-      "[Process Step: UX iteration]",
-      "[Process Step: Build and implementation]",
-      "[Process Step: Post-launch review]",
-    ],
-    resultsMetrics: [
-      { label: "[REPLACE: Adoption rate]", value: "[REPLACE: +27%]", accent: "blue" },
-      { label: "[REPLACE: Tap-through / CTR]", value: "[REPLACE: +15%]", accent: "lime" },
-      { label: "[REPLACE: Support reduction]", value: "[REPLACE: -30%]", accent: "amber" },
-    ],
-    galleryMedia: [
-      {
-        label: "[REPLACE: Before / after comparison]",
-        description:
-          "Use this slot for the clearest before-and-after visual showing how the interaction or screen changed.",
-        type: "image",
-        alt: "[REPLACE: Alt text for before / after comparison]",
-      },
-      {
-        label: "[REPLACE: State logic or component library]",
-        description:
-          "Use this slot for the system view: state map, component library, or interface logic that made the feature easier to maintain.",
-        type: "image",
-        alt: "[REPLACE: Alt text for system view]",
-      },
-      {
-        label: "[REPLACE: QA / rollout checklist]",
-        description:
-          "Use this slot for the rollout proof: QA notes, launch checklist, or implementation-ready handoff artifact.",
-        type: "image",
-        alt: "[REPLACE: Alt text for rollout artifact]",
-      },
-    ],
-    palette: ["#b7ff4a", "#1c2412", "#0d1108"],
-    headline:
-      "A high-value player flow rebuilt for clarity, adoption, and easier rollout. [REPLACE: Headline]",
-    testimonialId: "placeholder-quote-3",
-    seo: {
-      title: "Feature Sprint for [REPLACE: Game] | [REPLACE: Studio Name]",
-      description:
-        "Roblox feature sprint case study covering UX cleanup, implementation support, and measurable player-facing improvements. [REPLACE: SEO Description]",
-    },
-  },
-  {
-    slug: "live-ops-placeholder",
-    title: "Live Ops Support for [REPLACE: Game / Event]",
-    clientName: "[REPLACE: Creator or Studio]",
-    projectType: "Live Ops",
-    platform: "Roblox",
-    genreTags: ["Obby", "Event"],
-    serviceTags: ["Live Ops", "UI", "Optimization"],
-    year: 2026,
-    featured: false,
-    summary:
-      "A fast-turn support engagement covering event readiness, UI cleanup, and release protection when the internal team needed extra execution bandwidth. [REPLACE: Project Summary]",
-    challenge:
-      "The release window was tight, the player-facing flows had friction, and the team needed support without exposing internal details publicly. [REPLACE: Challenge]",
-    goals: [
-      "Improve event readiness inside a compressed production window. [REPLACE: Goal]",
-      "Reduce friction in rewards, storefront, or return flows. [REPLACE: Goal]",
-    ],
-    solution:
-      "We focused on the player-facing bottlenecks first, cleaned up release risk, and supported the launch path without expanding the public scope beyond what could be safely shared. [REPLACE: Solution]",
-    gameplayFeatures: [
-      "Seasonal or event loop support",
-      "Reward or monetization pass",
-      "Optimization and performance cleanup",
-      "UI or storefront improvement",
-    ],
-    productionProcess: [
-      "[Process Step: Performance audit]",
-      "[Process Step: Gameplay or reward tuning]",
-      "[Process Step: Asset or VFX cleanup]",
-      "[Process Step: Release support]",
-    ],
-    resultsMetrics: [],
-    galleryMedia: [],
-    confidentialityNote:
-      "Public metrics and media are intentionally limited for this engagement. Use this slot to explain what can be shared safely while still showing the kind of delivery support you provided. [REPLACE: Confidentiality Note]",
-    palette: ["#ff8f5a", "#2a1510", "#110908"],
-    headline:
-      "Release support that reduced friction without expanding project risk. [REPLACE: Headline]",
-    seo: {
-      title: "Live Ops Support for [REPLACE: Game] | [REPLACE: Studio Name]",
-      description:
-        "Live ops support case study covering event readiness, optimization work, and NDA-safe delivery proof. [REPLACE: SEO Description]",
-    },
-  },
-];
+const projects: Project[] = [];
 
 const services: Service[] = [
   {
@@ -754,41 +525,13 @@ const services: Service[] = [
   },
 ];
 
-const team: TeamMember[] = [
-  {
-    name: "[REPLACE: Studio Lead Name]",
-    role: "Studio Lead / Production",
-    bio:
-      "Owns scope, milestones, and client communication from kickoff through handoff. [REPLACE: Add years of experience, shipped titles, or notable client work.]",
-    skills: ["Production Planning", "Client Comms", "Scope Control", "Launch Delivery"],
-    focus:
-      "Keeps decisions visible, risks surfaced early, and delivery moving without surprises. [REPLACE: Add one trust signal.]",
-  },
-  {
-    name: "[REPLACE: Technical Lead Name]",
-    role: "Technical Designer",
-    bio:
-      "Shapes systems, progression logic, and implementation decisions so the build stays performant, readable, and easier to expand later. [REPLACE: Add a credibility note.]",
-    skills: ["Systems Design", "Gameplay Logic", "Balance Tuning", "Optimization"],
-    focus:
-      "Turns complex requirements into production-safe systems the team can actually ship. [REPLACE: Add one trust signal.]",
-  },
-  {
-    name: "[REPLACE: UI / UX Lead Name]",
-    role: "UI / UX Designer",
-    bio:
-      "Focuses on player-facing clarity: onboarding, interface hierarchy, and the small decisions that make a Roblox experience feel easier to understand fast. [REPLACE: Add a credibility note.]",
-    skills: ["UI Systems", "Player Flows", "Wireframes", "Visual Polish"],
-    focus:
-      "Helps players understand what to do next without friction, confusion, or visual noise. [REPLACE: Add one trust signal.]",
-  },
-];
+const team: TeamMember[] = [];
 
 const faqItems: FAQItem[] = [
   {
     question: "What types of Roblox work do you take on?",
     answer:
-      "The studio can be positioned around new game builds, branded launches, live ops support, systems work, UI / UX cleanup, or technical production support. Replace the surrounding case studies and service pages with the mix that best reflects what you actually want to sell.",
+      "The studio can support new game builds, branded launches, live ops support, systems work, UI / UX cleanup, and technical production support depending on the current offering.",
     category: "General",
   },
   {
@@ -828,8 +571,17 @@ const SANITY_IMAGE_SIZES = {
   projectCover: { width: 1440, quality: 74 } as const,
 };
 
+function isTemplateText(value: string) {
+  return /\[REPLACE:/i.test(value);
+}
+
 function sanitizeText(value: unknown) {
-  return typeof value === "string" ? value.trim() : "";
+  if (typeof value !== "string") {
+    return "";
+  }
+
+  const trimmed = value.trim();
+  return trimmed && !isTemplateText(trimmed) ? trimmed : "";
 }
 
 function sanitizeStringArray(value: unknown) {
@@ -882,6 +634,44 @@ function sanitizeLinkArray(value: unknown, fallback: { label: string; href: stri
     .filter((entry): entry is { label: string; href: string } => entry !== null);
 
   return links.length > 0 ? links : fallback;
+}
+
+function normalizeHomeScrollStoryChapter(
+  chapter: Partial<HomeScrollStoryChapter> | null | undefined,
+  fallback: HomeScrollStoryChapter,
+  index: number,
+): HomeScrollStoryChapter | null {
+  const id = sanitizeText(chapter?.id) || fallback.id || `chapter-${index + 1}`;
+  const eyebrow = sanitizeText(chapter?.eyebrow) || fallback.eyebrow;
+  const title = sanitizeText(chapter?.title) || fallback.title;
+  const body = sanitizeText(chapter?.body) || fallback.body;
+  const ctaLabel = sanitizeText(chapter?.ctaLabel) || fallback.ctaLabel;
+  const ctaHref = sanitizeText(chapter?.ctaHref) || fallback.ctaHref;
+  const media =
+    typeof chapter?.media === "object" && chapter.media
+      ? chapter.media
+      : fallback.media;
+  const mediaUrl =
+    resolveSanityImageUrl(media, { width: 1600, quality: 74 }) ||
+    sanitizeText(chapter?.mediaUrl) ||
+    fallback.mediaUrl;
+
+  if (!title || !body || !ctaLabel || !ctaHref) {
+    return null;
+  }
+
+  return {
+    id,
+    eyebrow,
+    title,
+    body,
+    points: Array.isArray(chapter?.points) ? sanitizeStringArray(chapter.points) : fallback.points,
+    ctaLabel,
+    ctaHref,
+    media,
+    mediaUrl,
+    mediaAlt: sanitizeText(chapter?.mediaAlt) || fallback.mediaAlt || title,
+  };
 }
 
 function isProjectType(value: string): value is Project["projectType"] {
@@ -972,6 +762,19 @@ function normalizeHomePageContent(data: Partial<HomePageContent> | null | undefi
         .filter((item): item is HomeProcessStep => item !== null)
     : [];
 
+  const scrollStoryChapters = Array.isArray(data.scrollStory?.chapters)
+    ? data.scrollStory.chapters
+        .map((chapter, index) =>
+          normalizeHomeScrollStoryChapter(
+            chapter,
+            homePageContent.scrollStory.chapters[index] ??
+              homePageContent.scrollStory.chapters[homePageContent.scrollStory.chapters.length - 1],
+            index,
+          ),
+        )
+        .filter((chapter): chapter is HomeScrollStoryChapter => chapter !== null)
+    : [];
+
   return {
     heroBackgroundImage:
       typeof data.heroBackgroundImage === "object" && data.heroBackgroundImage
@@ -988,6 +791,13 @@ function normalizeHomePageContent(data: Partial<HomePageContent> | null | undefi
       homePageContent.heroBackgroundImageUrl,
     heroBackgroundImageAlt:
       sanitizeText(data.heroBackgroundImageAlt) || homePageContent.heroBackgroundImageAlt,
+    scrollStory: {
+      eyebrow: sanitizeText(data.scrollStory?.eyebrow) || homePageContent.scrollStory.eyebrow,
+      title: sanitizeText(data.scrollStory?.title) || homePageContent.scrollStory.title,
+      intro: sanitizeText(data.scrollStory?.intro) || homePageContent.scrollStory.intro,
+      chapters:
+        scrollStoryChapters.length > 0 ? scrollStoryChapters : homePageContent.scrollStory.chapters,
+    },
     outcomeCards: outcomeCards.length > 0 ? outcomeCards : homePageContent.outcomeCards,
     buyerTypes: buyerTypes.length > 0 ? buyerTypes : homePageContent.buyerTypes,
     serviceOverview: {
@@ -1066,9 +876,7 @@ function normalizeProjectMediaItem(
 
   return {
     label: label || (type === "video" ? "Video preview" : "Media preview"),
-    description:
-      description ||
-      "Add a short note about what this image or video shows so buyers understand the proof quickly.",
+    description: description || "",
     type: type === "video" ? "video" : "image",
     alt: sanitizeText(item?.alt),
     caption: sanitizeText(item?.caption) || sanitizeText(fallback?.caption),
@@ -1366,17 +1174,23 @@ function normalizeFaqItem(
 }
 
 export async function getSiteSettings() {
-  const cmsSettings = await safeSanityFetch<Partial<SiteSettings>>(siteSettingsQuery);
+  const cmsSettings = await safeSanityFetch<Partial<SiteSettings>>(siteSettingsQuery, undefined, {
+    tags: [SANITY_CACHE_TAGS.siteSettings],
+  });
   return normalizeSiteSettings(cmsSettings);
 }
 
 export async function getHomePageContent() {
-  const cmsHomePage = await safeSanityFetch<Partial<HomePageContent>>(homePageQuery);
+  const cmsHomePage = await safeSanityFetch<Partial<HomePageContent>>(homePageQuery, undefined, {
+    tags: [SANITY_CACHE_TAGS.homePage],
+  });
   return normalizeHomePageContent(cmsHomePage);
 }
 
 export async function getProjects() {
-  const cmsProjects = await safeSanityFetch<Partial<Project>[]>(projectsQuery);
+  const cmsProjects = await safeSanityFetch<Partial<Project>[]>(projectsQuery, undefined, {
+    tags: [SANITY_CACHE_TAGS.projects],
+  });
 
   if (!cmsProjects || cmsProjects.length === 0) {
     return projects;
@@ -1398,7 +1212,11 @@ export async function getFeaturedProjects() {
 }
 
 export async function getProjectBySlug(slug: string) {
-  const cmsProject = await safeSanityFetch<Partial<Project>>(projectBySlugQuery, { slug });
+  const cmsProject = await safeSanityFetch<Partial<Project>>(
+    projectBySlugQuery,
+    { slug },
+    { tags: [SANITY_CACHE_TAGS.projects, getProjectCacheTag(slug)] },
+  );
 
   if (cmsProject) {
     const normalizedProject = normalizeProject(
@@ -1415,7 +1233,9 @@ export async function getProjectBySlug(slug: string) {
 }
 
 export async function getServices() {
-  const cmsServices = await safeSanityFetch<Partial<Service>[]>(servicesQuery);
+  const cmsServices = await safeSanityFetch<Partial<Service>[]>(servicesQuery, undefined, {
+    tags: [SANITY_CACHE_TAGS.services],
+  });
 
   if (!cmsServices || cmsServices.length === 0) {
     return services;
@@ -1432,7 +1252,9 @@ export async function getServices() {
 }
 
 export async function getTeam() {
-  const cmsTeam = await safeSanityFetch<Partial<TeamMember>[]>(teamQuery);
+  const cmsTeam = await safeSanityFetch<Partial<TeamMember>[]>(teamQuery, undefined, {
+    tags: [SANITY_CACHE_TAGS.team],
+  });
 
   if (!cmsTeam || cmsTeam.length === 0) {
     return team;
@@ -1448,6 +1270,8 @@ export async function getTeam() {
 export async function getTestimonials() {
   const cmsTestimonials = await safeSanityFetch<(Partial<Testimonial> & { _id?: string })[]>(
     testimonialsQuery,
+    undefined,
+    { tags: [SANITY_CACHE_TAGS.testimonials] },
   );
 
   if (!cmsTestimonials || cmsTestimonials.length === 0) {
@@ -1462,7 +1286,9 @@ export async function getTestimonials() {
 }
 
 export async function getFaqItems() {
-  const cmsFaqItems = await safeSanityFetch<Partial<FAQItem>[]>(faqItemsQuery);
+  const cmsFaqItems = await safeSanityFetch<Partial<FAQItem>[]>(faqItemsQuery, undefined, {
+    tags: [SANITY_CACHE_TAGS.faq],
+  });
 
   if (!cmsFaqItems || cmsFaqItems.length === 0) {
     return faqItems;

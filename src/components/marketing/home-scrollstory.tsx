@@ -4,7 +4,6 @@ import { startTransition, useEffect, useRef, useState } from "react";
 import { ArrowUpRight } from "lucide-react";
 
 import { HeroMedia } from "@/components/media/site-media";
-import { MetricChip } from "@/components/marketing/metric-chip";
 import { ButtonLink } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -16,6 +15,8 @@ export type HomeScrollStoryStep = {
   points: string[];
   ctaLabel: string;
   ctaHref: string;
+  mediaSrc?: string;
+  mediaAlt?: string;
 };
 
 export function HomeScrollStory({
@@ -43,51 +44,75 @@ export function HomeScrollStory({
     }
 
     const cards = Array.from(container.querySelectorAll<HTMLElement>("[data-scrollstory-step]"));
-    if (!cards.length || typeof IntersectionObserver === "undefined") {
+    if (!cards.length || typeof window === "undefined") {
       return;
     }
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visibleEntry = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((entryA, entryB) => entryB.intersectionRatio - entryA.intersectionRatio)[0];
+    let frameId = 0;
 
-        if (!visibleEntry) {
-          return;
-        }
+    const updateActiveStep = () => {
+      frameId = 0;
 
-        const nextIndex = Number(visibleEntry.target.getAttribute("data-story-index"));
-        if (Number.isNaN(nextIndex)) {
-          return;
-        }
+      const viewportFocusLine = window.innerHeight * 0.42;
+      const rankedCards = cards
+        .map((card) => {
+          const index = Number(card.getAttribute("data-story-index"));
+          const rect = card.getBoundingClientRect();
 
-        startTransition(() => {
-          setActiveStep(nextIndex);
-        });
-      },
-      {
-        rootMargin: "-12% 0px -38% 0px",
-        threshold: [0.3, 0.45, 0.65],
-      },
-    );
+          return {
+            index,
+            distance: Math.abs(rect.top + rect.height / 2 - viewportFocusLine),
+            isVisible: rect.bottom > 0 && rect.top < window.innerHeight,
+          };
+        })
+        .filter((card) => !Number.isNaN(card.index));
 
-    cards.forEach((card) => observer.observe(card));
+      const visibleCards = rankedCards.filter((card) => card.isVisible);
+      const nextCard = (visibleCards.length > 0 ? visibleCards : rankedCards).sort(
+        (cardA, cardB) => cardA.distance - cardB.distance,
+      )[0];
+
+      if (!nextCard) {
+        return;
+      }
+
+      startTransition(() => {
+        setActiveStep(nextCard.index);
+      });
+    };
+
+    const queueUpdate = () => {
+      if (frameId) {
+        return;
+      }
+
+      frameId = window.requestAnimationFrame(updateActiveStep);
+    };
+
+    updateActiveStep();
+    window.addEventListener("scroll", queueUpdate, { passive: true });
+    window.addEventListener("resize", queueUpdate);
 
     return () => {
-      cards.forEach((card) => observer.unobserve(card));
-      observer.disconnect();
+      if (frameId) {
+        window.cancelAnimationFrame(frameId);
+      }
+
+      window.removeEventListener("scroll", queueUpdate);
+      window.removeEventListener("resize", queueUpdate);
     };
   }, []);
 
   const currentStep = steps[activeStep] ?? steps[0];
+  const activeMediaSrc = currentStep?.mediaSrc || mediaSrc;
+  const activeMediaAlt = currentStep?.mediaAlt || mediaAlt || currentStep?.title;
 
   return (
     <section className="site-container">
       <div className="grid gap-6 lg:grid-cols-[0.9fr,1.1fr] lg:items-start">
         <div className="lg:sticky lg:top-28">
           <div className="scrollstory-stage section-shell min-h-[32rem] rounded-[2.2rem] p-5 md:p-6 lg:min-h-[calc(100vh-8rem)]">
-            <HeroMedia src={mediaSrc} alt={mediaAlt || currentStep.title} priority />
+            <HeroMedia src={activeMediaSrc} alt={activeMediaAlt} priority />
             <div className="relative z-[1] flex h-full flex-col justify-between gap-6">
               <div>
                 <p className="eyebrow">{eyebrow}</p>
@@ -114,22 +139,18 @@ export function HomeScrollStory({
                   <p className="eyebrow">{currentStep.eyebrow}</p>
                   <h3 className="type-h2 mt-3 font-semibold text-white">{currentStep.title}</h3>
                   <p className="type-body mt-4 text-[var(--color-fog-300)]">{currentStep.body}</p>
-                  <div className="mt-5 grid gap-3">
-                    {currentStep.points.map((point) => (
-                      <div
-                        key={point}
-                        className="rounded-[1.4rem] border border-white/8 bg-black/18 px-4 py-3 text-sm leading-7 text-[var(--color-fog-300)]"
-                      >
-                        {point}
-                      </div>
-                    ))}
-                  </div>
-
-                  <div className="mt-5 grid gap-3 md:grid-cols-3">
-                    <MetricChip label="Step" value={`${activeStep + 1} / ${steps.length}`} accent="blue" />
-                    <MetricChip label="Read" value="Sticky visual proof" accent="purple" />
-                    <MetricChip label="Outcome" value="Clearer qualification" accent="lime" />
-                  </div>
+                  {currentStep.points.length > 0 ? (
+                    <ul className="mt-5 space-y-3">
+                      {currentStep.points.map((point) => (
+                        <li
+                          key={point}
+                          className="rounded-[1.4rem] border border-white/8 bg-black/18 px-4 py-3 text-sm leading-7 text-[var(--color-fog-300)]"
+                        >
+                          {point}
+                        </li>
+                      ))}
+                    </ul>
+                  ) : null}
 
                   <ButtonLink
                     href={currentStep.ctaHref}
@@ -166,16 +187,18 @@ export function HomeScrollStory({
                 {step.title}
               </h3>
               <p className="type-body-lg mt-5 max-w-2xl text-[var(--color-fog-300)]">{step.body}</p>
-              <div className="mt-8 grid gap-4 md:grid-cols-2">
-                {step.points.map((point) => (
-                  <div
-                    key={point}
-                    className="rounded-[1.5rem] border border-white/8 bg-white/[0.03] px-4 py-4 text-sm leading-7 text-[var(--color-fog-300)]"
-                  >
-                    {point}
-                  </div>
-                ))}
-              </div>
+              {step.points.length > 0 ? (
+                <div className="mt-8 grid gap-4 md:grid-cols-2">
+                  {step.points.map((point) => (
+                    <div
+                      key={point}
+                      className="rounded-[1.5rem] border border-white/8 bg-white/[0.03] px-4 py-4 text-sm leading-7 text-[var(--color-fog-300)]"
+                    >
+                      {point}
+                    </div>
+                  ))}
+                </div>
+              ) : null}
             </article>
           ))}
         </div>

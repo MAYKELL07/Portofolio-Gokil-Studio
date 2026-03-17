@@ -52,22 +52,18 @@ export function ServiceCard({ service, compact = false }: ServiceCardProps) {
       <p className="mt-4 text-sm leading-7 text-[var(--color-fog-300)]">
         {service.summary}
       </p>
-      <div className="mt-6 grid gap-3">
-        {hasOutcomes ? (
-          outcomes.map((outcome) => (
+      {hasOutcomes ? (
+        <div className="mt-6 grid gap-3">
+          {outcomes.map((outcome) => (
             <div
               key={outcome}
               className="rounded-[var(--radius-lg)] border border-[var(--color-border-strong)] bg-white/[0.03] px-4 py-3 text-sm text-[var(--color-fog-300)]"
             >
               {outcome}
             </div>
-          ))
-        ) : (
-          <div className="rounded-[var(--radius-lg)] border border-[var(--color-border-strong)] bg-white/[0.03] px-4 py-3 text-sm text-[var(--color-fog-300)]">
-            Add short outcome bullets here so buyers can see what this service should improve.
-          </div>
-        )}
-      </div>
+          ))}
+        </div>
+      ) : null}
       {!compact ? (
         <div className="mt-5 space-y-4">
           <p className="text-sm leading-7 text-[var(--color-fog-300)]">
@@ -79,22 +75,18 @@ export function ServiceCard({ service, compact = false }: ServiceCardProps) {
           </p>
         </div>
       ) : null}
-      <div className="mt-6 grid gap-3">
-        {hasDeliverables ? (
-          deliverables.map((deliverable) => (
+      {hasDeliverables ? (
+        <div className="mt-6 grid gap-3">
+          {deliverables.map((deliverable) => (
             <div
               key={deliverable}
               className="rounded-[var(--radius-lg)] border border-[var(--color-border-strong)] bg-white/[0.03] px-4 py-3 text-sm text-[var(--color-fog-300)]"
             >
               {deliverable}
             </div>
-          ))
-        ) : (
-          <div className="rounded-[var(--radius-lg)] border border-[var(--color-border-strong)] bg-white/[0.03] px-4 py-3 text-sm text-[var(--color-fog-300)]">
-            Add example deliverables here so the engagement scope stays easy to understand.
-          </div>
-        )}
-      </div>
+          ))}
+        </div>
+      ) : null}
       {!compact ? (
         <ButtonLink
           href="/contact"

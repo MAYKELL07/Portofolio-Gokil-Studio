@@ -63,6 +63,8 @@ SANITY_API_READ_TOKEN=
 SANITY_STUDIO_PROJECT_ID=
 SANITY_STUDIO_DATASET=production
 SANITY_STUDIO_TITLE=Game Studio Portfolio CMS
+SANITY_STUDIO_HOSTNAME=
+SANITY_STUDIO_APP_ID=
 NEXT_PUBLIC_GA_ID=
 NEXT_PUBLIC_PLAUSIBLE_DOMAIN=
 NEXT_PUBLIC_POSTHOG_KEY=
@@ -89,9 +91,11 @@ Recommended local setup flow:
 4. Set the shared Sanity API version:
    `NEXT_PUBLIC_SANITY_API_VERSION=2026-03-03`
 5. Set `SANITY_STUDIO_TITLE` to the editor-facing label you want for the Studio.
-6. Add `SANITY_API_READ_TOKEN` only if you need authenticated server-side reads.
-7. Add analytics keys only for providers you actually want enabled.
-8. Restart the Next.js app and Sanity Studio after changing env values.
+6. Optionally set `SANITY_STUDIO_HOSTNAME` if you want `sanity deploy` to reuse a fixed hosted Studio name. Use lowercase letters and hyphens only, for example `gokil-studio`.
+7. Optionally set `SANITY_STUDIO_APP_ID` after the first successful deploy so later deploys can target the same hosted Studio app without prompting.
+8. Add `SANITY_API_READ_TOKEN` only if you need authenticated server-side reads.
+9. Add analytics keys only for providers you actually want enabled.
+10. Restart the Next.js app and Sanity Studio after changing env values.
 
 Notes:
 
@@ -99,6 +103,8 @@ Notes:
 - `NEXT_PUBLIC_SITE_URL` should match `SITE_URL` for consistency across any client-exposed runtime needs.
 - Sanity env resolution is shared across the app, Studio, and CLI via `src/sanity/env.ts`.
 - Sanity project and dataset resolve from `SANITY_STUDIO_*` first, then `NEXT_PUBLIC_SANITY_*` as a fallback. Keep both pairs aligned if you define both.
+- `SANITY_STUDIO_HOSTNAME` is optional, but it makes `sanity deploy` repeatable and avoids the interactive hostname prompt. The CLI normalizes it to a lowercase `*.sanity.studio` host.
+- `SANITY_STUDIO_APP_ID` is optional, but once you have deployed a hosted Studio it lets later deploys reuse the same Sanity app directly.
 - `NEXT_PUBLIC_SANITY_API_VERSION` is the shared API version used by the frontend, Studio, and CLI helpers.
 - `SANITY_API_READ_TOKEN` is optional and server-only. Use it only when you need authenticated reads outside the public CDN path.
 - The app falls back to seeded local content when Sanity env values are missing, but the Studio and CLI now fail fast with an explicit error instead of silently using placeholder IDs.
@@ -196,8 +202,17 @@ Recommended Vercel setup:
 1. Import the repository into Vercel.
 2. If this app lives inside a larger repository, set the Vercel Root Directory to this project folder.
 3. Add the required environment variables from `.env.example`.
-4. Set `SITE_URL` and `NEXT_PUBLIC_SITE_URL` to your final Vercel domain or custom domain.
-5. Deploy.
+4. Keep `NEXT_PUBLIC_SANITY_PROJECT_ID` and `SANITY_STUDIO_PROJECT_ID` identical in the same Vercel environment.
+5. Keep `NEXT_PUBLIC_SANITY_DATASET` and `SANITY_STUDIO_DATASET` identical in the same Vercel environment.
+6. Keep `SANITY_STUDIO_HOSTNAME` and `SANITY_STUDIO_APP_ID` aligned with the hosted Studio deployment you want editors to keep using.
+7. Set `SITE_URL` and `NEXT_PUBLIC_SITE_URL` to your final Vercel domain or custom domain.
+8. Deploy.
+
+Sanity alignment rules:
+
+- The public app and hosted Studio should always point to the same Sanity project and dataset for a given environment.
+- Avoid setting only one side of the Sanity pair. The repo now treats missing or mismatched `NEXT_PUBLIC_SANITY_*` and `SANITY_STUDIO_*` values as configuration errors.
+- Treat `SANITY_STUDIO_HOSTNAME` and `SANITY_STUDIO_APP_ID` as stable hosted Studio settings once deployed so editors can keep publishing without changing the frontend deployment.
 
 Minimum production env vars:
 
@@ -210,6 +225,8 @@ NEXT_PUBLIC_SANITY_API_VERSION=2026-03-03
 SANITY_STUDIO_PROJECT_ID=your-project-id
 SANITY_STUDIO_DATASET=production
 SANITY_STUDIO_TITLE=Game Studio Portfolio CMS
+SANITY_STUDIO_HOSTNAME=gokil-studio
+SANITY_STUDIO_APP_ID=your-studio-app-id
 ```
 
 Optional env vars stay the same as local setup:
@@ -526,6 +543,8 @@ This opens the standalone Sanity Studio.
    `NEXT_PUBLIC_SANITY_DATASET`
    `SANITY_STUDIO_PROJECT_ID`
    `SANITY_STUDIO_DATASET`
+5. Pick an optional hosted Studio hostname for `sanity deploy`, such as `gokil-studio`, and keep it lowercase if you store it as `SANITY_STUDIO_HOSTNAME`.
+6. After the first hosted deploy, save the returned app ID as `SANITY_STUDIO_APP_ID` if you want later deploys to target that same Studio app explicitly.
 
 ### Configure Next.js and Sanity Studio Env Vars
 
@@ -539,6 +558,8 @@ SANITY_API_READ_TOKEN=
 SANITY_STUDIO_PROJECT_ID=your-project-id
 SANITY_STUDIO_DATASET=production
 SANITY_STUDIO_TITLE=Game Studio Portfolio CMS
+SANITY_STUDIO_HOSTNAME=gokil-studio
+SANITY_STUDIO_APP_ID=your-studio-app-id
 ```
 
 Keep `NEXT_PUBLIC_SANITY_*` and `SANITY_STUDIO_*` aligned so the app, Studio, and CLI all point at the same content source.

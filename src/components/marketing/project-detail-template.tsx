@@ -82,8 +82,7 @@ export function ProjectDetailTemplate({
         ? [
             {
               label: "Cover image",
-              description:
-                "Primary case-study cover image shown while the gallery is still being populated.",
+              description: "",
               type: "image" as const,
               alt: project.title,
               imageUrl: project.coverImageUrl,
@@ -216,7 +215,7 @@ export function ProjectDetailTemplate({
                   </div>
                   <p className="mt-3 text-sm leading-7 text-white/80">
                     {confidentialityNote ??
-                      "Public metrics are limited for this case study, but scope, delivery role, and process are still documented below."}
+                      "Public metrics are limited for this project."}
                   </p>
                 </div>
               )}
@@ -284,7 +283,7 @@ export function ProjectDetailTemplate({
                       <div className="text-sm font-semibold text-white">Media is limited for this case study.</div>
                       <p className="mt-2 text-sm leading-7 text-[var(--color-fog-300)]">
                         {confidentialityNote ??
-                          "When assets cannot be shown publicly, the template keeps the process and delivery details accessible instead of collapsing the page."}
+                          "Public media is limited for this project."}
                       </p>
                     </div>
                   </div>
@@ -311,8 +310,7 @@ export function ProjectDetailTemplate({
                 ))
               ) : (
                 <div className="rounded-[var(--radius-lg)] border border-[var(--color-border-strong)] bg-white/[0.03] p-5 text-sm leading-7 text-[var(--color-fog-300)]">
-                  Goals were aligned privately for this engagement. Use this space for NDA-safe goals
-                  or leave it blank and the template will keep the section intact.
+                  Goals for this project are shared during briefing.
                 </div>
               )}
             </div>
@@ -333,7 +331,7 @@ export function ProjectDetailTemplate({
             <p className="eyebrow">Challenge</p>
             <div className="mt-4 text-sm leading-7 text-[var(--color-fog-300)]">
               {challenge ??
-                "Specific challenge details are limited here, but the scope and delivery role remain visible so buyers can still assess fit."}
+                "Challenge details are limited for this engagement."}
             </div>
           </Reveal>
 
@@ -361,25 +359,20 @@ export function ProjectDetailTemplate({
             <h2 className="type-h2 mt-4 font-semibold text-white">{project.headline}</h2>
             <p className="mt-5 text-sm leading-8 text-[var(--color-fog-300)]">
               {solution ??
-                "Use this block for the shipped solution, what changed, and what the engagement delivered. If omitted, the template keeps the rest of the proof visible."}
+                "Implementation details are shared during project briefing."}
             </p>
-            <div className="mt-6 grid gap-3">
-              {features.length > 0 ? (
-                features.map((feature, index) => (
+            {features.length > 0 ? (
+              <div className="mt-6 grid gap-3">
+                {features.map((feature, index) => (
                   <div
                     key={`${feature}-${index}`}
                     className="rounded-[var(--radius-lg)] border border-[var(--color-border-strong)] bg-white/[0.03] p-4 text-sm leading-7 text-[var(--color-fog-300)]"
                   >
                     {feature}
                   </div>
-                ))
-              ) : (
-                <div className="rounded-[var(--radius-lg)] border border-[var(--color-border-strong)] bg-white/[0.03] p-4 text-sm leading-7 text-[var(--color-fog-300)]">
-                  Add feature highlights here when you want to surface specific systems, UX changes,
-                  or launch support deliverables.
-                </div>
-              )}
-            </div>
+                ))}
+              </div>
+            ) : null}
           </Reveal>
 
           <Reveal className="section-shell rounded-[var(--radius-xl)] p-6 md:p-8" delay={0.05}>
@@ -400,8 +393,7 @@ export function ProjectDetailTemplate({
                 ))
               ) : (
                 <div className="rounded-[var(--radius-lg)] border border-[var(--color-border-strong)] bg-white/[0.03] p-5 text-sm leading-7 text-[var(--color-fog-300)]">
-                  Process details can be omitted when the engagement is confidential. The template
-                  still preserves the page rhythm and conversion path.
+                  Process details are available during briefing.
                 </div>
               )}
             </div>

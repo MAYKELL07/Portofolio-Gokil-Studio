@@ -15,6 +15,24 @@ const portraitGuidance =
 const shareImageGuidance =
   "Used for metadata and link previews. Recommended: 1200x630 (social share ratio), ideally under 500 KB. Keep text minimal, high contrast, and safely inset from edges.";
 
+const scrollStoryMediaGuidance =
+  "Optional chapter media shown in the homepage scroll-story. Use one strong proof image per chapter when it adds context; leave empty to fall back to the default story visual. Recommended: 1600x900 or larger, ideally under 900 KB.";
+
+function validateSingleParagraph(value: unknown) {
+  if (typeof value !== "string") {
+    return true;
+  }
+
+  const segments = value
+    .split(/\r?\n+/)
+    .map((segment) => segment.trim())
+    .filter(Boolean);
+
+  return segments.length <= 1
+    ? true
+    : "Keep this to one paragraph. Move extra detail into proof points.";
+}
+
 export const siteSettingsType = defineType({
   name: "siteSettings",
   title: "Site Settings",
@@ -140,6 +158,105 @@ export const homePageType = defineType({
       title: "Hero Background Image",
       type: "richImage",
       description: heroImageGuidance,
+    }),
+    defineField({
+      name: "scrollStory",
+      title: "Scroll Story",
+      type: "object",
+      description:
+        "Dedicated long-scroll chapter content for the homepage. Keep each chapter focused on one message with optional proof bullets.",
+      fields: [
+        defineField({
+          name: "eyebrow",
+          title: "Section Eyebrow",
+          type: "string",
+          validation: (rule) => rule.required().min(2).max(60),
+        }),
+        defineField({
+          name: "title",
+          title: "Section Title",
+          type: "string",
+          validation: (rule) => rule.required().min(12).max(160),
+        }),
+        defineField({
+          name: "intro",
+          title: "Section Intro",
+          type: "text",
+          rows: 3,
+          description: "One short paragraph that introduces the chapter sequence.",
+          validation: (rule) =>
+            rule.required().min(20).max(240).custom((value) => validateSingleParagraph(value)),
+        }),
+        defineField({
+          name: "chapters",
+          title: "Chapters",
+          type: "array",
+          of: [
+            defineArrayMember({
+              type: "object",
+              fields: [
+                defineField({
+                  name: "eyebrow",
+                  title: "Eyebrow",
+                  type: "string",
+                  validation: (rule) => rule.required().min(2).max(40),
+                }),
+                defineField({
+                  name: "title",
+                  title: "Title",
+                  type: "string",
+                  validation: (rule) => rule.required().min(8).max(140),
+                }),
+                defineField({
+                  name: "body",
+                  title: "Body",
+                  type: "text",
+                  rows: 4,
+                  description:
+                    "Keep this to one paragraph or one clear step. Put supporting proof into the optional proof points field.",
+                  validation: (rule) =>
+                    rule.required().min(20).max(320).custom((value) => validateSingleParagraph(value)),
+                }),
+                defineField({
+                  name: "proofPoints",
+                  title: "Proof Points",
+                  type: "array",
+                  description: "Optional supporting bullets for metrics, examples, or proof.",
+                  of: [defineArrayMember({ type: "string" })],
+                  validation: (rule) => rule.max(4),
+                }),
+                defineField({
+                  name: "ctaLabel",
+                  title: "CTA Label",
+                  type: "string",
+                  validation: (rule) => rule.required().min(2).max(40),
+                }),
+                defineField({
+                  name: "ctaHref",
+                  title: "CTA Href",
+                  type: "string",
+                  description: "Use an internal path, anchor target, or full URL.",
+                  validation: (rule) => rule.required().min(1).max(240),
+                }),
+                defineField({
+                  name: "media",
+                  title: "Chapter Media",
+                  type: "richImage",
+                  description: scrollStoryMediaGuidance,
+                }),
+              ],
+              preview: {
+                select: {
+                  title: "title",
+                  subtitle: "eyebrow",
+                  media: "media",
+                },
+              },
+            }),
+          ],
+          validation: (rule) => rule.required().min(1).max(6),
+        }),
+      ],
     }),
     defineField({
       name: "outcomeCards",

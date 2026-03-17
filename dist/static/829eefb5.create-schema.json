@@ -1,0 +1,2508 @@
+[
+  {
+    "options": {
+      "hotspot": true
+    },
+    "description": "Upload high-quality source imagery only. Prefer clean, well-lit assets with clear subject focus so responsive crops stay premium across desktop and mobile.",
+    "fields": [
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              },
+              {
+                "flag": "min",
+                "constraint": 4
+              },
+              {
+                "flag": "max",
+                "constraint": 160
+              }
+            ]
+          }
+        ],
+        "description": "Required. Describe what matters in the image in plain language. Mention the visible subject or proof shown, not styling alone. For decorative textures, use a short label such as 'Abstract blue signal texture' only if the image is still exposed to assistive tech.",
+        "name": "alt",
+        "type": "string",
+        "title": "Alt Text"
+      },
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "max",
+                "constraint": 180
+              }
+            ]
+          }
+        ],
+        "description": "Optional. Add only when the image needs context, attribution, or a short proof note. Keep it concise.",
+        "name": "caption",
+        "type": "string"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "Cover",
+              "value": "cover"
+            },
+            {
+              "title": "Gallery",
+              "value": "gallery"
+            },
+            {
+              "title": "Background",
+              "value": "background"
+            },
+            {
+              "title": "Texture",
+              "value": "texture"
+            },
+            {
+              "title": "Portrait",
+              "value": "portrait"
+            },
+            {
+              "title": "Poster",
+              "value": "poster"
+            },
+            {
+              "title": "Logo",
+              "value": "logo"
+            }
+          ]
+        },
+        "initialValue": "gallery",
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "valid",
+                "constraint": [
+                  "cover",
+                  "gallery",
+                  "background",
+                  "texture",
+                  "portrait",
+                  "poster",
+                  "logo"
+                ]
+              },
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ]
+          }
+        ],
+        "description": "Choose the intended visual job for this asset. Use landscape roles like Cover, Gallery, or Background for wide compositions. Use Portrait when the subject is vertically framed. Use Texture only for decorative atmosphere, not proof.",
+        "name": "imageRole",
+        "type": "string",
+        "title": "Image Role / Type"
+      },
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "max",
+                "constraint": 180
+              }
+            ]
+          }
+        ],
+        "description": "Optional editor note describing what must stay in frame, such as 'keep character face centered' or 'UI stats top-right'. This helps future editors set hotspot correctly for responsive crops.",
+        "name": "focalIntent",
+        "type": "string"
+      },
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "max",
+                "constraint": 180
+              }
+            ]
+          }
+        ],
+        "description": "Optional source, photographer, renderer, stock source, or internal asset note.",
+        "name": "credit",
+        "type": "string",
+        "title": "Credit / Source"
+      }
+    ],
+    "name": "richImage",
+    "type": "image"
+  },
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              },
+              {
+                "flag": "min",
+                "constraint": 2
+              },
+              {
+                "flag": "max",
+                "constraint": 40
+              }
+            ]
+          }
+        ],
+        "name": "label",
+        "type": "string"
+      },
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              },
+              {
+                "flag": "min",
+                "constraint": 1
+              },
+              {
+                "flag": "max",
+                "constraint": 240
+              }
+            ]
+          }
+        ],
+        "description": "Use internal paths like /contact or full external URLs.",
+        "name": "href",
+        "type": "string"
+      }
+    ],
+    "name": "linkItem",
+    "type": "object"
+  },
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              },
+              {
+                "flag": "min",
+                "constraint": 2
+              },
+              {
+                "flag": "max",
+                "constraint": 40
+              }
+            ]
+          }
+        ],
+        "name": "label",
+        "type": "string"
+      },
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "uri",
+                "constraint": {
+                  "options": {
+                    "scheme": [
+                      "/^http$/",
+                      "/^https$/"
+                    ],
+                    "allowRelative": false,
+                    "relativeOnly": false,
+                    "allowCredentials": false
+                  }
+                }
+              },
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ]
+          }
+        ],
+        "name": "href",
+        "type": "url",
+        "title": "Profile URL"
+      }
+    ],
+    "name": "socialLink",
+    "type": "object"
+  },
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              },
+              {
+                "flag": "min",
+                "constraint": 2
+              },
+              {
+                "flag": "max",
+                "constraint": 80
+              }
+            ]
+          }
+        ],
+        "name": "label",
+        "type": "string"
+      },
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              },
+              {
+                "flag": "min",
+                "constraint": 1
+              },
+              {
+                "flag": "max",
+                "constraint": 120
+              }
+            ]
+          }
+        ],
+        "name": "value",
+        "type": "string"
+      }
+    ],
+    "name": "metricItem",
+    "type": "object"
+  },
+  {
+    "fields": [
+      {
+        "initialValue": "Start a similar project",
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "max",
+                "constraint": 60
+              }
+            ]
+          }
+        ],
+        "name": "primaryLabel",
+        "type": "string"
+      },
+      {
+        "initialValue": "/contact",
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "max",
+                "constraint": 240
+              }
+            ]
+          }
+        ],
+        "name": "primaryHref",
+        "type": "string"
+      },
+      {
+        "initialValue": "Review services",
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "max",
+                "constraint": 60
+              }
+            ]
+          }
+        ],
+        "name": "secondaryLabel",
+        "type": "string"
+      },
+      {
+        "initialValue": "/services",
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "max",
+                "constraint": 240
+              }
+            ]
+          }
+        ],
+        "name": "secondaryHref",
+        "type": "string"
+      }
+    ],
+    "name": "ctaSettings",
+    "type": "object",
+    "title": "CTA Settings"
+  },
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              },
+              {
+                "flag": "min",
+                "constraint": 2
+              },
+              {
+                "flag": "max",
+                "constraint": 30
+              }
+            ]
+          }
+        ],
+        "name": "eyebrow",
+        "type": "string"
+      },
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              },
+              {
+                "flag": "min",
+                "constraint": 8
+              },
+              {
+                "flag": "max",
+                "constraint": 100
+              }
+            ]
+          }
+        ],
+        "name": "title",
+        "type": "string"
+      },
+      {
+        "rows": 3,
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              },
+              {
+                "flag": "min",
+                "constraint": 20
+              },
+              {
+                "flag": "max",
+                "constraint": 220
+              }
+            ]
+          }
+        ],
+        "name": "body",
+        "type": "text"
+      },
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              },
+              {
+                "flag": "min",
+                "constraint": 2
+              },
+              {
+                "flag": "max",
+                "constraint": 40
+              }
+            ]
+          }
+        ],
+        "name": "label",
+        "type": "string",
+        "title": "CTA Label"
+      },
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              },
+              {
+                "flag": "min",
+                "constraint": 1
+              },
+              {
+                "flag": "max",
+                "constraint": 240
+              }
+            ]
+          }
+        ],
+        "description": "Use an internal path or anchor target.",
+        "name": "href",
+        "type": "string",
+        "title": "CTA Href"
+      }
+    ],
+    "name": "outcomeCard",
+    "type": "object"
+  },
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              },
+              {
+                "flag": "min",
+                "constraint": 2
+              },
+              {
+                "flag": "max",
+                "constraint": 60
+              }
+            ]
+          }
+        ],
+        "name": "title",
+        "type": "string"
+      },
+      {
+        "rows": 3,
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              },
+              {
+                "flag": "min",
+                "constraint": 20
+              },
+              {
+                "flag": "max",
+                "constraint": 240
+              }
+            ]
+          }
+        ],
+        "name": "body",
+        "type": "text"
+      }
+    ],
+    "name": "buyerType",
+    "type": "object"
+  },
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              },
+              {
+                "flag": "min",
+                "constraint": 2
+              },
+              {
+                "flag": "max",
+                "constraint": 60
+              }
+            ]
+          }
+        ],
+        "name": "title",
+        "type": "string"
+      },
+      {
+        "rows": 3,
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              },
+              {
+                "flag": "min",
+                "constraint": 16
+              },
+              {
+                "flag": "max",
+                "constraint": 240
+              }
+            ]
+          }
+        ],
+        "name": "body",
+        "type": "text"
+      }
+    ],
+    "name": "processStep",
+    "type": "object"
+  },
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "max",
+                "constraint": 40
+              }
+            ]
+          }
+        ],
+        "name": "eyebrow",
+        "type": "string"
+      },
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "max",
+                "constraint": 120
+              }
+            ]
+          }
+        ],
+        "name": "title",
+        "type": "string"
+      },
+      {
+        "rows": 4,
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "max",
+                "constraint": 320
+              }
+            ]
+          }
+        ],
+        "name": "body",
+        "type": "text"
+      },
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "max",
+                "constraint": 6
+              }
+            ]
+          }
+        ],
+        "of": [
+          {
+            "type": "string"
+          }
+        ],
+        "name": "points",
+        "type": "array"
+      }
+    ],
+    "name": "serviceOverview",
+    "type": "object"
+  },
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "max",
+                "constraint": 40
+              }
+            ]
+          }
+        ],
+        "name": "eyebrow",
+        "type": "string"
+      },
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "max",
+                "constraint": 140
+              }
+            ]
+          }
+        ],
+        "name": "title",
+        "type": "string"
+      },
+      {
+        "rows": 4,
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "max",
+                "constraint": 320
+              }
+            ]
+          }
+        ],
+        "name": "body",
+        "type": "text"
+      }
+    ],
+    "name": "sectionIntro",
+    "type": "object"
+  },
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              },
+              {
+                "flag": "min",
+                "constraint": 2
+              },
+              {
+                "flag": "max",
+                "constraint": 80
+              }
+            ]
+          }
+        ],
+        "name": "label",
+        "type": "string"
+      },
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              },
+              {
+                "flag": "min",
+                "constraint": 1
+              },
+              {
+                "flag": "max",
+                "constraint": 120
+              }
+            ]
+          }
+        ],
+        "name": "value",
+        "type": "string"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "Blue",
+              "value": "blue"
+            },
+            {
+              "title": "Lime",
+              "value": "lime"
+            },
+            {
+              "title": "Amber",
+              "value": "amber"
+            }
+          ],
+          "layout": "radio"
+        },
+        "initialValue": "blue",
+        "name": "accent",
+        "type": "string"
+      }
+    ],
+    "name": "projectMetric",
+    "type": "object"
+  },
+  {
+    "fields": [
+      {
+        "options": {
+          "list": [
+            {
+              "title": "Image",
+              "value": "image"
+            },
+            {
+              "title": "Video",
+              "value": "video"
+            }
+          ],
+          "layout": "radio"
+        },
+        "initialValue": "image",
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "valid",
+                "constraint": [
+                  "image",
+                  "video"
+                ]
+              },
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ]
+          }
+        ],
+        "name": "type",
+        "type": "string",
+        "title": "Media Type"
+      },
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              },
+              {
+                "flag": "min",
+                "constraint": 2
+              },
+              {
+                "flag": "max",
+                "constraint": 80
+              }
+            ]
+          }
+        ],
+        "name": "label",
+        "type": "string"
+      },
+      {
+        "rows": 3,
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "max",
+                "constraint": 240
+              }
+            ]
+          }
+        ],
+        "name": "description",
+        "type": "text"
+      },
+      {
+        "options": {
+          "hotspot": true
+        },
+        "description": "Use for stills, UI captures, renders, or gallery frames. Recommended: 1600 to 2400px wide, under 800 KB when possible. Use landscape for environments and UI walkthroughs, portrait only when the subject is vertically composed.",
+        "hidden": "conditional",
+        "name": "image",
+        "type": "richImage"
+      },
+      {
+        "options": {
+          "hotspot": true
+        },
+        "description": "Optional poster used for video previews and thumbnails. Recommended: 1600px+ wide, under 500 KB. Set hotspot on the key visual area because this image may crop differently in cards and gallery layouts.",
+        "hidden": "conditional",
+        "name": "poster",
+        "type": "richImage",
+        "title": "Video Poster"
+      },
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "uri",
+                "constraint": {
+                  "options": {
+                    "scheme": [
+                      "/^http$/",
+                      "/^https$/"
+                    ],
+                    "allowRelative": false,
+                    "relativeOnly": false,
+                    "allowCredentials": false
+                  }
+                }
+              }
+            ]
+          }
+        ],
+        "description": "Optional hosted video URL for embeds or previews.",
+        "hidden": "conditional",
+        "name": "videoUrl",
+        "type": "url",
+        "title": "Video URL"
+      }
+    ],
+    "name": "projectMedia",
+    "type": "object"
+  },
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              },
+              {
+                "flag": "min",
+                "constraint": 2
+              },
+              {
+                "flag": "max",
+                "constraint": 80
+              }
+            ]
+          }
+        ],
+        "description": "Primary brand label shown in the header, footer, and metadata.",
+        "name": "studioName",
+        "type": "string"
+      },
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              },
+              {
+                "flag": "min",
+                "constraint": 12
+              },
+              {
+                "flag": "max",
+                "constraint": 180
+              }
+            ]
+          }
+        ],
+        "description": "Concise positioning line used for trust and SEO surfaces.",
+        "name": "tagline",
+        "type": "string"
+      },
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              },
+              {
+                "flag": "min",
+                "constraint": 2
+              },
+              {
+                "flag": "max",
+                "constraint": 60
+              }
+            ]
+          }
+        ],
+        "name": "heroEyebrow",
+        "type": "string"
+      },
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              },
+              {
+                "flag": "min",
+                "constraint": 12
+              },
+              {
+                "flag": "max",
+                "constraint": 160
+              }
+            ]
+          }
+        ],
+        "name": "heroHeadline",
+        "type": "string"
+      },
+      {
+        "rows": 4,
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              },
+              {
+                "flag": "min",
+                "constraint": 30
+              },
+              {
+                "flag": "max",
+                "constraint": 320
+              }
+            ]
+          }
+        ],
+        "name": "heroDescription",
+        "type": "text"
+      },
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ]
+          }
+        ],
+        "name": "primaryEmail",
+        "type": "string"
+      },
+      {
+        "options": {
+          "hotspot": true
+        },
+        "description": "Optional brand mark for future header, share image, or presentation use. Recommended: square or transparent PNG/SVG-friendly artwork at 800x800 minimum. Keep file size lean and use a clean silhouette that reads on dark backgrounds.",
+        "name": "studioLogo",
+        "type": "richImage"
+      },
+      {
+        "options": {
+          "hotspot": true
+        },
+        "description": "Used for metadata and link previews. Recommended: 1200x630 (social share ratio), ideally under 500 KB. Keep text minimal, high contrast, and safely inset from edges.",
+        "name": "defaultShareImage",
+        "type": "richImage"
+      },
+      {
+        "initialValue": "UTC+8",
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              },
+              {
+                "flag": "max",
+                "constraint": 60
+              }
+            ]
+          }
+        ],
+        "name": "timezone",
+        "type": "string"
+      },
+      {
+        "initialValue": "Replies within 24 hours",
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              },
+              {
+                "flag": "max",
+                "constraint": 80
+              }
+            ]
+          }
+        ],
+        "name": "responseSla",
+        "type": "string",
+        "title": "Response SLA"
+      },
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "max",
+                "constraint": 6
+              }
+            ]
+          }
+        ],
+        "of": [
+          {
+            "type": "socialLink"
+          }
+        ],
+        "name": "socials",
+        "type": "array",
+        "title": "Social Links"
+      },
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "max",
+                "constraint": 6
+              }
+            ]
+          }
+        ],
+        "of": [
+          {
+            "type": "string"
+          }
+        ],
+        "name": "proofChips",
+        "type": "array",
+        "title": "Hero Proof Chips"
+      },
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "max",
+                "constraint": 4
+              }
+            ]
+          }
+        ],
+        "of": [
+          {
+            "type": "metricItem"
+          }
+        ],
+        "name": "heroMetrics",
+        "type": "array"
+      },
+      {
+        "initialValue": [
+          {
+            "label": "Work",
+            "href": "/work"
+          },
+          {
+            "label": "Services",
+            "href": "/services"
+          },
+          {
+            "label": "About",
+            "href": "/about"
+          },
+          {
+            "label": "Contact",
+            "href": "/contact"
+          }
+        ],
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "max",
+                "constraint": 6
+              }
+            ]
+          }
+        ],
+        "of": [
+          {
+            "type": "linkItem"
+          }
+        ],
+        "name": "navLinks",
+        "type": "array",
+        "title": "Primary Navigation"
+      }
+    ],
+    "name": "siteSettings",
+    "type": "document"
+  },
+  {
+    "fields": [
+      {
+        "options": {
+          "hotspot": true
+        },
+        "description": "Use a premium, atmospheric landscape image for the homepage hero. Recommended: 2400x1350 or larger (16:9), ideally under 1.2 MB. Use this for mood and brand tone, not dense proof details. Keep the main focal area off the edges and set hotspot around the subject that must survive mobile crops.",
+        "name": "heroBackgroundImage",
+        "type": "richImage"
+      },
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "max",
+                "constraint": 4
+              }
+            ]
+          }
+        ],
+        "description": "The three quick-path cards directly below the homepage hero.",
+        "of": [
+          {
+            "type": "outcomeCard"
+          }
+        ],
+        "name": "outcomeCards",
+        "type": "array"
+      },
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "max",
+                "constraint": 4
+              }
+            ]
+          }
+        ],
+        "description": "Short cards describing who the studio is built for.",
+        "of": [
+          {
+            "type": "buyerType"
+          }
+        ],
+        "name": "buyerTypes",
+        "type": "array"
+      },
+      {
+        "name": "serviceOverview",
+        "type": "serviceOverview",
+        "title": "Service Overview Section"
+      },
+      {
+        "fields": [
+          {
+            "name": "eyebrow",
+            "type": "string"
+          },
+          {
+            "name": "title",
+            "type": "string"
+          },
+          {
+            "validation": [
+              {
+                "level": "error",
+                "rules": [
+                  {
+                    "flag": "max",
+                    "constraint": 4
+                  }
+                ]
+              }
+            ],
+            "of": [
+              {
+                "type": "metricItem"
+              }
+            ],
+            "name": "metrics",
+            "type": "array"
+          }
+        ],
+        "name": "resultsSection",
+        "type": "object"
+      },
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "max",
+                "constraint": 4
+              }
+            ]
+          }
+        ],
+        "of": [
+          {
+            "type": "processStep"
+          }
+        ],
+        "name": "processSteps",
+        "type": "array"
+      },
+      {
+        "name": "studioSection",
+        "type": "sectionIntro",
+        "title": "Studio Credibility Section"
+      },
+      {
+        "name": "faqSection",
+        "type": "sectionIntro",
+        "title": "FAQ Section"
+      },
+      {
+        "fields": [
+          {
+            "name": "eyebrow",
+            "type": "string"
+          },
+          {
+            "name": "title",
+            "type": "string"
+          },
+          {
+            "initialValue": "Send Brief",
+            "name": "primaryLabel",
+            "type": "string"
+          },
+          {
+            "initialValue": "/contact",
+            "name": "primaryHref",
+            "type": "string"
+          },
+          {
+            "initialValue": "View Services",
+            "name": "secondaryLabel",
+            "type": "string"
+          },
+          {
+            "initialValue": "/services",
+            "name": "secondaryHref",
+            "type": "string"
+          }
+        ],
+        "name": "finalCta",
+        "type": "object",
+        "title": "Final CTA"
+      }
+    ],
+    "name": "homePage",
+    "type": "document"
+  },
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              },
+              {
+                "flag": "min",
+                "constraint": 4
+              },
+              {
+                "flag": "max",
+                "constraint": 120
+              }
+            ]
+          }
+        ],
+        "name": "title",
+        "type": "string"
+      },
+      {
+        "options": {
+          "source": "title",
+          "maxLength": 96
+        },
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "custom"
+              },
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ]
+          }
+        ],
+        "name": "slug",
+        "type": "slug"
+      },
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "max",
+                "constraint": 120
+              }
+            ]
+          }
+        ],
+        "description": "Optional. Leave blank if the client should stay confidential.",
+        "name": "clientName",
+        "type": "string"
+      },
+      {
+        "options": {
+          "list": [
+            "Full Game",
+            "UGC Experience",
+            "Brand Activation",
+            "System / Feature",
+            "UI / UX",
+            "Live Ops"
+          ]
+        },
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "valid",
+                "constraint": [
+                  "Full Game",
+                  "UGC Experience",
+                  "Brand Activation",
+                  "System / Feature",
+                  "UI / UX",
+                  "Live Ops"
+                ]
+              },
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ]
+          }
+        ],
+        "name": "projectType",
+        "type": "string"
+      },
+      {
+        "options": {
+          "list": [
+            "Roblox"
+          ]
+        },
+        "initialValue": "Roblox",
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "valid",
+                "constraint": [
+                  "Roblox"
+                ]
+              },
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ]
+          }
+        ],
+        "name": "platform",
+        "type": "string"
+      },
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "max",
+                "constraint": 8
+              }
+            ]
+          }
+        ],
+        "of": [
+          {
+            "type": "string"
+          }
+        ],
+        "name": "genreTags",
+        "type": "array"
+      },
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "max",
+                "constraint": 8
+              }
+            ]
+          }
+        ],
+        "description": "Used for portfolio filters and delivery role context.",
+        "of": [
+          {
+            "type": "string"
+          }
+        ],
+        "name": "serviceTags",
+        "type": "array"
+      },
+      {
+        "initialValue": 2026,
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              },
+              {
+                "flag": "min",
+                "constraint": 2020
+              },
+              {
+                "flag": "max",
+                "constraint": 2100
+              }
+            ]
+          }
+        ],
+        "name": "year",
+        "type": "number"
+      },
+      {
+        "initialValue": false,
+        "name": "featured",
+        "type": "boolean"
+      },
+      {
+        "options": {
+          "hotspot": true
+        },
+        "description": "Primary project proof image for cards and case-study hero fallback. Recommended: 1600x900 to 2400x1350 (16:9), ideally under 900 KB. Use a landscape asset that communicates outcome fast. Prefer gameplay, UI, or a strong branded scene over decorative artwork.",
+        "name": "coverImage",
+        "type": "richImage"
+      },
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              },
+              {
+                "flag": "min",
+                "constraint": 12
+              },
+              {
+                "flag": "max",
+                "constraint": 140
+              }
+            ]
+          }
+        ],
+        "description": "Short top-line result or capability statement.",
+        "name": "headline",
+        "type": "string"
+      },
+      {
+        "rows": 4,
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              },
+              {
+                "flag": "min",
+                "constraint": 20
+              },
+              {
+                "flag": "max",
+                "constraint": 320
+              }
+            ]
+          }
+        ],
+        "name": "summary",
+        "type": "text"
+      },
+      {
+        "rows": 4,
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "max",
+                "constraint": 500
+              }
+            ]
+          }
+        ],
+        "description": "Optional for confidential work.",
+        "name": "challenge",
+        "type": "text"
+      },
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "max",
+                "constraint": 6
+              }
+            ]
+          }
+        ],
+        "description": "Short success criteria the project was built around.",
+        "of": [
+          {
+            "type": "string"
+          }
+        ],
+        "name": "goals",
+        "type": "array"
+      },
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "max",
+                "constraint": 6
+              }
+            ]
+          }
+        ],
+        "description": "Short buyer-facing result statements. Keep concise and proof-oriented.",
+        "of": [
+          {
+            "type": "string"
+          }
+        ],
+        "name": "outcomes",
+        "type": "array"
+      },
+      {
+        "rows": 5,
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "max",
+                "constraint": 800
+              }
+            ]
+          }
+        ],
+        "description": "What changed, what was built, and why it mattered.",
+        "name": "solution",
+        "type": "text"
+      },
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "max",
+                "constraint": 8
+              }
+            ]
+          }
+        ],
+        "of": [
+          {
+            "type": "string"
+          }
+        ],
+        "name": "gameplayFeatures",
+        "type": "array",
+        "title": "Feature Highlights"
+      },
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "max",
+                "constraint": 8
+              }
+            ]
+          }
+        ],
+        "of": [
+          {
+            "type": "string"
+          }
+        ],
+        "name": "productionProcess",
+        "type": "array"
+      },
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "max",
+                "constraint": 6
+              }
+            ]
+          }
+        ],
+        "description": "Leave empty if public metrics should stay private.",
+        "of": [
+          {
+            "type": "projectMetric"
+          }
+        ],
+        "name": "resultsMetrics",
+        "type": "array"
+      },
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "max",
+                "constraint": 8
+              }
+            ]
+          }
+        ],
+        "description": "Add image entries for gallery stills and optional video entries with a hosted URL plus poster image. Mix wide proof images with occasional portrait frames for visual rhythm. Recommended stills: 1600 to 2400px on the long edge, usually under 800 KB. Leave empty for confidential work.",
+        "of": [
+          {
+            "type": "projectMedia"
+          }
+        ],
+        "name": "galleryMedia",
+        "type": "array",
+        "title": "Gallery Images and Video"
+      },
+      {
+        "rows": 3,
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "max",
+                "constraint": 320
+              }
+            ]
+          }
+        ],
+        "description": "Shown when metrics or media are intentionally limited.",
+        "name": "confidentialityNote",
+        "type": "text"
+      },
+      {
+        "initialValue": [
+          "#4cc9ff",
+          "#101726",
+          "#0b0f16"
+        ],
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "length",
+                "constraint": 3
+              },
+              {
+                "flag": "custom"
+              }
+            ]
+          }
+        ],
+        "description": "Three hex colors used for card and case-study gradients.",
+        "of": [
+          {
+            "type": "string"
+          }
+        ],
+        "name": "palette",
+        "type": "array"
+      },
+      {
+        "description": "Optional quote shown on the project detail page.",
+        "to": [
+          {
+            "type": "testimonial"
+          }
+        ],
+        "name": "testimonial",
+        "type": "reference",
+        "title": "Linked Testimonial"
+      },
+      {
+        "name": "cta",
+        "type": "ctaSettings",
+        "title": "CTA Settings"
+      },
+      {
+        "fields": [
+          {
+            "validation": [
+              {
+                "level": "error",
+                "rules": [
+                  {
+                    "flag": "presence",
+                    "constraint": "required"
+                  },
+                  {
+                    "flag": "max",
+                    "constraint": 70
+                  }
+                ]
+              }
+            ],
+            "name": "title",
+            "type": "string",
+            "title": "SEO Title"
+          },
+          {
+            "rows": 3,
+            "validation": [
+              {
+                "level": "error",
+                "rules": [
+                  {
+                    "flag": "presence",
+                    "constraint": "required"
+                  },
+                  {
+                    "flag": "max",
+                    "constraint": 160
+                  }
+                ]
+              }
+            ],
+            "name": "description",
+            "type": "text",
+            "title": "SEO Description"
+          }
+        ],
+        "name": "seo",
+        "type": "object",
+        "title": "SEO"
+      }
+    ],
+    "name": "project",
+    "type": "document"
+  },
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              },
+              {
+                "flag": "min",
+                "constraint": 4
+              },
+              {
+                "flag": "max",
+                "constraint": 120
+              }
+            ]
+          }
+        ],
+        "name": "title",
+        "type": "string"
+      },
+      {
+        "options": {
+          "source": "title",
+          "maxLength": 96
+        },
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "custom"
+              },
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ]
+          }
+        ],
+        "name": "slug",
+        "type": "slug"
+      },
+      {
+        "options": {
+          "list": [
+            "Game Development",
+            "Live Ops / Content",
+            "Branded Experiences",
+            "Systems / UX",
+            "Technical Support"
+          ]
+        },
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "valid",
+                "constraint": [
+                  "Game Development",
+                  "Live Ops / Content",
+                  "Branded Experiences",
+                  "Systems / UX",
+                  "Technical Support"
+                ]
+              },
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ]
+          }
+        ],
+        "name": "category",
+        "type": "string"
+      },
+      {
+        "rows": 4,
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              },
+              {
+                "flag": "min",
+                "constraint": 20
+              },
+              {
+                "flag": "max",
+                "constraint": 320
+              }
+            ]
+          }
+        ],
+        "name": "summary",
+        "type": "text"
+      },
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "max",
+                "constraint": 6
+              }
+            ]
+          }
+        ],
+        "description": "Short buyer-facing results this service is meant to support.",
+        "of": [
+          {
+            "type": "string"
+          }
+        ],
+        "name": "outcomes",
+        "type": "array"
+      },
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              },
+              {
+                "flag": "max",
+                "constraint": 80
+              }
+            ]
+          }
+        ],
+        "name": "timeline",
+        "type": "string",
+        "title": "Typical Timeline"
+      },
+      {
+        "rows": 3,
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              },
+              {
+                "flag": "min",
+                "constraint": 16
+              },
+              {
+                "flag": "max",
+                "constraint": 320
+              }
+            ]
+          }
+        ],
+        "description": "How buyers usually engage this service.",
+        "name": "engagementModel",
+        "type": "text"
+      },
+      {
+        "rows": 3,
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              },
+              {
+                "flag": "min",
+                "constraint": 16
+              },
+              {
+                "flag": "max",
+                "constraint": 320
+              }
+            ]
+          }
+        ],
+        "name": "idealFor",
+        "type": "text"
+      },
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "max",
+                "constraint": 8
+              }
+            ]
+          }
+        ],
+        "of": [
+          {
+            "type": "string"
+          }
+        ],
+        "name": "deliverables",
+        "type": "array"
+      },
+      {
+        "initialValue": "Start this conversation",
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "max",
+                "constraint": 60
+              }
+            ]
+          }
+        ],
+        "name": "inquiryLabel",
+        "type": "string",
+        "title": "Inquiry CTA Label"
+      },
+      {
+        "options": {
+          "hotspot": true
+        },
+        "description": "Optional supporting image for service cards or section accents. Recommended: 1200x900 (4:3) or 1600x900 (16:9), ideally under 700 KB. Use clean proof or directional mood imagery, not noisy backgrounds that compete with copy.",
+        "name": "featuredImage",
+        "type": "richImage"
+      }
+    ],
+    "name": "service",
+    "type": "document"
+  },
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              },
+              {
+                "flag": "min",
+                "constraint": 8
+              },
+              {
+                "flag": "max",
+                "constraint": 140
+              }
+            ]
+          }
+        ],
+        "name": "question",
+        "type": "string"
+      },
+      {
+        "rows": 4,
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              },
+              {
+                "flag": "min",
+                "constraint": 16
+              },
+              {
+                "flag": "max",
+                "constraint": 500
+              }
+            ]
+          }
+        ],
+        "name": "answer",
+        "type": "text"
+      },
+      {
+        "options": {
+          "list": [
+            "General",
+            "Process",
+            "Contact"
+          ]
+        },
+        "initialValue": "General",
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "valid",
+                "constraint": [
+                  "General",
+                  "Process",
+                  "Contact"
+                ]
+              },
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ]
+          }
+        ],
+        "name": "category",
+        "type": "string"
+      },
+      {
+        "initialValue": 0,
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "min",
+                "constraint": 0
+              }
+            ]
+          }
+        ],
+        "description": "Lower numbers appear first.",
+        "name": "orderRank",
+        "type": "number",
+        "title": "Order"
+      }
+    ],
+    "name": "faqItem",
+    "type": "document",
+    "title": "FAQ Item"
+  },
+  {
+    "fields": [
+      {
+        "rows": 4,
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              },
+              {
+                "flag": "min",
+                "constraint": 12
+              },
+              {
+                "flag": "max",
+                "constraint": 500
+              }
+            ]
+          }
+        ],
+        "name": "quote",
+        "type": "text"
+      },
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              },
+              {
+                "flag": "min",
+                "constraint": 2
+              },
+              {
+                "flag": "max",
+                "constraint": 80
+              }
+            ]
+          }
+        ],
+        "name": "name",
+        "type": "string"
+      },
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              },
+              {
+                "flag": "min",
+                "constraint": 2
+              },
+              {
+                "flag": "max",
+                "constraint": 80
+              }
+            ]
+          }
+        ],
+        "name": "role",
+        "type": "string"
+      },
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              },
+              {
+                "flag": "min",
+                "constraint": 2
+              },
+              {
+                "flag": "max",
+                "constraint": 80
+              }
+            ]
+          }
+        ],
+        "name": "company",
+        "type": "string"
+      },
+      {
+        "options": {
+          "hotspot": true
+        },
+        "description": "Optional headshot or logo lockup for quote presentation. Use a portrait asset when featuring a person; use a clean square or vertical logo lockup when the brand should carry the trust signal. Use a clean portrait or logo lockup with strong subject separation. Recommended: 1200x1500 (4:5) or 1080x1350, ideally under 500 KB. Use portrait orientation when the subject is a person, speaker, or brand mark that reads best vertically.",
+        "name": "portrait",
+        "type": "richImage"
+      }
+    ],
+    "name": "testimonial",
+    "type": "document"
+  },
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              },
+              {
+                "flag": "min",
+                "constraint": 2
+              },
+              {
+                "flag": "max",
+                "constraint": 80
+              }
+            ]
+          }
+        ],
+        "name": "name",
+        "type": "string"
+      },
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              },
+              {
+                "flag": "min",
+                "constraint": 2
+              },
+              {
+                "flag": "max",
+                "constraint": 120
+              }
+            ]
+          }
+        ],
+        "name": "role",
+        "type": "string"
+      },
+      {
+        "rows": 4,
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              },
+              {
+                "flag": "min",
+                "constraint": 20
+              },
+              {
+                "flag": "max",
+                "constraint": 500
+              }
+            ]
+          }
+        ],
+        "name": "bio",
+        "type": "text"
+      },
+      {
+        "rows": 3,
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              },
+              {
+                "flag": "min",
+                "constraint": 12
+              },
+              {
+                "flag": "max",
+                "constraint": 240
+              }
+            ]
+          }
+        ],
+        "description": "Short line describing the delivery value this person adds.",
+        "name": "focus",
+        "type": "text",
+        "title": "Trust Signal"
+      },
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "max",
+                "constraint": 8
+              }
+            ]
+          }
+        ],
+        "of": [
+          {
+            "type": "string"
+          }
+        ],
+        "name": "skills",
+        "type": "array"
+      },
+      {
+        "options": {
+          "hotspot": true
+        },
+        "description": "Optional profile image. Leave empty if the team profile is text-only. Use a clean portrait or logo lockup with strong subject separation. Recommended: 1200x1500 (4:5) or 1080x1350, ideally under 500 KB. Use portrait orientation when the subject is a person, speaker, or brand mark that reads best vertically. Set hotspot on the eyes or face so tight crops still feel intentional on smaller cards.",
+        "name": "portrait",
+        "type": "richImage"
+      }
+    ],
+    "name": "teamMember",
+    "type": "document"
+  }
+]

@@ -2,7 +2,7 @@ import { ProjectCoverMedia } from "@/components/media/site-media";
 import type { TeamMember } from "@/lib/site-content";
 
 export function TeamCard({ member }: { member: TeamMember }) {
-  const displayName = member.name || "Team role";
+  const displayName = member.name || "Studio team";
   const initials = displayName
     .split(" ")
     .map((part) => part[0] ?? "")
@@ -29,24 +29,24 @@ export function TeamCard({ member }: { member: TeamMember }) {
         </ProjectCoverMedia>
       </div>
       <h3 className="mt-5 text-2xl font-semibold text-white">{displayName}</h3>
-      <p className="mt-1 text-sm text-[var(--color-vol-blue)]">{member.role || "Studio role"}</p>
-      <p className="mt-4 text-sm leading-7 text-[var(--color-fog-300)]">
-        {member.bio || "Add a short credibility note here so buyers understand this role quickly."}
-      </p>
-      <p className="mt-4 text-sm leading-7 text-[var(--color-fog-300)]">
-        {member.focus || "Use this line for the delivery trust signal this role adds."}
-      </p>
-      <div className="mt-5 flex flex-wrap gap-2">
-        {hasSkills ? (
-          member.skills.map((skill) => (
+      {member.role ? (
+        <p className="mt-1 text-sm text-[var(--color-vol-blue)]">{member.role}</p>
+      ) : null}
+      {member.bio ? (
+        <p className="mt-4 text-sm leading-7 text-[var(--color-fog-300)]">{member.bio}</p>
+      ) : null}
+      {member.focus ? (
+        <p className="mt-4 text-sm leading-7 text-[var(--color-fog-300)]">{member.focus}</p>
+      ) : null}
+      {hasSkills ? (
+        <div className="mt-5 flex flex-wrap gap-2">
+          {member.skills.map((skill) => (
             <span key={skill} className="chip text-xs text-[var(--color-fog-300)]">
               {skill}
             </span>
-          ))
-        ) : (
-          <span className="chip text-xs text-[var(--color-fog-300)]">Skill set in progress</span>
-        )}
-      </div>
+          ))}
+        </div>
+      ) : null}
     </article>
   );
 }

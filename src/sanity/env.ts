@@ -1,17 +1,20 @@
+import { normalizeEnvValue, resolveSanityEnvironment } from "@/sanity/env-shared";
+
 const DEFAULT_SANITY_API_VERSION = "2026-03-03";
 const DEFAULT_SANITY_STUDIO_TITLE = "Game Studio Portfolio CMS";
 
-function normalizeEnvValue(value?: string) {
-  return value?.trim() || "";
+const resolvedSanityEnv = resolveSanityEnvironment(process.env);
+const sanityConfigMismatchError =
+  resolvedSanityEnv.issues.length > 0
+    ? `[sanity_config_mismatch] ${resolvedSanityEnv.issues.join(" ")} Set NEXT_PUBLIC_SANITY_PROJECT_ID, NEXT_PUBLIC_SANITY_DATASET, SANITY_STUDIO_PROJECT_ID, and SANITY_STUDIO_DATASET to the same Sanity project and dataset.`
+    : "";
+
+if (sanityConfigMismatchError) {
+  throw new Error(sanityConfigMismatchError);
 }
 
-const studioProjectId = normalizeEnvValue(process.env.SANITY_STUDIO_PROJECT_ID);
-const publicProjectId = normalizeEnvValue(process.env.NEXT_PUBLIC_SANITY_PROJECT_ID);
-const studioDataset = normalizeEnvValue(process.env.SANITY_STUDIO_DATASET);
-const publicDataset = normalizeEnvValue(process.env.NEXT_PUBLIC_SANITY_DATASET);
-
-export const sanityProjectId = studioProjectId || publicProjectId;
-export const sanityDataset = studioDataset || publicDataset;
+export const sanityProjectId = resolvedSanityEnv.projectId;
+export const sanityDataset = resolvedSanityEnv.dataset;
 export const sanityApiVersion =
   normalizeEnvValue(process.env.NEXT_PUBLIC_SANITY_API_VERSION) ||
   DEFAULT_SANITY_API_VERSION;
@@ -22,7 +25,7 @@ export const sanityStudioTitle =
 export const sanityEnabled = Boolean(sanityProjectId && sanityDataset);
 
 const SANITY_CONFIG_REQUIREMENTS =
-  "Set SANITY_STUDIO_PROJECT_ID and SANITY_STUDIO_DATASET, or set NEXT_PUBLIC_SANITY_PROJECT_ID and NEXT_PUBLIC_SANITY_DATASET. Keep both pairs aligned when you define both.";
+  "Set NEXT_PUBLIC_SANITY_PROJECT_ID, NEXT_PUBLIC_SANITY_DATASET, SANITY_STUDIO_PROJECT_ID, and SANITY_STUDIO_DATASET to the same Sanity project and dataset.";
 const warnedSanityContexts = new Set<string>();
 
 export function getSanityConfigError() {

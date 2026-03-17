@@ -9,6 +9,7 @@ export function TestimonialCard({
   compact?: boolean;
 }) {
   const portraitSrc = testimonial.portraitUrl || "/placeholders/portrait-signal.svg";
+  const attribution = [testimonial.role, testimonial.company].filter(Boolean).join(", ");
 
   return (
     <article className="section-shell interactive-card rounded-[var(--radius-xl)] p-6 md:p-7">
@@ -30,9 +31,7 @@ export function TestimonialCard({
       </p>
       <div className="mt-5 text-sm text-[var(--color-fog-300)]">
         <div className="font-semibold text-white">{testimonial.name}</div>
-        <div>
-          {testimonial.role}, {testimonial.company}
-        </div>
+        {attribution ? <div>{attribution}</div> : null}
       </div>
     </article>
   );

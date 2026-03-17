@@ -17,6 +17,10 @@ type CreateSanityClientOptions = {
   withReadToken?: boolean;
 };
 
+type SafeSanityFetchOptions = {
+  tags?: string[];
+};
+
 export function createSanityClient(options?: CreateSanityClientOptions) {
   const config = options?.requireConfig
     ? requireSanityConfig("createSanityClient")
@@ -44,20 +48,32 @@ export function createSanityClient(options?: CreateSanityClientOptions) {
 }
 
 export const sanityClient = createSanityClient();
+const sanityServerClient = createSanityClient({ useCdn: false });
 
 export async function safeSanityFetch<T>(
   query: string,
   params?: QueryParams,
+  options?: SafeSanityFetchOptions,
 ): Promise<T | null> {
-  if (!sanityClient) {
+  if (!sanityServerClient) {
     logSanityConfigWarning("safeSanityFetch");
     return null;
   }
 
+  const tags = Array.from(
+    new Set(
+      (options?.tags ?? [])
+        .map((tag) => tag.trim())
+        .filter(Boolean),
+    ),
+  );
+
   try {
-    return await sanityClient.fetch<T>(query, params ?? {}, {
-      next: { revalidate: 60 },
-    });
+    return await sanityServerClient.fetch<T>(
+      query,
+      params ?? {},
+      tags.length > 0 ? { next: { tags } } : undefined,
+    );
   } catch (error) {
     console.error("[sanity_fetch_failed]", error);
     return null;

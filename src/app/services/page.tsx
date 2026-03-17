@@ -82,7 +82,7 @@ export default async function ServicesPage() {
     },
     {
       title: "What happens before contact",
-      body: "This page is built to help you self-qualify so the first inquiry can be narrower, faster, and more useful.",
+      body: "The service groups narrow fit, scope, and delivery shape before the first conversation starts.",
     },
   ];
   const intakeChecklist = [

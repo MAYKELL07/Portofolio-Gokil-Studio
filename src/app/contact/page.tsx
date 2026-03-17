@@ -17,6 +17,13 @@ export const metadata = buildMetadata({
 
 export default async function ContactPage() {
   const [settings, faqItems] = await Promise.all([getSiteSettings(), getFaqItems()]);
+  const hasPrimaryEmail = Boolean(settings.primaryEmail?.trim());
+  const hasSocials = settings.socials.length > 0;
+  const hasDirectChannels = hasPrimaryEmail || hasSocials;
+  const responseDetails = [
+    settings.responseSla?.trim() || "",
+    settings.timezone?.trim() ? `Timezone: ${settings.timezone}` : "",
+  ].filter(Boolean);
 
   return (
     <div className="page-stack pb-20 pt-6 md:pb-28">
@@ -52,66 +59,78 @@ export default async function ContactPage() {
           <ContactForm />
 
           <div className="grid gap-6">
-            <Reveal className="section-shell rounded-[var(--radius-xl)] p-6 md:p-7">
-              <p className="eyebrow">Direct channels</p>
-              <div className="mt-5 grid gap-4">
-                <TrackedAnchor
-                  href={`mailto:${settings.primaryEmail}`}
-                  eventName={ANALYTICS_EVENTS.OUTBOUND_LINK_CLICK}
-                  eventPayload={{
-                    page: "contact",
-                    section: "direct_channels",
-                    link_label: "contact_email",
-                    link_type: "email",
-                  }}
-                  className="rounded-[var(--radius-lg)] border border-[var(--color-border-strong)] bg-white/[0.03] p-5 transition hover:border-[var(--color-border-accent)]"
-                >
-                  <div className="flex items-center gap-3 text-sm font-semibold text-white">
-                    <Mail className="h-4 w-4 text-[var(--color-vol-blue)]" />
-                    Email
-                  </div>
-                  <div className="mt-3 text-sm text-[var(--color-fog-300)]">
-                    {settings.primaryEmail}
-                  </div>
-                </TrackedAnchor>
-                {settings.socials.map((social) => (
-                  <TrackedAnchor
-                    key={social.label}
-                    href={social.href}
-                    target="_blank"
-                    rel="noreferrer"
-                    eventName={ANALYTICS_EVENTS.OUTBOUND_LINK_CLICK}
-                    eventPayload={{
-                      page: "contact",
-                      section: "direct_channels",
-                      link_label: `contact_${social.label.toLowerCase()}`,
-                      link_type: "social",
-                    }}
-                    className="rounded-[var(--radius-lg)] border border-[var(--color-border-strong)] bg-white/[0.03] p-5 transition hover:border-[var(--color-border-accent)]"
-                  >
-                    <div className="flex items-center gap-3 text-sm font-semibold text-white">
-                      <MessageSquareMore className="h-4 w-4 text-[var(--color-vol-blue)]" />
-                      {social.label}
-                    </div>
-                    <div className="mt-3 text-sm text-[var(--color-fog-300)]">
-                      Alternative contact channel if you prefer to reach out there.
-                    </div>
-                  </TrackedAnchor>
-                ))}
-              </div>
-            </Reveal>
+            {hasDirectChannels ? (
+              <Reveal className="section-shell rounded-[var(--radius-xl)] p-6 md:p-7">
+                <p className="eyebrow">Direct channels</p>
+                <div className="mt-5 grid gap-4">
+                  {hasPrimaryEmail ? (
+                    <TrackedAnchor
+                      href={`mailto:${settings.primaryEmail}`}
+                      eventName={ANALYTICS_EVENTS.OUTBOUND_LINK_CLICK}
+                      eventPayload={{
+                        page: "contact",
+                        section: "direct_channels",
+                        link_label: "contact_email",
+                        link_type: "email",
+                      }}
+                      className="rounded-[var(--radius-lg)] border border-[var(--color-border-strong)] bg-white/[0.03] p-5 transition hover:border-[var(--color-border-accent)]"
+                    >
+                      <div className="flex items-center gap-3 text-sm font-semibold text-white">
+                        <Mail className="h-4 w-4 text-[var(--color-vol-blue)]" />
+                        Email
+                      </div>
+                      <div className="mt-3 text-sm text-[var(--color-fog-300)]">
+                        {settings.primaryEmail}
+                      </div>
+                    </TrackedAnchor>
+                  ) : null}
+                  {settings.socials.map((social) => (
+                    <TrackedAnchor
+                      key={social.label}
+                      href={social.href}
+                      target="_blank"
+                      rel="noreferrer"
+                      eventName={ANALYTICS_EVENTS.OUTBOUND_LINK_CLICK}
+                      eventPayload={{
+                        page: "contact",
+                        section: "direct_channels",
+                        link_label: `contact_${social.label.toLowerCase()}`,
+                        link_type: "social",
+                      }}
+                      className="rounded-[var(--radius-lg)] border border-[var(--color-border-strong)] bg-white/[0.03] p-5 transition hover:border-[var(--color-border-accent)]"
+                    >
+                      <div className="flex items-center gap-3 text-sm font-semibold text-white">
+                        <MessageSquareMore className="h-4 w-4 text-[var(--color-vol-blue)]" />
+                        {social.label}
+                      </div>
+                      <div className="mt-3 text-sm text-[var(--color-fog-300)]">
+                        Alternative contact channel if you prefer to reach out there.
+                      </div>
+                    </TrackedAnchor>
+                  ))}
+                </div>
+              </Reveal>
+            ) : null}
 
             <Reveal className="section-shell rounded-[var(--radius-xl)] p-6 md:p-7" delay={0.05}>
               <p className="eyebrow">Response expectations</p>
               <div className="mt-5 space-y-4 text-sm leading-7 text-[var(--color-fog-300)]">
-                <div className="flex items-start gap-3">
-                  <Clock3 className="mt-1 h-4 w-4 text-[var(--color-signal-lime)]" />
-                  <span>{settings.responseSla}</span>
-                </div>
-                <div className="flex items-start gap-3">
-                  <ArrowUpRight className="mt-1 h-4 w-4 text-[var(--color-vol-blue)]" />
-                  <span>Timezone: {settings.timezone}</span>
-                </div>
+                {responseDetails.map((detail, index) => {
+                  const Icon = index === 0 ? Clock3 : ArrowUpRight;
+
+                  return (
+                    <div key={detail} className="flex items-start gap-3">
+                      <Icon
+                        className={`mt-1 h-4 w-4 ${
+                          index === 0
+                            ? "text-[var(--color-signal-lime)]"
+                            : "text-[var(--color-vol-blue)]"
+                        }`}
+                      />
+                      <span>{detail}</span>
+                    </div>
+                  );
+                })}
                 <p>
                   After you submit, you will see an on-page confirmation immediately.
                   If the project looks like a fit, the next step is usually a reply,

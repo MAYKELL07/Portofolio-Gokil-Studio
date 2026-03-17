@@ -70,50 +70,6 @@ export default async function Home() {
     ],
   };
 
-  const scrollStorySteps = [
-    {
-      id: "offer",
-      eyebrow: "Offer alignment",
-      title: homePage.outcomeCards[0]?.title ?? homePage.serviceOverview.title,
-      body: homePage.serviceOverview.body,
-      points: homePage.serviceOverview.points.slice(0, 4),
-      ctaLabel: homePage.outcomeCards[0]?.label ?? "Review services",
-      ctaHref: homePage.outcomeCards[0]?.href ?? "/services",
-    },
-    {
-      id: "buyers",
-      eyebrow: "Buyer fit",
-      title: "Built for teams that need a shipping partner, not extra noise.",
-      body:
-        "The story moves from scope to fit quickly, so brand teams, agencies, and live-game operators can qualify the studio without digging through filler.",
-      points: homePage.buyerTypes.map((buyer) => `${buyer.title}: ${buyer.body}`),
-      ctaLabel: "Explore services",
-      ctaHref: "/services",
-    },
-    {
-      id: "proof",
-      eyebrow: "Proof fast",
-      title: homePage.outcomeCards[1]?.title ?? homePage.resultsSection.title,
-      body:
-        "The first proof layer stays readable before a call. Visitors can move from promise to evidence in the same browsing pass.",
-      points: homePage.resultsSection.metrics.map(
-        (metric) => `${metric.label}: ${metric.value}`,
-      ),
-      ctaLabel: homePage.outcomeCards[1]?.label ?? "See featured proof",
-      ctaHref: homePage.outcomeCards[1]?.href ?? "#featured-work",
-    },
-    {
-      id: "delivery",
-      eyebrow: "Delivery clarity",
-      title: "Milestones stay visible from kickoff through handoff.",
-      body:
-        "The final scroll beat shifts from promise to operating model, showing how the work stays constrained, readable, and launch-focused.",
-      points: homePage.processSteps.map((step) => `${step.title}: ${step.body}`),
-      ctaLabel: homePage.outcomeCards[2]?.label ?? "Start inquiry",
-      ctaHref: homePage.outcomeCards[2]?.href ?? "/contact",
-    },
-  ];
-
   return (
     <div className="page-stack pb-20 md:pb-28">
       <script
@@ -128,10 +84,10 @@ export default async function Home() {
       />
 
       <HomeScrollStory
-        eyebrow="Scrollstory"
-        title="The first long scroll now sells the studio by sequence, not by stacked blocks."
-        intro="Offer, buyer fit, proof, and delivery stay in one visual thread so visitors qualify faster before they decide to contact you."
-        steps={scrollStorySteps}
+        eyebrow={homePage.scrollStory.eyebrow}
+        title={homePage.scrollStory.title}
+        intro={homePage.scrollStory.intro}
+        steps={homePage.scrollStory.chapters}
         mediaSrc={homePage.heroBackgroundImageUrl}
         mediaAlt={homePage.heroBackgroundImageAlt}
       />

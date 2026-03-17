@@ -20,6 +20,30 @@ export function FilterableWorkGrid({ projects }: FilterableWorkGridProps) {
   const [platform, setPlatform] = useState<FilterValue>("All");
   const [serviceType, setServiceType] = useState<FilterValue>("All");
 
+  if (projects.length === 0) {
+    return (
+      <div className="section-shell rounded-[var(--radius-xl)] px-6 py-8">
+        <div className="grid gap-5 lg:grid-cols-[1fr,auto] lg:items-center">
+          <div>
+            <p className="text-lg font-semibold text-white">Case studies will appear here once work is published.</p>
+            <p className="mt-2 max-w-2xl text-sm leading-7 text-[var(--color-fog-300)]">
+              The work index is live and ready, but no public project entries are available yet.
+            </p>
+          </div>
+          <ButtonLink
+            href="/contact"
+            eventName="cta_click"
+            eventPayload={{ placement: "work_empty_state", label: "Start a Project" }}
+            className="w-full justify-center sm:w-auto"
+          >
+            Start a Project
+            <ArrowRight className="h-4 w-4" />
+          </ButtonLink>
+        </div>
+      </div>
+    );
+  }
+
   const categoryOptions = ["All", ...new Set(projects.map((project) => project.projectType))];
   const platformOptions = ["All", ...new Set(projects.map((project) => project.platform))];
   const serviceOptions = [

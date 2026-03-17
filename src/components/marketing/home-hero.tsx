@@ -33,6 +33,14 @@ export function HomeHero({
     "UI / UX polish and post-launch support",
   ];
   const visualImageUrl = heroImageUrl || "/placeholders/studio-signal-texture.svg";
+  const hasResponseSla = Boolean(settings.responseSla?.trim());
+  const hasTimezone = Boolean(settings.timezone?.trim());
+  const hasPrimaryEmail = Boolean(settings.primaryEmail?.trim());
+  const proofMeta = [
+    hasResponseSla ? settings.responseSla : null,
+    hasTimezone ? `Timezone: ${settings.timezone}` : null,
+    hasPrimaryEmail ? `Contact: ${settings.primaryEmail}` : null,
+  ].filter((item): item is string => Boolean(item));
 
   return (
     <section className="site-container pb-10 pt-6 md:pb-16">
@@ -53,10 +61,12 @@ export function HomeHero({
                 <Sparkles className="h-3.5 w-3.5 text-[var(--color-vol-blue)]" />
                 {settings.heroEyebrow}
               </span>
-              <span className="chip text-xs font-semibold uppercase tracking-[0.18em] text-[var(--color-fog-300)]">
-                <Gauge className="h-3.5 w-3.5 text-[var(--color-signal-lime)]" />
-                {settings.responseSla}
-              </span>
+              {hasResponseSla ? (
+                <span className="chip text-xs font-semibold uppercase tracking-[0.18em] text-[var(--color-fog-300)]">
+                  <Gauge className="h-3.5 w-3.5 text-[var(--color-signal-lime)]" />
+                  {settings.responseSla}
+                </span>
+              ) : null}
             </div>
 
             <div className="mt-8">
@@ -127,13 +137,15 @@ export function HomeHero({
               <ArrowUpRight className="h-4 w-4" />
             </ButtonLink>
 
-            <div className="mt-8 flex flex-wrap gap-2">
-              {settings.proofChips.map((chip) => (
-                <span key={chip} className="chip text-sm text-[var(--color-fog-300)]">
-                  {chip}
-                </span>
-              ))}
-            </div>
+            {settings.proofChips.length > 0 ? (
+              <div className="mt-8 flex flex-wrap gap-2">
+                {settings.proofChips.map((chip) => (
+                  <span key={chip} className="chip text-sm text-[var(--color-fog-300)]">
+                    {chip}
+                  </span>
+                ))}
+              </div>
+            ) : null}
           </Reveal>
 
           <Reveal
@@ -147,69 +159,44 @@ export function HomeHero({
             <div className="signal-panel signal-outline relative rounded-[1.8rem] p-5">
               <div className="grid gap-4">
                 <div className="signal-panel rounded-[1.4rem] p-5">
-                  <div className="flex items-center justify-between text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--color-fog-500)]">
-                    <span>Story-led hero board</span>
-                    <span>Image-backed at first glance</span>
-                  </div>
-                  <div className="mt-5 rounded-[1.4rem] border border-white/6 bg-[linear-gradient(135deg,#24140d,#110907)] p-6">
-                    <DecorativeBackgroundMedia
-                      src={visualImageUrl}
-                      ratio="landscape"
-                      sizes="(max-width: 1023px) 100vw, 36vw"
-                      quality={64}
-                      className="mb-4"
-                      overlayClassName="bg-[linear-gradient(90deg,rgba(17,9,7,0.82),rgba(17,9,7,0.34),rgba(17,9,7,0.82))]"
-                      imageClassName="opacity-70"
-                    />
-                    <div className="grid gap-4">
-                      <div className="grid grid-cols-2 gap-4">
-                        <div className="signal-panel rounded-3xl p-4">
-                          <div className="font-mono text-[11px] uppercase tracking-[0.2em] text-[var(--color-fog-500)]">
-                            Story beat one
-                          </div>
-                          <div className="mt-4 text-sm font-semibold text-white">
-                            Put the offer and the visual world in the same frame.
-                          </div>
-                          <div className="mt-4 h-16 rounded-2xl bg-[linear-gradient(135deg,rgba(242,166,90,0.35),transparent)]" />
-                        </div>
-                        <div className="signal-panel rounded-3xl p-4">
-                          <div className="font-mono text-[11px] uppercase tracking-[0.2em] text-[var(--color-fog-500)]">
-                            Story beat two
-                          </div>
-                          <div className="mt-4 text-sm font-semibold text-white">
-                            Let the long scroll explain fit, proof, and delivery.
-                          </div>
-                          <div className="mt-4 h-16 rounded-2xl bg-[linear-gradient(135deg,rgba(207,111,73,0.35),transparent)]" />
-                        </div>
-                      </div>
-                      <div className="signal-panel rounded-3xl p-4">
-                        <div className="font-mono text-[11px] uppercase tracking-[0.2em] text-[var(--color-fog-500)]">
-                          Launch packet
-                        </div>
-                        <div className="mt-4 grid gap-3 md:grid-cols-[1.15fr,0.85fr]">
-                          <div className="rounded-2xl border border-white/5 bg-black/20 px-4 py-4 text-sm text-[var(--color-fog-300)]">
-                            Warm surfaces, stronger imagery, and a guided scroll sequence now establish the studio before the visitor reaches the work grid.
-                          </div>
-                          <div className="grid gap-3">
-                            {["Offer clarity", "Proof pacing", "Contact intent"].map((item) => (
-                              <div
-                                key={item}
-                                className="rounded-2xl border border-white/5 bg-black/20 px-3 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-white/70"
-                              >
-                                {item}
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      </div>
+                  <DecorativeBackgroundMedia
+                    src={visualImageUrl}
+                    ratio="landscape"
+                    sizes="(max-width: 1023px) 100vw, 36vw"
+                    quality={64}
+                    className="rounded-[1.5rem]"
+                    overlayClassName="bg-[linear-gradient(180deg,rgba(17,9,7,0.18),rgba(17,9,7,0.3),rgba(17,9,7,0.82))]"
+                    imageClassName="opacity-72"
+                  />
+                  <div className="mt-5 grid gap-4">
+                    <div className="rounded-[1.4rem] border border-white/6 bg-black/20 p-5">
+                      <p className="eyebrow">Proof</p>
+                      <h2 className="mt-3 text-xl font-semibold text-white">{settings.tagline}</h2>
+                      {proofMeta.length > 0 ? (
+                        <p className="mt-4 text-sm leading-7 text-[var(--color-fog-300)]">
+                          {proofMeta.join(" • ")}
+                        </p>
+                      ) : null}
                     </div>
+
+                    {settings.proofChips.length > 0 ? (
+                      <div className="flex flex-wrap gap-2">
+                        {settings.proofChips.map((chip) => (
+                          <span key={chip} className="chip text-sm text-[var(--color-fog-300)]">
+                            {chip}
+                          </span>
+                        ))}
+                      </div>
+                    ) : null}
                   </div>
                 </div>
-                <div className="grid gap-4 md:grid-cols-3">
-                  {settings.heroMetrics.map((metric) => (
-                    <HeroMetric key={metric.label} metric={metric} />
-                  ))}
-                </div>
+                {settings.heroMetrics.length > 0 ? (
+                  <div className="grid gap-4 md:grid-cols-3">
+                    {settings.heroMetrics.map((metric) => (
+                      <HeroMetric key={metric.label} metric={metric} />
+                    ))}
+                  </div>
+                ) : null}
               </div>
             </div>
           </Reveal>

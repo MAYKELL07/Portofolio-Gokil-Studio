@@ -73,6 +73,12 @@ export const cmsCollections: ContentCollection[] = [
       "Homepage section copy and layout-driven content blocks that can be updated without code changes.",
     fields: [
       {
+        key: "scrollStory",
+        label: "Scroll Story",
+        type: "object",
+        description: "Dedicated homepage scroll-story section with managed chapter copy, proof points, CTAs, and optional media.",
+      },
+      {
         key: "outcomeCards",
         label: "Outcome Cards",
         type: "array",

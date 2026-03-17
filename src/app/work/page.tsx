@@ -28,8 +28,8 @@ export default async function WorkPage() {
                 Filter proof by category, platform, and service type.
               </h1>
               <p className="type-body-lg mt-6 max-w-3xl text-[var(--color-fog-300)]">
-                This page is built for buyers who need fast evidence: what was built, what changed,
-                and whether the team can handle their delivery model without forcing a long read.
+                Review shipped work by category, platform, and service type to find the closest
+                delivery fit without losing momentum.
               </p>
             </div>
             <div className="space-y-4">

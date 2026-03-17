@@ -31,6 +31,23 @@ export const homePageQuery = groq`
     heroBackgroundImage,
     "heroBackgroundImageUrl": heroBackgroundImage.asset->url,
     "heroBackgroundImageAlt": heroBackgroundImage.alt,
+    scrollStory{
+      eyebrow,
+      title,
+      intro,
+      "chapters": chapters[]{
+        "id": coalesce(_key, title),
+        eyebrow,
+        title,
+        body,
+        "points": proofPoints,
+        ctaLabel,
+        ctaHref,
+        media,
+        "mediaUrl": media.asset->url,
+        "mediaAlt": media.alt
+      }
+    },
     "outcomeCards": outcomeCards[]{
       eyebrow,
       title,

@@ -444,14 +444,6 @@ export const projectMediaType = defineType({
       title: "label",
       subtitle: "type",
       media: "image",
-      poster: "poster",
-    },
-    prepare(selection) {
-      return {
-        title: selection.title,
-        subtitle: selection.subtitle === "video" ? "Video media" : "Image media",
-        media: selection.media || selection.poster,
-      };
     },
   },
 });
