@@ -230,11 +230,11 @@ export type HomePageContent = {
 
 const siteSettings: SiteSettings = {
   studioName: "Gokil Studio",
-  tagline: "Roblox production support for launches, systems work, and live updates.",
-  heroEyebrow: "Roblox production partner",
-  heroHeadline: "Launch-ready Roblox work with clear scope, visible milestones, and dependable delivery.",
+  tagline: "Roblox game development outsourcing for teams that need reliable delivery, clear milestones, and production support.",
+  heroEyebrow: "Roblox game development outsourcing",
+  heroHeadline: "We build Roblox games for clients who need reliable execution, clear milestones, and production support.",
   heroDescription:
-    "We help brands, agencies, and game teams ship Roblox launches, feature sprints, and live updates with tight scope control, readable UX, and production-safe execution.",
+    "We help studios, brands, publishers, and founders ship Roblox game projects with dependable build support, structured delivery, and a team that can carry production forward without adding chaos.",
   primaryEmail: "",
   timezone: "",
   responseSla: "",
@@ -250,57 +250,65 @@ const siteSettings: SiteSettings = {
 };
 
 const homePageContent: HomePageContent = {
-  heroBackgroundImageAlt: "Cinematic Roblox environment",
+  heroBackgroundImageAlt: "Roblox game project screenshot",
   scrollStory: {
-    eyebrow: "Studio story",
-    title: "Roblox production for teams that need launch-ready execution and a studio they can trust.",
+    eyebrow: "Partner model",
+    title: "Roblox delivery support for clients hiring an external team.",
     intro:
-      "See what the studio offers, who it works best with, the proof behind the work, and the clearest next step when you are ready to talk.",
+      "See what the team does, who it fits, how work is delivered, and how to start.",
     chapters: [
-      {
-        id: "offer",
-        eyebrow: "Studio offer",
-        title: "Roblox production support built for teams that need sharp scope and dependable delivery.",
-        body:
-          "The studio takes on launches, feature sprints, branded experiences, and live updates with a process designed to keep production readable, player-facing decisions strong, and the work moving toward ship.",
-        points: [
-          "Full Roblox MVPs for new launches",
-          "Feature and systems sprints for live games",
-          "UI / UX polish and post-launch support",
-        ],
-        ctaLabel: "Review services",
-        ctaHref: "/services",
-      },
-      {
-        id: "buyers",
-        eyebrow: "Who it serves",
-        title: "A strong fit for brands, agencies, and game teams that need a reliable Roblox partner.",
-        body:
-          "The studio plugs into campaign launches, white-label delivery plans, and active game roadmaps when internal teams need experienced production support without adding confusion or drag to the schedule.",
-        points: [
-          "Brand clients: launch and activation support without a messy production process",
-          "Agencies: dependable white-label execution with cleaner handoff",
-          "Game teams: systems, UI, polish, and live support without building a full internal team",
-        ],
-        ctaLabel: "Explore services",
-        ctaHref: "/services",
-      },
-      {
-        id: "proof",
-        eyebrow: "Proof",
-        title: "The work is backed by shipped projects, measurable outcomes, and clear communication.",
-        body:
-          "Case studies, delivery metrics, and client feedback show how the studio turns strategy into launch-ready work, whether the goal is stronger onboarding, better retention, or a cleaner release window.",
-        points: [],
-        ctaLabel: "See featured proof",
-        ctaHref: "#featured-work",
-      },
+        {
+          id: "offer",
+          eyebrow: "What we handle",
+          title: "Clients hire us to build games, features, systems, and production support for Roblox projects.",
+          body:
+            "The work is direct and service-led: full game development, co-development with an internal team, gameplay systems, UI / UX implementation, live ops support, and technical production help when delivery needs more hands or more senior execution.",
+          points: [
+            "Full game development for new client projects and launch builds",
+            "Co-development support for studios, publishers, and internal teams",
+            "Gameplay systems and feature implementation for active roadmaps",
+            "UI / UX implementation for player flows, menus, and in-game interfaces",
+            "Live ops support for updates, events, tuning, and post-launch delivery",
+            "Technical support for debugging, optimization, cleanup, and production unblockers",
+          ],
+          ctaLabel: "Review services",
+          ctaHref: "/services",
+        },
+        {
+          id: "buyers",
+          eyebrow: "Client fit",
+          title: "Built for teams that need an external Roblox team to help build, extend, or ship work faster.",
+          body:
+            "A strong fit for studios, publishers, agencies, brands, startups, and game teams that need extra production capacity. The team plugs into existing pipelines, supports white-label delivery when needed, and helps reduce pressure on internal teams by taking real build work off the roadmap.",
+          points: [
+            "Studios and publishers: external build support that works inside an existing production plan",
+            "Agencies and brand teams: white-label Roblox delivery with cleaner handoff and less execution risk",
+            "Startups and founders: experienced production support without hiring a full internal team first",
+            "Game teams: extra hands for systems, UI, live ops, and release work when internal bandwidth is tight",
+          ],
+          ctaLabel: "Explore services",
+          ctaHref: "/services",
+        },
+        {
+          id: "proof",
+          eyebrow: "Delivery proof",
+          title: "Each project is framed around the client goal, delivery role, scope, deliverables, and result.",
+          body:
+            "This section is not a gallery for visual browsing. It is client delivery proof: what the client needed, what the team was responsible for, what was delivered, and what outcome the work supported.",
+          points: [
+            "Client goal: the business or production problem the work needed to solve",
+            "Role and scope: what the team owned inside the build, sprint, or support engagement",
+            "Deliverables and result: what shipped and what changed because of the work",
+          ],
+          ctaLabel: "Review case studies",
+          ctaHref: "#featured-work",
+        },
       {
         id: "next-action",
         eyebrow: "Next action",
-        title: "Start with a brief, then move into a clear plan from discovery through launch.",
+        title: "Start with a brief, then move into a clear delivery plan from discovery through launch.",
         body:
-          "Once the goal is defined, the studio turns it into visible milestones, practical decisions, and steady execution so the next step feels concrete from the first conversation.",
+          "Once the goal is defined, the team turns it into visible milestones, practical decisions, and steady execution so the next step feels concrete from the first conversation.",
         points: [
           "Discovery: clarify audience, platform constraints, KPIs, and the smallest shippable scope",
           "Pre-production: lock the loop, milestone plan, risk map, and UX direction",
@@ -314,22 +322,22 @@ const homePageContent: HomePageContent = {
   outcomeCards: [
     {
       eyebrow: "Offer",
-      title: "See what the studio builds and how buyers engage.",
-      body: "Start with the offer: launches, white-label execution, systems work, and support for teams that need Roblox production help.",
+      title: "See what clients can hire the team to do.",
+      body: "Game builds, white-label execution, systems work, feature delivery, and production support.",
       href: "/services",
       label: "Review services",
     },
-    {
-      eyebrow: "Proof",
-      title: "Get to proof before the long explanation.",
-      body: "Move straight into case studies with outcomes, delivery role, and next-step context instead of generic showcase browsing.",
-      href: "#featured-work",
-      label: "See featured proof",
-    },
+      {
+        eyebrow: "Proof",
+        title: "Review delivery proof, not just visuals.",
+        body: "Move straight into case studies framed around the client goal, role, scope, deliverables, and result instead of generic showcase browsing.",
+        href: "#featured-work",
+        label: "Review case studies",
+      },
     {
       eyebrow: "Inquiry",
-      title: "Send a brief without losing momentum.",
-      body: "The contact path stays visible, structured, and easy to complete whether a buyer is ready now or still qualifying fit.",
+      title: "Start with a brief.",
+      body: "Share the project type, goals, timeline, budget if known, and contact details.",
       href: "/contact",
       label: "Start inquiry",
     },
@@ -341,58 +349,66 @@ const homePageContent: HomePageContent = {
     },
     {
       title: "Agencies",
-      body: "Need a reliable execution partner who can slot into your delivery plan and keep handoff clean.",
+      body: "Need a reliable Roblox execution partner who can slot into your delivery plan and keep handoff clean.",
     },
     {
       title: "Game teams",
-      body: "Need Roblox systems, UI, polish, or live support without spinning up a full internal team.",
+      body: "Need Roblox systems, UI, features, polish, or live support without spinning up a full internal team.",
     },
   ],
   serviceOverview: {
     eyebrow: "Services overview",
-    title: "Built for teams hiring a production partner, not browsing for inspiration.",
+    title: "Services for teams hiring external Roblox production support.",
     body:
-      "The studio supports launches, feature work, and live updates with clear scope, readable UX, and delivery discipline that stays visible from kickoff through handoff.",
+      "The team handles game builds, feature work, systems delivery, and live updates with clear scope and visible delivery milestones.",
     points: [
-      "Gameplay-first production before visual excess",
-      "Readable milestones and visible scope control",
-      "Player-facing UX, retention, and launch literacy",
-      "Direct path to contact across the full journey",
+      "Clear milestones and scope control",
+      "UI and gameplay implementation",
+      "Delivery support from kickoff to handoff",
+      "Direct path to contact",
     ],
   },
   resultsSection: {
     eyebrow: "Results and trust",
-    title: "Show the outcome before the long explanation.",
+    title: "Results before claims.",
     metrics: [],
   },
   processSteps: [
     {
       title: "Discovery",
-      body: "Clarify audience, platform constraints, KPIs, and the smallest shippable scope.",
+      body: "Start with the brief, goals, current build status, timeline, and constraints so both sides are aligned before work begins.",
     },
     {
-      title: "Pre-production",
-      body: "Lock the loop, milestone plan, risk map, and visual / UX direction before expensive build-out.",
+      title: "Scope and Proposal",
+      body: "Translate the brief into a defined scope, recommended delivery shape, timeline, milestones, and next-step proposal.",
     },
     {
-      title: "Production to live ops",
-      body: "Ship, optimize, QA, and support launch with the same quality bar used in the build phase.",
+      title: "Production",
+      body: "Build the agreed scope with visible progress, clear check-ins, and practical communication around decisions, blockers, and tradeoffs.",
+    },
+    {
+      title: "QA and Handoff",
+      body: "Review, test, polish, and package the work for release or internal handoff so delivery is understandable and low-risk for the client team.",
+    },
+    {
+      title: "Ongoing Support",
+      body: "Continue with live ops, updates, fixes, tuning, or embedded production support when the project needs ongoing delivery after the first handoff.",
     },
   ],
   studioSection: {
-    eyebrow: "Studio credibility",
-    title: "Visible roles, clear ownership, and credible delivery signals.",
+    eyebrow: "Delivery credibility",
+    title: "Visible roles and clear ownership.",
     body:
-      "Keep this section compact and practical. Buyers should be able to understand who owns delivery, how the work is run, and why the studio is safe to brief before they ever reach the contact form.",
+      "Clients should be able to see who owns delivery, how the work is run, and how the team fits into production.",
   },
   faqSection: {
     eyebrow: "FAQ",
-    title: "Remove buying friction before the brief.",
+    title: "Common questions before the brief.",
   },
   finalCta: {
     eyebrow: "Final CTA",
-    title: "Ready to scope the next release?",
-    primaryLabel: "Start a Project",
+    title: "Ready to discuss the next Roblox build, feature, or update?",
+    primaryLabel: "Scope a Brief",
     primaryHref: "/contact",
     secondaryLabel: "View Work",
     secondaryHref: "/work",
@@ -531,7 +547,7 @@ const faqItems: FAQItem[] = [
   {
     question: "What types of Roblox work do you take on?",
     answer:
-      "The studio can support new game builds, branded launches, live ops support, systems work, UI / UX cleanup, and technical production support depending on the current offering.",
+      "The team can support new game builds, branded launches, live ops support, systems work, UI / UX cleanup, and technical production support depending on the current offering.",
     category: "General",
   },
   {

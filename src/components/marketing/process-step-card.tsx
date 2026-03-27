@@ -14,9 +14,9 @@ export function ProcessStepCard({
   index,
 }: ProcessStepCardProps) {
   return (
-    <article className="section-shell interactive-card rounded-[var(--radius-xl)] p-6 md:p-7">
+    <article className="section-shell interactive-card p-6 md:p-7">
       <div className="flex items-center justify-between gap-4">
-        <div className="flex h-12 w-12 items-center justify-center rounded-[var(--radius-md)] border border-[var(--color-border-strong)] bg-white/[0.03]">
+        <div className="flex h-12 w-12 items-center justify-center rounded-[var(--radius-md)] border border-[var(--color-border-strong)] bg-transparent">
           <Icon className="h-5 w-5 text-[var(--color-vol-blue)]" />
         </div>
         <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-[var(--color-fog-500)]">

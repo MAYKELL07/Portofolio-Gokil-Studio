@@ -35,10 +35,10 @@ export default function ErrorPage({
           <TrackedLink
             href="/contact"
             eventName="cta_click"
-            eventPayload={{ placement: "error_boundary", label: "Contact studio" }}
+            eventPayload={{ placement: "error_boundary", label: "Contact team" }}
             className="glass-button gap-2 border border-white/8 bg-white/[0.03] text-white"
           >
-            Contact studio
+            Contact team
             <ArrowRight className="h-4 w-4" />
           </TrackedLink>
         </div>

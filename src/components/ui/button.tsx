@@ -24,18 +24,18 @@ export function buttonClasses({
   disabled = false,
 }: ButtonClassOptions = {}) {
   const base =
-    "inline-flex items-center justify-center gap-2 rounded-[var(--radius-pill)] border text-sm font-semibold transform-gpu transition duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] focus-visible:outline-none focus-visible:ring-0 hover:translate-y-[-1px] active:translate-y-[-1px] active:scale-[0.992] disabled:pointer-events-none disabled:translate-y-0 disabled:scale-100 disabled:opacity-55";
+    "inline-flex items-center justify-center gap-2 rounded-[999px] border text-sm font-semibold transition duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] focus-visible:outline-none focus-visible:ring-0 disabled:pointer-events-none disabled:opacity-55";
   const sizeClass =
     size === "lg" ? "min-h-13 px-6 py-4" : "min-h-12 px-5 py-3";
 
   const toneMap = {
     default: {
       primary:
-        "border-[var(--color-vol-blue)]/40 bg-[var(--color-vol-blue)] text-[var(--color-ink-950)] shadow-[0_10px_26px_rgba(242,166,90,0.18)] hover:border-[var(--color-vol-blue)] hover:bg-[#f6b878] hover:shadow-[0_14px_34px_rgba(242,166,90,0.28)] focus-visible:shadow-[0_0_0_4px_rgba(242,166,90,0.18)]",
+        "border-[var(--color-vol-blue)] bg-[var(--color-vol-blue)] text-white hover:opacity-92 focus-visible:shadow-[0_0_0_4px_rgba(91,141,239,0.18)]",
       secondary:
-        "border-[var(--color-border-strong)] bg-white/[0.03] text-white hover:border-[var(--color-border-accent)] hover:bg-white/[0.06] hover:shadow-[0_12px_28px_rgba(0,0,0,0.18)] focus-visible:shadow-[0_0_0_4px_rgba(242,166,90,0.14)]",
+        "border-[var(--color-border-strong)] bg-transparent text-white hover:border-[var(--color-border-accent)] hover:bg-white/[0.02] focus-visible:shadow-[0_0_0_4px_rgba(91,141,239,0.14)]",
       ghost:
-        "border-transparent bg-transparent text-[var(--color-fog-300)] hover:text-white focus-visible:shadow-[0_0_0_4px_rgba(242,166,90,0.1)]",
+        "border-transparent bg-transparent text-[var(--color-fog-300)] hover:text-white focus-visible:shadow-[0_0_0_4px_rgba(91,141,239,0.1)]",
     },
     success: {
       primary:

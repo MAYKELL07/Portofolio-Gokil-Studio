@@ -181,13 +181,8 @@ export function ProjectDetailTemplate({
               </div>
             </div>
 
-            <div
-              className="relative overflow-hidden rounded-[var(--radius-xl)] border border-[var(--color-border-strong)] p-5 md:p-6"
-              style={{
-                background: `radial-gradient(circle at top right, ${project.palette[0]}40, transparent 32%), linear-gradient(135deg, ${project.palette[1]}, ${project.palette[2]})`,
-              }}
-            >
-              <div className="font-mono text-[11px] uppercase tracking-[0.2em] text-white/65">
+            <div className="signal-panel p-5 md:p-6">
+              <div className="font-mono text-[11px] uppercase tracking-[0.2em] text-[var(--color-fog-500)]">
                 Outcome snapshot
               </div>
               {metrics.length > 0 ? (
@@ -204,41 +199,40 @@ export function ProjectDetailTemplate({
                             ? "lime"
                             : "purple"
                       }
-                      className="backdrop-blur-sm"
                     />
                   ))}
                 </div>
               ) : (
-                <div className="mt-5 rounded-[var(--radius-lg)] border border-white/10 bg-black/20 p-5 backdrop-blur-sm">
-                  <div className="font-mono text-[11px] uppercase tracking-[0.2em] text-white/60">
+                <div className="mt-5 rounded-[var(--radius-lg)] border border-[var(--color-border-strong)] p-5">
+                  <div className="font-mono text-[11px] uppercase tracking-[0.2em] text-[var(--color-fog-500)]">
                     Public metrics
                   </div>
-                  <p className="mt-3 text-sm leading-7 text-white/80">
+                  <p className="mt-3 text-sm leading-7 text-[var(--color-fog-300)]">
                     {confidentialityNote ??
                       "Public metrics are limited for this project."}
                   </p>
                 </div>
               )}
               <div className="mt-5 grid gap-3">
-                <div className="rounded-[var(--radius-lg)] border border-white/10 bg-black/20 p-4 backdrop-blur-sm">
-                  <div className="font-mono text-[11px] uppercase tracking-[0.2em] text-white/60">
+                <div className="rounded-[var(--radius-lg)] border border-[var(--color-border-strong)] p-4">
+                  <div className="font-mono text-[11px] uppercase tracking-[0.2em] text-[var(--color-fog-500)]">
                     Project overview
                   </div>
-                  <p className="mt-2 text-sm leading-7 text-white/80">{project.headline}</p>
+                  <p className="mt-2 text-sm leading-7 text-[var(--color-fog-300)]">{project.headline}</p>
                 </div>
-                <div className="rounded-[var(--radius-lg)] border border-white/10 bg-black/20 p-4 backdrop-blur-sm">
-                  <div className="font-mono text-[11px] uppercase tracking-[0.2em] text-white/60">
+                <div className="rounded-[var(--radius-lg)] border border-[var(--color-border-strong)] p-4">
+                  <div className="font-mono text-[11px] uppercase tracking-[0.2em] text-[var(--color-fog-500)]">
                     Services provided
                   </div>
                   <div className="mt-3 flex flex-wrap gap-2">
                     {roles.length > 0 ? (
                       roles.map((role) => (
-                        <span key={role} className="chip text-xs text-white">
+                        <span key={role} className="chip text-xs text-[var(--color-fog-300)]">
                           {role}
                         </span>
                       ))
                     ) : (
-                      <span className="chip text-xs text-white">Scope available on request</span>
+                      <span className="chip text-xs text-[var(--color-fog-300)]">Scope available on request</span>
                     )}
                   </div>
                 </div>
@@ -274,7 +268,7 @@ export function ProjectDetailTemplate({
                   );
                 })
               ) : (
-                <div className="rounded-[var(--radius-lg)] border border-[var(--color-border-strong)] bg-white/[0.03] p-6 md:col-span-2">
+                  <div className="rounded-[var(--radius-lg)] border border-[var(--color-border-strong)] p-6 md:col-span-2">
                   <div className="flex items-start gap-3">
                     <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[var(--radius-md)] border border-[var(--color-border-strong)] bg-white/[0.03]">
                       <LockKeyhole className="h-4 w-4 text-[var(--color-vol-blue)]" />
@@ -340,14 +334,14 @@ export function ProjectDetailTemplate({
             <div className="mt-5 flex flex-wrap gap-2">
               {roles.length > 0 ? (
                 roles.map((role) => (
-                  <span key={role} className="chip text-xs text-white">
-                    {role}
-                  </span>
-                ))
-              ) : (
-                <span className="chip text-xs text-white">Scope shared during discovery</span>
-              )}
-            </div>
+                    <span key={role} className="chip text-xs text-[var(--color-fog-300)]">
+                      {role}
+                    </span>
+                  ))
+                ) : (
+                  <span className="chip text-xs text-[var(--color-fog-300)]">Scope shared during discovery</span>
+                )}
+              </div>
           </Reveal>
         </div>
       </section>

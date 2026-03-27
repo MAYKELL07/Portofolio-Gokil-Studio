@@ -16,6 +16,9 @@ type SiteHeaderProps = {
 export function SiteHeader({ studioName, navLinks }: SiteHeaderProps) {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
+  const primaryNav = navLinks.filter((item) =>
+    ["/work", "/services", "/about", "/contact"].includes(item.href),
+  );
   const isCurrentPath = (href: string) =>
     href === "/" ? pathname === "/" : pathname === href || pathname.startsWith(`${href}/`);
 
@@ -37,34 +40,34 @@ export function SiteHeader({ studioName, navLinks }: SiteHeaderProps) {
 
   return (
     <header
-      className="fixed inset-x-0 top-0 z-50 border-b border-white/5 bg-[rgba(9,10,13,0.72)] backdrop-blur-xl transition-colors duration-200"
+      className="fixed inset-x-0 top-0 z-50 border-b border-white/5 bg-[rgba(17,19,21,0.96)] transition-colors duration-200"
     >
       <div className="site-container flex items-center justify-between py-4">
         <Link
           href="/"
-          className="inline-flex items-center gap-3 text-sm font-semibold tracking-[0.18em] text-white"
+          className="inline-flex items-center gap-3 text-sm font-semibold text-white"
           aria-label={`Go to ${studioName} homepage`}
           onClick={() => {
             setIsOpen(false);
             trackEvent("nav_logo_click", { location: "header" });
           }}
         >
-          <span className="flex h-9 w-9 items-center justify-center rounded-2xl border border-white/10 bg-white/5 text-[11px] font-bold text-[var(--color-vol-blue)]">
+          <span className="flex h-9 min-w-9 items-center justify-center rounded-xl border border-white/10 bg-transparent px-2 text-[11px] font-bold text-[var(--color-vol-blue)]">
             MI
           </span>
-          <span className="hidden md:block">{studioName}</span>
+          <span className="hidden md:block text-base tracking-[-0.01em]">{studioName}</span>
         </Link>
 
         <nav
           aria-label="Primary"
-          className="hidden items-center gap-8 md:flex"
+          className="hidden items-center gap-7 md:flex"
         >
-          {navLinks.map((item) => (
+          {primaryNav.map((item) => (
             <Link
               key={item.href}
               href={item.href}
               aria-current={isCurrentPath(item.href) ? "page" : undefined}
-              className="text-sm text-[var(--color-fog-300)] transition hover:text-white aria-[current=page]:text-white"
+              className="text-sm font-medium text-[var(--color-fog-300)] transition hover:text-white aria-[current=page]:text-white"
               onClick={() => {
                 setIsOpen(false);
                 trackEvent("nav_click", { label: item.label });
@@ -80,7 +83,6 @@ export function SiteHeader({ studioName, navLinks }: SiteHeaderProps) {
             href="/contact"
             eventName="cta_click"
             eventPayload={{ placement: "header", label: "Start a Project" }}
-            variant="secondary"
           >
             Start a Project
             <ArrowUpRight className="h-4 w-4" />
@@ -89,7 +91,7 @@ export function SiteHeader({ studioName, navLinks }: SiteHeaderProps) {
 
         <button
           type="button"
-          className="inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-white/10 bg-white/5 text-white md:hidden"
+          className="inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-white/10 bg-transparent text-white md:hidden"
           aria-expanded={isOpen}
           aria-controls="mobile-primary-navigation"
           aria-label="Toggle navigation"
@@ -102,10 +104,10 @@ export function SiteHeader({ studioName, navLinks }: SiteHeaderProps) {
       {isOpen ? (
         <div
           id="mobile-primary-navigation"
-          className="border-t border-white/5 bg-[rgba(9,10,13,0.96)] px-5 py-5 md:hidden"
+          className="border-t border-white/5 bg-[rgba(17,19,21,0.98)] px-5 py-5 md:hidden"
         >
           <nav aria-label="Mobile primary" className="flex flex-col gap-3">
-            {navLinks.map((item) => (
+            {primaryNav.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}

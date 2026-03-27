@@ -6,8 +6,8 @@ export const contentType = "image/png";
 
 export default function TwitterImage() {
   return buildShareImage({
-    title: "Premium Roblox production, presented like a real partner.",
+    title: "Roblox co-development support for teams that need work shipped.",
     description:
-      "Case studies, delivery proof, and direct project intake built for buyers evaluating game studio execution.",
+      "Case studies, delivery proof, and direct inquiry flow for clients hiring Roblox build, feature, and live support.",
   });
 }

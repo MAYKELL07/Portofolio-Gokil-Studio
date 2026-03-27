@@ -14,6 +14,15 @@ export const timelineOptions = [
   "3+ months",
 ] as const;
 
+export const projectTypeOptions = [
+  "Full game development",
+  "Co-development",
+  "Gameplay systems / features",
+  "UI / UX implementation",
+  "Live ops / updates",
+  "Technical support",
+] as const;
+
 function optionalEnumFromSelect<T extends readonly [string, ...string[]]>(options: T) {
   return z.preprocess(
     (value) => {
@@ -31,14 +40,10 @@ function optionalEnumFromSelect<T extends readonly [string, ...string[]]>(option
 export const contactSchema = z.object({
   name: z.string().trim().min(2, "Please enter your name."),
   email: z.string().trim().email("Please enter a valid email."),
-  companyOrProject: z
-    .string()
-    .trim()
-    .min(2, "Please enter a company name or project name.")
-    .max(160, "Please keep this under 160 characters."),
+  projectType: z.enum(projectTypeOptions, "Please choose the type of project support you need."),
   budgetRange: optionalEnumFromSelect(budgetOptions),
   timeline: optionalEnumFromSelect(timelineOptions),
-  projectBrief: z
+  projectGoals: z
     .string()
     .trim()
     .min(20, "Share enough detail for us to qualify the brief.")

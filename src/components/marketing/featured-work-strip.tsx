@@ -7,7 +7,7 @@ import type { Project } from "@/lib/site-content";
 
 export function FeaturedWorkStrip({
   projects,
-  title = "Proof that gets to the point fast.",
+  title = "Client delivery proof with role, scope, and results.",
 }: {
   projects: Project[];
   title?: string;
@@ -16,7 +16,7 @@ export function FeaturedWorkStrip({
     <section>
       <Reveal className="mb-8 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
         <div>
-          <p className="eyebrow">Featured work</p>
+          <p className="eyebrow">Case studies</p>
           <h2 className="section-heading mt-3 text-4xl font-semibold text-white md:text-6xl">
             {title}
           </h2>
@@ -25,10 +25,10 @@ export function FeaturedWorkStrip({
           href="/work"
           variant="ghost"
           eventName="cta_click"
-          eventPayload={{ placement: "featured_work", label: "Browse all work" }}
+          eventPayload={{ placement: "featured_work", label: "Browse all case studies" }}
           className="justify-start px-0 py-0 text-[var(--color-vol-blue)]"
         >
-          Browse all work
+          Browse all case studies
           <ArrowUpRight className="h-4 w-4" />
         </ButtonLink>
       </Reveal>

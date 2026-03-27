@@ -91,7 +91,7 @@ function MediaSurface({
         <div
           className={clsx(
             "media-surface-overlay",
-            "bg-[linear-gradient(180deg,rgba(18,10,8,0.18),rgba(18,10,8,0.76))]",
+            "bg-[linear-gradient(180deg,rgba(17,19,21,0.08),rgba(17,19,21,0.62))]",
             overlayClassName,
           )}
         />
@@ -130,9 +130,9 @@ export function HeroMedia({
         blurDataURL={canUseBlur ? MEDIA_BLUR_DATA_URL : undefined}
         loading={usePriority ? "eager" : "lazy"}
         unoptimized={typeof resolvedSrc === "string" && resolvedSrc.toLowerCase().endsWith(".svg")}
-        className="media-surface-image opacity-40"
+        className="media-surface-image opacity-24"
       />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(242,166,90,0.22),transparent_32%),radial-gradient(circle_at_bottom_left,rgba(207,111,73,0.16),transparent_28%),linear-gradient(180deg,rgba(18,10,8,0.18),rgba(18,10,8,0.84))]" />
+      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(17,19,21,0.16),rgba(17,19,21,0.84))]" />
     </div>
   );
 }
@@ -202,7 +202,7 @@ export function ProjectCoverMedia({
       quality={quality}
       className={className}
       interactive={interactive}
-      overlayClassName={overlayClassName ?? "bg-[linear-gradient(180deg,rgba(18,10,8,0.16),rgba(18,10,8,0.8))]"}
+      overlayClassName={overlayClassName ?? "bg-[linear-gradient(180deg,rgba(17,19,21,0.1),rgba(17,19,21,0.72))]"}
     >
       {children}
     </MediaSurface>
@@ -246,13 +246,13 @@ export function GalleryMediaCard({
         ratio={ratio}
         sizes="(max-width: 767px) 100vw, 50vw"
         quality={72}
-        overlayClassName="bg-[linear-gradient(180deg,rgba(18,10,8,0.18),rgba(18,10,8,0.74))]"
+        overlayClassName="bg-[linear-gradient(180deg,rgba(17,19,21,0.08),rgba(17,19,21,0.58))]"
         className="rounded-none border-x-0 border-t-0 border-b border-white/6"
       >
         <div className={clsx("flex items-end justify-between gap-3 p-4", featured && "p-5 md:p-6")}>
           <span
             className={clsx(
-              "chip border-white/14 bg-black/18 text-xs text-white",
+              "chip border-white/10 bg-[rgba(17,19,21,0.72)] text-xs text-white",
               featured && "px-4 py-2",
             )}
           >

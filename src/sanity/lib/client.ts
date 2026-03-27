@@ -19,6 +19,7 @@ type CreateSanityClientOptions = {
 
 type SafeSanityFetchOptions = {
   tags?: string[];
+  revalidate?: number;
 };
 
 export function createSanityClient(options?: CreateSanityClientOptions) {
@@ -67,12 +68,18 @@ export async function safeSanityFetch<T>(
         .filter(Boolean),
     ),
   );
+  const revalidate = options?.revalidate ?? 60;
 
   try {
     return await sanityServerClient.fetch<T>(
       query,
       params ?? {},
-      tags.length > 0 ? { next: { tags } } : undefined,
+      {
+        next: {
+          revalidate,
+          ...(tags.length > 0 ? { tags } : {}),
+        },
+      },
     );
   } catch (error) {
     console.error("[sanity_fetch_failed]", error);

@@ -16,11 +16,8 @@ type ProjectDetailPageProps = {
   params: Promise<{ slug: string }>;
 };
 
-export async function generateStaticParams() {
-  const projects = await getProjects();
-
-  return projects.map((project) => ({ slug: project.slug }));
-}
+export const dynamic = "force-dynamic";
+export const dynamicParams = true;
 
 export async function generateMetadata({
   params,

@@ -18,73 +18,96 @@ export function ServiceCard({ service, compact = false }: ServiceCardProps) {
   const visualSrc = service.featuredImageUrl || "/placeholders/studio-signal-texture.svg";
 
   return (
-    <article className="section-shell interactive-card rounded-[var(--radius-xl)] p-6 md:p-7">
-      <div className="mb-5">
-        <ProjectCoverMedia
-          src={visualSrc}
-          alt={service.featuredImageAlt || service.title}
-          ratio="landscape"
-          sizes="(max-width: 767px) 100vw, (max-width: 1279px) 50vw, 40vw"
-          quality={70}
-          interactive={false}
-          overlayClassName="bg-[linear-gradient(135deg,rgba(76,201,255,0.18),rgba(9,10,13,0.2),rgba(139,92,246,0.28))]"
-        >
-          <div className="absolute inset-x-0 bottom-0 h-20 bg-[linear-gradient(180deg,transparent,rgba(9,10,13,0.82))]" />
-          <div className="absolute inset-x-4 bottom-4 flex items-center justify-between gap-3">
-            <span className="chip text-xs text-white">{service.category}</span>
-            <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/70">
-              {compact ? "Service preview" : "Delivery shape"}
-            </span>
-          </div>
-        </ProjectCoverMedia>
-      </div>
+    <article className="section-shell interactive-card p-6 md:p-7">
+      {!compact ? (
+        <div className="mb-5">
+          <ProjectCoverMedia
+            src={visualSrc}
+            alt={service.featuredImageAlt || service.title}
+            ratio="landscape"
+            sizes="(max-width: 767px) 100vw, (max-width: 1279px) 50vw, 40vw"
+            quality={70}
+            interactive={false}
+            overlayClassName="bg-[linear-gradient(180deg,rgba(17,19,21,0.04),rgba(17,19,21,0.42))]"
+          >
+            <div className="absolute inset-x-4 bottom-4 flex items-center justify-between gap-3">
+              <span className="chip text-xs text-white">{service.category}</span>
+              <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/70">
+                Service
+              </span>
+            </div>
+          </ProjectCoverMedia>
+        </div>
+      ) : null}
+
       <div className="flex flex-wrap items-center justify-between gap-3">
+        <span className="chip text-xs text-[var(--color-fog-300)]">{service.category}</span>
         <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-[var(--color-fog-500)]">
           {service.timeline}
         </p>
-        {!compact ? (
-          <span className="chip text-xs text-[var(--color-fog-300)]">Engagement ready</span>
-        ) : null}
       </div>
       <h3 className="mt-5 text-2xl font-semibold text-white md:text-3xl">
         {service.title}
       </h3>
-      <p className="mt-4 text-sm leading-7 text-[var(--color-fog-300)]">
-        {service.summary}
-      </p>
-      {hasOutcomes ? (
-        <div className="mt-6 grid gap-3">
-          {outcomes.map((outcome) => (
-            <div
-              key={outcome}
-              className="rounded-[var(--radius-lg)] border border-[var(--color-border-strong)] bg-white/[0.03] px-4 py-3 text-sm text-[var(--color-fog-300)]"
-            >
-              {outcome}
+      <div className="mt-5 space-y-4">
+        <div className="rounded-[var(--radius-md)] border border-[var(--color-border-strong)] p-4">
+          <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-[var(--color-fog-500)]">
+            What it is
+          </div>
+          <p className="mt-2 text-sm leading-7 text-[var(--color-fog-300)]">{service.summary}</p>
+        </div>
+        <div className="rounded-[var(--radius-md)] border border-[var(--color-border-strong)] p-4">
+          <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-[var(--color-fog-500)]">
+            When to hire us
+          </div>
+          <p className="mt-2 text-sm leading-7 text-[var(--color-fog-300)]">{service.idealFor}</p>
+        </div>
+        {!compact ? (
+          <div className="rounded-[var(--radius-md)] border border-[var(--color-border-strong)] p-4">
+            <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-[var(--color-fog-500)]">
+              Engagement
             </div>
-          ))}
-        </div>
-      ) : null}
-      {!compact ? (
-        <div className="mt-5 space-y-4">
-          <p className="text-sm leading-7 text-[var(--color-fog-300)]">
-            <span className="font-semibold text-white">Ideal for:</span> {service.idealFor}
-          </p>
-          <p className="text-sm leading-7 text-[var(--color-fog-300)]">
-            <span className="font-semibold text-white">Engagement model:</span>{" "}
-            {service.engagementModel}
-          </p>
-        </div>
-      ) : null}
+            <p className="mt-2 text-sm leading-7 text-[var(--color-fog-300)]">
+              <span className="font-semibold text-white">Typical timeline:</span> {service.timeline}
+            </p>
+            <p className="mt-2 text-sm leading-7 text-[var(--color-fog-300)]">
+              <span className="font-semibold text-white">How it is bought:</span> {service.engagementModel}
+            </p>
+          </div>
+        ) : null}
+      </div>
       {hasDeliverables ? (
-        <div className="mt-6 grid gap-3">
-          {deliverables.map((deliverable) => (
-            <div
-              key={deliverable}
-              className="rounded-[var(--radius-lg)] border border-[var(--color-border-strong)] bg-white/[0.03] px-4 py-3 text-sm text-[var(--color-fog-300)]"
-            >
-              {deliverable}
-            </div>
-          ))}
+        <div className="mt-6 rounded-[var(--radius-md)] border border-[var(--color-border-strong)] p-4">
+          <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-[var(--color-fog-500)]">
+            What is included
+          </div>
+          <div className="mt-3 grid gap-3">
+            {deliverables.map((deliverable) => (
+              <div
+                key={deliverable}
+                className="rounded-[var(--radius-sm)] border border-[var(--color-border-strong)] px-4 py-3 text-sm text-[var(--color-fog-300)]"
+              >
+                {deliverable}
+              </div>
+            ))}
+          </div>
+        </div>
+      ) : null}
+      {hasOutcomes ? (
+        <div className="mt-6 rounded-[var(--radius-md)] border border-[var(--color-border-strong)] p-4">
+          <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-[var(--color-fog-500)]">
+            Outcome this helps create
+          </div>
+          <div className="mt-3 grid gap-3">
+            {outcomes.map((outcome) => (
+              <div
+                key={outcome}
+                className="rounded-[var(--radius-sm)] border border-[var(--color-border-strong)] px-4 py-3 text-sm text-[var(--color-fog-300)]"
+              >
+                {outcome}
+              </div>
+            ))}
+          </div>
         </div>
       ) : null}
       {!compact ? (

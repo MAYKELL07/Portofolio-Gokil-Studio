@@ -28,7 +28,7 @@ export default function PrivacyPage() {
             so the site can improve conversion quality and reduce friction.
           </p>
           <p>
-            If you need your submitted information removed, contact the studio directly using the
+            If you need your submitted information removed, contact the team directly using the
             email address shown on the contact page.
           </p>
         </div>
@@ -44,10 +44,10 @@ export default function PrivacyPage() {
           <TrackedLink
             href="/contact"
             eventName="cta_click"
-            eventPayload={{ placement: "privacy_page", label: "Contact studio" }}
+            eventPayload={{ placement: "privacy_page", label: "Contact team" }}
             className="glass-button gap-2 bg-[var(--color-vol-blue)] text-[var(--color-ink-950)]"
           >
-            Contact studio
+            Contact team
             <ArrowRight className="h-4 w-4" />
           </TrackedLink>
         </div>

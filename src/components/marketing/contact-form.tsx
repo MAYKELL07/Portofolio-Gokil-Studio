@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/form-fields";
 import {
   budgetOptions,
+  projectTypeOptions,
   timelineOptions,
   type ContactFormValues,
 } from "@/lib/contact-schema";
@@ -126,9 +127,9 @@ export function ContactForm() {
 
       <div className="grid-responsive-3 mb-6">
         {[
-          ["Friction", "Only the essentials are required"],
+          ["Fields", "Contact, project type, goals, timeline, budget"],
           ["Time", "Usually under 2 minutes"],
-          ["Next step", "Confirmation now, human reply next"],
+          ["Reply", "Confirmation now, human follow-up next"],
         ].map(([label, value]) => (
           <div
             key={label}
@@ -145,7 +146,7 @@ export function ContactForm() {
       <div className="mb-5">
         <p className="eyebrow">Inquiry form</p>
         <p className="mt-2 text-sm leading-7 text-[var(--color-fog-300)]">
-          Share just enough detail to confirm fit. Budget and timeline help when available, but they are optional.
+          Share only the details needed to qualify the lead. Budget and timeline help when known, but both can stay flexible.
         </p>
       </div>
 
@@ -173,21 +174,25 @@ export function ContactForm() {
         </FieldShell>
 
         <FieldShell
-          fieldId="contact-company-project"
-          label="Company / Project"
+          fieldId="contact-project-type"
+          label="Project type"
           required
-          error={state.errors.companyOrProject}
-          className="md:col-span-2"
+          error={state.errors.projectType}
         >
-          <TextField
-            name="companyOrProject"
+          <SelectField
+            name="projectType"
             required
-            minLength={2}
-            maxLength={160}
             disabled={isPending}
-            state={state.errors.companyOrProject ? "error" : "default"}
-            placeholder="Company, studio, or project name"
-          />
+            state={state.errors.projectType ? "error" : "default"}
+            defaultValue=""
+          >
+            <option value="">Select project type</option>
+            {projectTypeOptions.map((option) => (
+              <option key={option} value={option}>
+                {option}
+              </option>
+            ))}
+          </SelectField>
         </FieldShell>
 
         <FieldShell
@@ -237,28 +242,28 @@ export function ContactForm() {
 
       <div className="mt-5 grid gap-5">
         <FieldShell
-          fieldId="contact-project-brief"
-          label="Brief project description"
+          fieldId="contact-project-goals"
+          label="Project goals"
           required
-          error={state.errors.projectBrief}
-          description="Summarize the outcome you want, target platform, and any constraints that affect scope."
+          error={state.errors.projectGoals}
+          description="Summarize what you are trying to ship, improve, or unblock."
         >
           <TextAreaField
-            name="projectBrief"
-            rows={6}
+            name="projectGoals"
+            rows={5}
             required
             minLength={20}
             maxLength={2000}
             disabled={isPending}
-            state={state.errors.projectBrief ? "error" : "default"}
-            placeholder="What you need, what the goal is, and any key constraints..."
+            state={state.errors.projectGoals ? "error" : "default"}
+            placeholder="What you need help building, what the goal is, and any important constraints..."
           />
         </FieldShell>
       </div>
 
       <div className="mt-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <div className="text-sm text-[var(--color-fog-300)]">
-          You&apos;ll see an immediate confirmation here, and if the project looks like a fit you can expect a reply within 24 hours.
+          You&apos;ll see an immediate confirmation here, and if the brief looks like a fit you can expect a reply within 24 hours.
           <FormStatus
             state={state.message ? (state.success ? "success" : "error") : "idle"}
             message={state.message}

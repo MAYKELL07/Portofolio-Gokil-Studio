@@ -10,10 +10,10 @@ function buildMessage(payload: Record<string, unknown>) {
     "**New portfolio inquiry**",
     `Name: ${payload.name}`,
     `Email: ${payload.email}`,
-    `Company / project: ${payload.companyOrProject}`,
+    `Project type: ${payload.projectType}`,
     `Budget: ${payload.budgetRange || "Not provided"}`,
     `Timeline: ${payload.timeline || "Not provided"}`,
-    `Brief: ${payload.projectBrief}`,
+    `Goals: ${payload.projectGoals}`,
   ].join("\n");
 }
 

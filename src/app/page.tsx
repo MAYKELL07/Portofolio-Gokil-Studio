@@ -1,4 +1,12 @@
-import { ArrowRight, ArrowUpRight, Layers3, ShieldCheck, TimerReset } from "lucide-react";
+import {
+  ArrowRight,
+  ArrowUpRight,
+  ClipboardList,
+  FolderKanban,
+  Hammer,
+  ShieldCheck,
+  TimerReset,
+} from "lucide-react";
 
 import { Reveal } from "@/components/animation/reveal";
 import { FaqAccordion } from "@/components/marketing/faq-accordion";
@@ -25,14 +33,16 @@ import {
 } from "@/lib/site-content";
 
 export const metadata = buildMetadata({
-  title: "Maykell Interactive | Roblox Game Studio Portfolio",
+  title: "Maykell Interactive | Roblox Outsourcing Partner",
   description:
-    "Premium Roblox game studio portfolio built for fast trust, rich case studies, and qualified lead generation.",
+    "Roblox outsourcing and co-development partner for shipped features, systems, updates, and production support.",
   path: "/",
 });
 
 const processSteps = [
-  Layers3,
+  ClipboardList,
+  FolderKanban,
+  Hammer,
   ShieldCheck,
   TimerReset,
 ];
@@ -80,7 +90,6 @@ export default async function Home() {
       <HomeHero
         settings={settings}
         heroImageUrl={homePage.heroBackgroundImageUrl}
-        heroImageAlt={homePage.heroBackgroundImageAlt}
       />
 
       <HomeScrollStory
@@ -88,8 +97,6 @@ export default async function Home() {
         title={homePage.scrollStory.title}
         intro={homePage.scrollStory.intro}
         steps={homePage.scrollStory.chapters}
-        mediaSrc={homePage.heroBackgroundImageUrl}
-        mediaAlt={homePage.heroBackgroundImageAlt}
       />
 
       <section className="site-container">
@@ -143,7 +150,7 @@ export default async function Home() {
         <Reveal className="mb-8">
           <p className="eyebrow">Process</p>
           <h2 className="section-heading type-display-lg mt-3 font-semibold text-white">
-            How we work stays clear, fast, and visible.
+            A structured outsourcing workflow clients can follow without confusion.
           </h2>
         </Reveal>
         <div className="grid-responsive-3">

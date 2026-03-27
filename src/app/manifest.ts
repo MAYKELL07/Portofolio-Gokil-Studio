@@ -5,7 +5,7 @@ export default function manifest(): MetadataRoute.Manifest {
     name: "Maykell Interactive",
     short_name: "Maykell",
     description:
-      "Premium Roblox game studio portfolio focused on conversion-first case studies and qualified lead generation.",
+      "Roblox outsourcing and co-development partner focused on case studies, delivery proof, and qualified client inquiries.",
     start_url: "/",
     display: "standalone",
     background_color: "#090A0D",

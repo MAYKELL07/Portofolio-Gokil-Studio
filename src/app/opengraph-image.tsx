@@ -6,8 +6,8 @@ export const contentType = "image/png";
 
 export default function OpenGraphImage() {
   return buildShareImage({
-    title: "Roblox experiences built for retention and real-world delivery.",
+    title: "Roblox build support for launches, features, systems, and live updates.",
     description:
-      "Premium, conversion-first portfolio for client work, branded worlds, and scalable Roblox production.",
+      "Client-facing Roblox outsourcing and co-development partner for game teams, brands, and agencies.",
   });
 }

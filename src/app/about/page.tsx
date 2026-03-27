@@ -10,15 +10,15 @@ import { getProjects, getServices, getSiteSettings, getTeam } from "@/lib/site-c
 export const metadata = buildMetadata({
   title: "About | Maykell Interactive",
   description:
-    "Studio story, game-specific team roles, toolchain, and working principles for client delivery.",
+    "How the team works as a Roblox outsourcing and co-development partner for client delivery.",
   path: "/about",
 });
 
 const principles = [
-  "Show value before spectacle.",
-  "Motion supports hierarchy, never blocks reading.",
-  "Keep every page within two clicks of the contact flow.",
-  "Ship the smallest version that still feels sharp and credible.",
+  "Keep communication direct from brief to handoff.",
+  "Make ownership and milestone status visible.",
+  "Reduce delivery risk before adding more scope.",
+  "Work in a way client teams can follow and trust.",
 ];
 
 const capabilities = [
@@ -53,10 +53,10 @@ export default async function AboutPage() {
   const teamCount = team.length;
   const hasResponseSla = Boolean(settings.responseSla?.trim());
   const trustSignals = [
-    "Brand clients and campaign work",
-    "Agencies needing execution support",
-    "Game teams needing Roblox production help",
-    "Direct delivery or partner-led pipelines",
+    "Direct communication with the people doing the work",
+    "Clear ownership across milestones and handoff points",
+    "Structured for client teams, agencies, and embedded support",
+    "Production discipline kept visible throughout delivery",
   ];
   const productionStandards = [
     "Clear owner on every milestone",
@@ -66,13 +66,13 @@ export default async function AboutPage() {
   ];
   const workingStyle = [
     {
-      title: "Small team, direct accountability",
-      body: "Buyers are not passed through layers of account management. The people shaping the work stay close to the brief, the milestones, and the decisions.",
+      title: "Direct communication",
+      body: "Clients work with the people responsible for delivery. That keeps context intact, decisions faster, and feedback loops shorter throughout the project.",
       icon: ShieldCheck,
     },
     {
-      title: "Production-first decisions",
-      body: "Scope, handoff, and review rhythm are treated as part of the product. The goal is fewer surprises, clearer tradeoffs, and better shipping discipline.",
+      title: "Clear ownership and milestone visibility",
+      body: "Scope, review points, and handoff expectations stay visible so client teams know what is in progress, what is owned, and what is coming next.",
       icon: TimerReset,
     },
   ];
@@ -101,11 +101,11 @@ export default async function AboutPage() {
             <div>
               <p className="eyebrow">About / Studio</p>
               <h1 className="section-heading type-display-xl mt-4 font-semibold text-white">
-                A production partner built for teams that need Roblox work shipped well.
+                Trust is built through how the work is run, not through studio mythology.
               </h1>
               <p className="type-body-lg mt-6 max-w-3xl text-[var(--color-fog-300)]">
-                {settings.tagline} The studio keeps roles, working style, and production standards
-                visible so buyers can assess fit before the brief.
+                {settings.tagline} The focus here is delivery style: direct communication, clear ownership,
+                visible milestones, production discipline, and the ability to work smoothly with client teams.
               </p>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                 <ButtonLink
@@ -129,7 +129,7 @@ export default async function AboutPage() {
             </div>
             <div className="signal-panel rounded-[var(--radius-xl)] p-5 md:p-6">
               <div className="font-mono text-[11px] uppercase tracking-[0.2em] text-[var(--color-fog-500)]">
-                Studio snapshot
+                Delivery snapshot
               </div>
               <div className="mt-5 grid gap-3 sm:grid-cols-2">
                 {studioSnapshotMetrics.map((metric) => (
@@ -144,8 +144,8 @@ export default async function AboutPage() {
               <div className="mt-5 grid gap-3">
                 {[
                   "Direct communication from brief to handoff",
-                  "Structured for client, agency, or embedded support",
-                  "Production discipline kept visible, not hidden behind pitch language",
+                  "Structured to work with client teams and existing pipelines",
+                  "Production discipline kept visible instead of hidden behind sales language",
                 ].map((item) => (
                   <div
                     key={item}
@@ -165,12 +165,12 @@ export default async function AboutPage() {
           <Reveal className="section-shell rounded-[var(--radius-xl)] p-6 md:p-8">
             <p className="eyebrow">Positioning</p>
             <h2 className="section-heading type-h2 mt-4 font-semibold text-white">
-              Professional enough for real production, lean enough to stay responsive.
+              A delivery partner clients can work with in a clear, low-friction way.
             </h2>
             <p className="mt-5 text-sm leading-7 text-[var(--color-fog-300)]">
-              The studio is positioned as a specialist execution partner for Roblox work:
-              useful for brands launching experiences, agencies needing a reliable builder,
-              and teams that need game production support without a bulky vendor layer.
+              The company is positioned as a specialist execution partner for Roblox work.
+              The emphasis is not on studio backstory. It is on how the team communicates,
+              owns work, manages milestones, and supports client teams inside real production.
             </p>
             <div className="mt-6 space-y-3">
               {trustSignals.map((signal) => (
@@ -218,7 +218,7 @@ export default async function AboutPage() {
           <Reveal className="section-shell rounded-[var(--radius-xl)] p-6 md:p-8">
             <p className="eyebrow">Process philosophy</p>
             <h2 className="section-heading type-h2 mt-4 font-semibold text-white">
-              The process is meant to be felt in the work, not buried in jargon.
+              The working style is meant to reduce ambiguity for client teams.
             </h2>
             <div className="mt-6 grid gap-4 md:grid-cols-2">
               {principles.map((principle) => (
@@ -252,7 +252,7 @@ export default async function AboutPage() {
           <Reveal className="section-shell rounded-[var(--radius-xl)] p-6 md:p-8">
             <p className="eyebrow">Tools and capabilities</p>
             <h2 className="section-heading type-h2 mt-4 font-semibold text-white">
-              Capabilities that support both craft and delivery.
+              Compact capability detail, focused on delivery usefulness.
             </h2>
             <div className="mt-6 grid gap-4 md:grid-cols-2">
               {capabilities.map((group) => (
@@ -285,8 +285,8 @@ export default async function AboutPage() {
               ))}
             </div>
             <div className="mt-6 text-sm leading-7 text-[var(--color-fog-300)]">
-              Proof is not just past work. It is also how clearly the studio shows scope,
-              review rhythm, ownership, and the kind of buyers it is built to support.
+              Trust comes from visible scope, ownership, review rhythm, and delivery discipline,
+              not from a long founder story or a decorative studio narrative.
             </div>
           </Reveal>
         </div>
@@ -296,7 +296,7 @@ export default async function AboutPage() {
         <Reveal className="mb-8">
           <p className="eyebrow">Team</p>
           <h2 className="section-heading type-display-lg mt-3 font-semibold text-white">
-            Visible roles when the buyer needs to assess who is actually doing the work.
+            Team details stay compact and useful.
           </h2>
         </Reveal>
         {teamCount > 0 ? (
@@ -310,8 +310,8 @@ export default async function AboutPage() {
         ) : (
           <Reveal className="section-shell rounded-[var(--radius-xl)] p-6 md:p-8">
             <p className="text-sm leading-7 text-[var(--color-fog-300)]">
-              Team details can stay minimal for a lean studio. The page still keeps the process,
-              standards, and proof signals visible so credibility does not depend on a large roster.
+              A lean delivery team does not need a large roster page. Clear ownership, process,
+              standards, and delivery proof do more to build trust than decorative team storytelling.
             </p>
           </Reveal>
         )}
@@ -323,7 +323,7 @@ export default async function AboutPage() {
             <div>
               <p className="eyebrow">Next step</p>
               <h2 className="type-h2 mt-3 font-semibold text-white">
-                If the standards and delivery style look right, review the work or move straight to the brief.
+                If the delivery style looks right, review the work or move straight to the brief.
               </h2>
               <p className="mt-4 max-w-2xl text-sm leading-7 text-[var(--color-fog-300)]">
                 Review the work or move into a brief while the context is still fresh.

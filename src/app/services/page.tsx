@@ -10,7 +10,7 @@ import { getFaqItems, getServices } from "@/lib/site-content";
 export const metadata = buildMetadata({
   title: "Services | Maykell Interactive",
   description:
-    "Clear Roblox service categories, engagement models, deliverables, and inquiry paths for qualified buyers.",
+    "Clear Roblox outsourcing and co-development services, delivery models, and inquiry paths for teams hiring production support.",
   path: "/services",
 });
 
@@ -23,28 +23,6 @@ export default async function ServicesPage() {
     "Live Ops / Content",
     "Technical Support",
   ];
-  const categoryGuides: Record<string, { summary: string; fit: string }> = {
-    "Game Development": {
-      summary: "For teams that need a real build path, not just direction.",
-      fit: "Best when the goal is a playable release with clear scope, milestones, and launch readiness.",
-    },
-    "Branded Experiences": {
-      summary: "For campaign work that still needs production discipline.",
-      fit: "Best when brands or agencies need reliable execution on a deadline with stakeholder visibility.",
-    },
-    "Systems / UX": {
-      summary: "For high-leverage improvements inside an existing build.",
-      fit: "Best when retention, clarity, conversion, or player flow needs a focused sprint.",
-    },
-    "Live Ops / Content": {
-      summary: "For post-launch teams that need consistent shipping support.",
-      fit: "Best when updates, events, and tuning have to keep moving without overloading the core team.",
-    },
-    "Technical Support": {
-      summary: "For production blockers that are slowing delivery.",
-      fit: "Best when a team needs senior debugging, optimization, cleanup, or technical visibility.",
-    },
-  };
   const groupedServices = services.reduce<Record<string, typeof services>>((groups, service) => {
     if (!groups[service.category]) {
       groups[service.category] = [];
@@ -71,20 +49,6 @@ export default async function ServicesPage() {
 
     return leftIndex - rightIndex;
   });
-  const buyerAnswers = [
-    {
-      title: "What you can hire us for",
-      body: "Game builds, branded experiences, systems sprints, live ops support, and technical unblockers.",
-    },
-    {
-      title: "How engagements are scoped",
-      body: "Each service spells out deliverables, timeline shape, buyer fit, and the most common way it is bought.",
-    },
-    {
-      title: "What happens before contact",
-      body: "The service groups narrow fit, scope, and delivery shape before the first conversation starts.",
-    },
-  ];
   const intakeChecklist = [
     "Target outcome or business goal",
     "Current build status or production stage",
@@ -98,85 +62,48 @@ export default async function ServicesPage() {
         <Reveal className="section-shell rounded-[var(--radius-2xl)] p-6 md:p-8">
           <p className="eyebrow">Services</p>
           <h1 className="section-heading type-display-xl mt-4 font-semibold text-white">
-            Clear ways to hire the studio, with enough detail to qualify the fit before you reach out.
+            Services built to answer the buying questions fast.
           </h1>
           <p className="type-body-lg mt-6 max-w-3xl text-[var(--color-fog-300)]">
-            Fast answers to the main buying questions: what we build, where we fit,
-            how work is scoped, and which engagement model makes sense for your team.
+            Each service below explains what it is, when to hire us, what is included, the typical timeline, and the kind of outcome it is meant to create.
           </p>
-          <div className="grid-responsive-3 mt-6">
-            {buyerAnswers.map((answer) => (
+        </Reveal>
+      </section>
+
+      <section className="site-container">
+        <Reveal className="section-shell rounded-[var(--radius-xl)] p-6 md:p-8">
+          <p className="eyebrow">Before you reach out</p>
+          <h2 className="section-heading type-h2 mt-4 font-semibold text-white">
+            A strong first brief covers the basics.
+          </h2>
+          <div className="mt-6 grid gap-3 md:grid-cols-2">
+            {intakeChecklist.map((item) => (
               <div
-                key={answer.title}
-                className="rounded-[var(--radius-lg)] border border-[var(--color-border-strong)] bg-white/[0.03] p-5"
+                key={item}
+                className="rounded-[var(--radius-md)] border border-[var(--color-border-strong)] px-4 py-3 text-sm text-[var(--color-fog-300)]"
               >
-                <div className="text-sm font-semibold text-white">{answer.title}</div>
-                <div className="mt-3 text-sm leading-7 text-[var(--color-fog-300)]">
-                  {answer.body}
-                </div>
+                {item}
               </div>
             ))}
           </div>
         </Reveal>
       </section>
 
-      <section className="site-container">
-        <div className="grid gap-6 lg:grid-cols-[0.9fr,1.1fr]">
-          <Reveal className="section-shell rounded-[var(--radius-xl)] p-6 md:p-8">
-            <p className="eyebrow">How to engage</p>
-            <h2 className="section-heading type-h2 mt-4 font-semibold text-white">
-              A good first inquiry already answers the basics.
-            </h2>
-            <div className="mt-6 space-y-3">
-              {intakeChecklist.map((item) => (
-                <div
-                  key={item}
-                  className="rounded-[var(--radius-lg)] border border-[var(--color-border-strong)] bg-white/[0.03] px-4 py-3 text-sm text-[var(--color-fog-300)]"
-                >
-                  {item}
-                </div>
-              ))}
-            </div>
-          </Reveal>
-          <Reveal className="section-shell rounded-[var(--radius-xl)] p-6 md:p-8" delay={0.05}>
-            <p className="eyebrow">Buying clarity</p>
-            <div className="mt-4 space-y-4 text-sm leading-7 text-[var(--color-fog-300)]">
-              <p>Use the service groups below to match your need to the closest delivery shape.</p>
-              <p>Each card explains what the service is for, what it should help improve, and what is typically delivered.</p>
-              <p>If your need crosses categories, that is normal. The first inquiry is still the place to narrow scope and confirm fit.</p>
-            </div>
-          </Reveal>
-        </div>
-      </section>
-
-      {sortedCategories.map((category, index) => {
-        const guide = categoryGuides[category] ?? {
-          summary: "Services grouped by this category.",
-          fit: "Use the card details below to confirm if this is the closest match for your project.",
-        };
-
+      {sortedCategories.map((category) => {
         return (
           <section key={category} className="site-container">
-            <div className="grid gap-6 lg:grid-cols-[0.78fr,1.22fr]">
-              <Reveal className="section-shell rounded-[var(--radius-xl)] p-6 md:p-8" delay={index * 0.03}>
-                <p className="eyebrow">Service category</p>
-                <h2 className="section-heading type-h2 mt-4 font-semibold text-white">
-                  {category}
-                </h2>
-                <p className="mt-5 text-sm leading-7 text-[var(--color-fog-300)]">
-                  {guide.summary}
-                </p>
-                <p className="mt-4 text-sm leading-7 text-[var(--color-fog-300)]">
-                  <span className="font-semibold text-white">Best fit:</span> {guide.fit}
-                </p>
-              </Reveal>
-              <div className="grid gap-6">
-                {groupedServices[category].map((service, serviceIndex) => (
-                  <Reveal key={service.slug} delay={serviceIndex * 0.06 + 0.04}>
-                    <ServiceCard service={service} />
-                  </Reveal>
-                ))}
-              </div>
+            <Reveal className="mb-6">
+              <p className="eyebrow">Service category</p>
+              <h2 className="section-heading type-h2 mt-3 font-semibold text-white">
+                {category}
+              </h2>
+            </Reveal>
+            <div className="grid gap-6">
+              {groupedServices[category].map((service, serviceIndex) => (
+                <Reveal key={service.slug} delay={serviceIndex * 0.05}>
+                  <ServiceCard service={service} />
+                </Reveal>
+              ))}
             </div>
           </section>
         );
@@ -185,15 +112,14 @@ export default async function ServicesPage() {
       <section className="site-container">
         <div className="grid gap-6 lg:grid-cols-[0.85fr,1.15fr]">
           <Reveal className="section-shell rounded-[var(--radius-xl)] p-6 md:p-8">
-            <p className="eyebrow">Engagement model</p>
+            <p className="eyebrow">How engagements work</p>
             <h2 className="section-heading type-h2 mt-4 font-semibold text-white">
-              Flexible enough for agencies and product teams, firm enough for reliable delivery.
+              Simple structure, clear scope, and visible milestones.
             </h2>
             <div className="mt-6 space-y-4 text-sm leading-7 text-[var(--color-fog-300)]">
-              <p>Discovery and scope alignment come first so budget and timeline mean something.</p>
-              <p>Milestones stay visible, with clear review points and decision gates.</p>
-              <p>Work can be delivered directly, through an agency, or as production support inside an existing team.</p>
-              <p>The goal is to remove ambiguity before the first call, not add more sales language around it.</p>
+              <p>Discovery and scope alignment happen first so timeline and budget mean something.</p>
+              <p>Work can be delivered directly, through an agency, or as embedded production support inside an existing pipeline.</p>
+              <p>The goal is to make each service easy to understand and easy to scope before the first call.</p>
             </div>
           </Reveal>
           <Reveal className="section-shell rounded-[var(--radius-xl)] p-6 md:p-8" delay={0.05}>

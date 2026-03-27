@@ -2,21 +2,20 @@ import { ArrowUpRight, Clock3, Mail, MessageSquareMore } from "lucide-react";
 
 import { Reveal } from "@/components/animation/reveal";
 import { ContactForm } from "@/components/marketing/contact-form";
-import { FaqAccordion } from "@/components/marketing/faq-accordion";
 import { TrackedAnchor } from "@/components/ui/tracked-anchor";
 import { ANALYTICS_EVENTS } from "@/lib/analytics";
 import { buildMetadata } from "@/lib/seo";
-import { getFaqItems, getSiteSettings } from "@/lib/site-content";
+import { getSiteSettings } from "@/lib/site-content";
 
 export const metadata = buildMetadata({
   title: "Contact | Maykell Interactive",
   description:
-    "Simple conversion-first contact form with essential project fields, validation, and direct fallback channels.",
+    "Contact form for Roblox outsourcing and co-development inquiries, with essential project fields and direct fallback channels.",
   path: "/contact",
 });
 
 export default async function ContactPage() {
-  const [settings, faqItems] = await Promise.all([getSiteSettings(), getFaqItems()]);
+  const settings = await getSiteSettings();
   const hasPrimaryEmail = Boolean(settings.primaryEmail?.trim());
   const hasSocials = settings.socials.length > 0;
   const hasDirectChannels = hasPrimaryEmail || hasSocials;
@@ -31,21 +30,21 @@ export default async function ContactPage() {
         <Reveal className="section-shell rounded-[var(--radius-2xl)] p-6 md:p-8">
           <p className="eyebrow">Contact</p>
           <h1 className="section-heading type-display-xl mt-4 font-semibold text-white">
-            A simple inquiry path with clear next steps.
+            A minimal project inquiry form.
           </h1>
           <p className="type-body-lg mt-6 max-w-3xl text-[var(--color-fog-300)]">
-            This page keeps conversion friction low: only the essential form fields,
-            direct fallback contact options, and clear expectations after submission.
+            Share the essentials we need to qualify the lead: project type, goals, timing, budget if known, and how to reach you.
           </p>
-          <div className="grid-responsive-3 mt-6">
+          <div className="grid gap-3 md:grid-cols-2 mt-6">
             {[
-              "Name, email, company or project",
-              "Budget and timeline if known",
-              "Immediate confirmation + clear reply expectations",
+              "Only the fields needed to qualify the project",
+              "Immediate confirmation after submission",
+              "Reply timing and next step explained up front",
+              "Direct email fallback if the request is urgent",
             ].map((item) => (
               <div
                 key={item}
-                className="rounded-[var(--radius-lg)] border border-[var(--color-border-strong)] bg-white/[0.03] px-4 py-3 text-sm text-[var(--color-fog-300)]"
+                className="rounded-[var(--radius-md)] border border-[var(--color-border-strong)] px-4 py-3 text-sm text-[var(--color-fog-300)]"
               >
                 {item}
               </div>
@@ -113,7 +112,7 @@ export default async function ContactPage() {
             ) : null}
 
             <Reveal className="section-shell rounded-[var(--radius-xl)] p-6 md:p-7" delay={0.05}>
-              <p className="eyebrow">Response expectations</p>
+              <p className="eyebrow">What happens next</p>
               <div className="mt-5 space-y-4 text-sm leading-7 text-[var(--color-fog-300)]">
                 {responseDetails.map((detail, index) => {
                   const Icon = index === 0 ? Clock3 : ArrowUpRight;
@@ -132,17 +131,10 @@ export default async function ContactPage() {
                   );
                 })}
                 <p>
-                  After you submit, you will see an on-page confirmation immediately.
-                  If the project looks like a fit, the next step is usually a reply,
-                  scope review, or a short call based on complexity.
+                  After submission, you will see an on-page confirmation immediately.
+                  If the project looks like a fit, the next step is usually an email reply with follow-up questions,
+                  a scope review, or a short call depending on complexity.
                 </p>
-              </div>
-            </Reveal>
-
-            <Reveal className="section-shell rounded-[var(--radius-xl)] p-6 md:p-7" delay={0.1}>
-              <p className="eyebrow">FAQ</p>
-              <div className="mt-5">
-                <FaqAccordion items={faqItems.slice(1)} defaultOpen={0} />
               </div>
             </Reveal>
           </div>

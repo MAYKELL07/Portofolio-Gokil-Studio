@@ -9,7 +9,7 @@ import { getProjects } from "@/lib/site-content";
 export const metadata = buildMetadata({
   title: "Work | Maykell Interactive",
   description:
-    "Filterable Roblox portfolio showcasing shipped work, production scope, and measurable outcomes.",
+    "Filterable Roblox case studies built to help clients quickly find relevant delivery examples, with selected private work available on request.",
   path: "/work",
 });
 
@@ -25,22 +25,22 @@ export default async function WorkPage() {
             <div>
               <p className="eyebrow">Work / Portfolio</p>
               <h1 className="section-heading type-display-xl mt-4 font-semibold text-white">
-                Filter proof by category, platform, and service type.
+                Find the closest example to your project fast.
               </h1>
               <p className="type-body-lg mt-6 max-w-3xl text-[var(--color-fog-300)]">
-                Review shipped work by category, platform, and service type to find the closest
-                delivery fit without losing momentum.
+                Use the filters and case study summaries to answer a practical buying question:
+                have we done something similar to your build, feature set, delivery model, or support need?
               </p>
             </div>
             <div className="space-y-4">
-              <div className="rounded-[var(--radius-lg)] border border-[var(--color-border-strong)] bg-white/[0.03] p-5">
+              <div className="rounded-[var(--radius-lg)] border border-[var(--color-border-strong)] p-5">
                 <div className="font-mono text-[11px] uppercase tracking-[0.2em] text-[var(--color-fog-500)]">
-                  Hiring shortcuts
+                  Buyer guidance
                 </div>
                 <div className="mt-4 space-y-3 text-sm leading-7 text-[var(--color-fog-300)]">
-                  <p>Scan the cards first, then open a case study only when the fit looks close.</p>
-                  <p>Use filters to narrow by delivery fit, not to hide all of the proof.</p>
-                  <p>Jump to contact from here or from any project without losing context.</p>
+                  <p>Start with filters to narrow by project type, platform, or service fit.</p>
+                  <p>Open a case study when the client goal, scope, and delivery role look close to your project.</p>
+                  <p>Selected private and NDA-protected work is available on request when a public example is not the best match.</p>
                 </div>
               </div>
               <ButtonLink
@@ -68,16 +68,20 @@ export default async function WorkPage() {
             <div>
               <p className="eyebrow">Next step</p>
               <h2 className="type-h2 mt-3 font-semibold text-white">
-                Found work that looks close? Move into the brief or review a related case study.
+                Found something close, or need a private example? Move into the brief.
               </h2>
+              <p className="mt-4 max-w-2xl text-sm leading-7 text-[var(--color-fog-300)]">
+                If the public work is directionally right but your project is more confidential,
+                selected private work can be shared on request during the conversation.
+              </p>
             </div>
             <div className="flex flex-col gap-3 sm:flex-row sm:justify-end">
               <ButtonLink
                 href="/contact"
                 eventName="cta_click"
-                eventPayload={{ placement: "work_page_footer", label: "Start a Project" }}
+                eventPayload={{ placement: "work_page_footer", label: "Scope a Brief" }}
               >
-                Start a Project
+                Scope a Brief
                 <ArrowUpRight className="h-4 w-4" />
               </ButtonLink>
               <ButtonLink

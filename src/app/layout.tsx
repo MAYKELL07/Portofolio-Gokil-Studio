@@ -28,12 +28,14 @@ const plexMono = IBM_Plex_Mono({
   weight: ["400", "500", "600"],
 });
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   metadataBase: new URL(createAbsoluteUrl()),
   ...buildMetadata({
-    title: "Maykell Interactive | Premium Roblox Game Studio Portfolio",
+    title: "Maykell Interactive | Roblox Co-Development Partner",
     description:
-      "Premium conversion-first portfolio for a Roblox game studio, designed to showcase shipped work, process depth, and qualified project intake.",
+      "Roblox co-development and outsourcing partner for game builds, feature work, live updates, and production support.",
   }),
   category: "technology",
   applicationName: "Maykell Interactive",
@@ -69,9 +71,6 @@ export default async function RootLayout({
           Skip to main content
         </a>
         <AnalyticsProvider />
-        <div className="site-grid" />
-        <div className="site-glow site-glow-top" />
-        <div className="site-glow site-glow-bottom" />
         <SiteHeader
           studioName={settings.studioName}
           navLinks={settings.navLinks}

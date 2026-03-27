@@ -27,16 +27,16 @@ export function FilterableWorkGrid({ projects }: FilterableWorkGridProps) {
           <div>
             <p className="text-lg font-semibold text-white">Case studies will appear here once work is published.</p>
             <p className="mt-2 max-w-2xl text-sm leading-7 text-[var(--color-fog-300)]">
-              The work index is live and ready, but no public project entries are available yet.
+              Public case studies are not available yet, but selected private work can be discussed on request.
             </p>
           </div>
           <ButtonLink
             href="/contact"
             eventName="cta_click"
-            eventPayload={{ placement: "work_empty_state", label: "Start a Project" }}
+            eventPayload={{ placement: "work_empty_state", label: "Scope a Brief" }}
             className="w-full justify-center sm:w-auto"
           >
-            Start a Project
+            Scope a Brief
             <ArrowRight className="h-4 w-4" />
           </ButtonLink>
         </div>
@@ -135,11 +135,11 @@ export function FilterableWorkGrid({ projects }: FilterableWorkGridProps) {
           <div className="grid gap-6">
             {renderChipRow("Category", categoryOptions, category, setCategory, "category")}
             {renderChipRow("Platform", platformOptions, platform, setPlatform, "platform")}
-            {renderChipRow("Service type", serviceOptions, serviceType, setServiceType, "serviceType")}
+            {renderChipRow("Service fit", serviceOptions, serviceType, setServiceType, "serviceType")}
           </div>
           <div className="signal-panel rounded-[var(--radius-lg)] p-5">
             <div className="font-mono text-[11px] uppercase tracking-[0.2em] text-[var(--color-fog-500)]">
-              Scan status
+              Relevance check
             </div>
             <div className="mt-4 space-y-4">
               <p
@@ -158,7 +158,7 @@ export function FilterableWorkGrid({ projects }: FilterableWorkGridProps) {
                   ))
                 ) : (
                   <span className="chip text-xs text-[var(--color-fog-300)]">
-                    All available proof is visible.
+                    Showing all public case studies.
                   </span>
                 )}
               </div>
@@ -174,9 +174,12 @@ export function FilterableWorkGrid({ projects }: FilterableWorkGridProps) {
                 </Button>
               ) : (
                 <p className="text-xs leading-6 text-[var(--color-fog-500)]">
-                  Start with one filter for a quick skim. Stack them only when you need a tighter fit.
+                  Use filters to answer whether we have handled something similar to your project.
                 </p>
               )}
+              <p className="text-xs leading-6 text-[var(--color-fog-500)]">
+                Selected private work is available on request for NDA-sensitive or non-public engagements.
+              </p>
             </div>
           </div>
         </div>
@@ -187,8 +190,8 @@ export function FilterableWorkGrid({ projects }: FilterableWorkGridProps) {
             <div>
               <p className="text-lg font-semibold text-white">No exact match from this filter mix.</p>
               <p className="mt-2 max-w-2xl text-sm leading-7 text-[var(--color-fog-300)]">
-                The closest-fit projects are still visible below so buyers are not forced into an
-                empty page. Reset filters to reopen the full portfolio or move straight into a brief.
+                The closest-fit projects are still visible below so you can review nearby examples.
+                If the best comparison is private or NDA-protected, that can be discussed on request.
               </p>
             </div>
             <div className="flex flex-col gap-3 sm:flex-row">
@@ -204,10 +207,10 @@ export function FilterableWorkGrid({ projects }: FilterableWorkGridProps) {
               <ButtonLink
                 href="/contact"
                 eventName="cta_click"
-                eventPayload={{ placement: "work_filters_empty_state", label: "Start a Project" }}
+                eventPayload={{ placement: "work_filters_empty_state", label: "Scope a Brief" }}
                 className="w-full justify-center sm:w-auto"
               >
-                Start a Project
+                Scope a Brief
                 <ArrowRight className="h-4 w-4" />
               </ButtonLink>
             </div>

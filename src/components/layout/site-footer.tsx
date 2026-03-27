@@ -53,14 +53,14 @@ export function SiteFooter({ studioName, email, socials }: SiteFooterProps) {
   const hasEmail = Boolean(email?.trim());
 
   return (
-    <footer className="border-t border-white/5 bg-[rgba(9,10,13,0.96)]">
+    <footer className="border-t border-white/5 bg-[rgba(17,19,21,0.98)]">
       <div className="site-container grid gap-10 py-12 md:grid-cols-[1.4fr,1fr,1fr]">
         <div className="space-y-5">
           <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--color-fog-500)]">
-            Ready to scope?
+            Contact
           </p>
-          <h2 className="max-w-md text-3xl font-semibold text-white md:text-4xl">
-            Let&apos;s build the strongest version of your next Roblox release.
+          <h2 className="max-w-md text-2xl font-semibold text-white md:text-3xl">
+            Start a project conversation.
           </h2>
           {hasEmail ? (
             <a
@@ -93,7 +93,7 @@ export function SiteFooter({ studioName, email, socials }: SiteFooterProps) {
         </div>
         <div className="space-y-4">
           <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--color-fog-500)]">
-            Studio
+            Company
           </p>
           <div className="flex flex-col gap-3">
             {socials.map((social) => (
@@ -111,8 +111,8 @@ export function SiteFooter({ studioName, email, socials }: SiteFooterProps) {
       </div>
       <div className="border-t border-white/5 py-4 text-xs text-[var(--color-fog-500)]">
         <div className="site-container flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
-          <span>{studioName}. Roblox production studio.</span>
-          <span>Launch-ready work, service detail, and direct contact paths.</span>
+          <span>{studioName}</span>
+          <span>Roblox outsourcing and co-development.</span>
         </div>
       </div>
     </footer>

@@ -12,7 +12,7 @@ export function MobileCtaBar({ responseSla }: MobileCtaBarProps) {
   const hasResponseSla = Boolean(responseSla?.trim());
 
   return (
-    <div className="fixed inset-x-0 bottom-0 z-50 border-t border-white/8 bg-[rgba(9,10,13,0.94)] px-4 py-3 backdrop-blur-xl md:hidden">
+    <div className="fixed inset-x-0 bottom-0 z-50 border-t border-white/8 bg-[rgba(17,19,21,0.98)] px-4 py-3 md:hidden">
       <div className="site-container flex items-center gap-3 px-0">
         {hasResponseSla ? (
           <div className="min-w-0 flex-1 rounded-2xl border border-white/8 bg-white/[0.03] px-3 py-2">
@@ -26,10 +26,10 @@ export function MobileCtaBar({ responseSla }: MobileCtaBarProps) {
         <ButtonLink
           href="/contact"
           eventName="cta_click"
-          eventPayload={{ placement: "mobile_sticky_bar", label: "Start a Project" }}
+          eventPayload={{ placement: "mobile_sticky_bar", label: "Scope a Brief" }}
           className="shrink-0 px-4"
         >
-          Start a Project
+          Scope a Brief
           <ArrowRight className="h-4 w-4" />
         </ButtonLink>
       </div>

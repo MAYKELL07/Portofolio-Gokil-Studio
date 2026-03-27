@@ -13,7 +13,6 @@ type ProjectCardProps = {
 };
 
 export function ProjectCard({ project }: ProjectCardProps) {
-  const [accentA, , accentC] = project.palette;
   const previewMedia = project.galleryMedia[0];
   const previewImageUrlFromSource =
     resolveSanityImageUrl(previewMedia?.image, { width: 1200, quality: 72 }) ||
@@ -25,8 +24,8 @@ export function ProjectCard({ project }: ProjectCardProps) {
     previewMedia?.posterUrl ||
     project.coverImageUrl;
   const visualPreviewUrl = previewImageUrl || "/placeholders/studio-signal-texture.svg";
-  const serviceTags = project.serviceTags.slice(0, 3);
-  const supportingTags = project.genreTags.slice(0, 2);
+  const roleTags = project.serviceTags.slice(0, 2);
+  const deliverableTags = project.gameplayFeatures.slice(0, 3);
   const clientLabel = project.clientName || "Confidential partner";
   const previewLabel = previewMedia?.label ?? (previewImageUrl ? "Cover image" : "Media held back");
   const previewDescription =
@@ -36,7 +35,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
     "Public media is limited for this engagement, but the case study still outlines scope, delivery role, and outcomes.";
 
   return (
-    <article className="section-shell rounded-[var(--radius-xl)] p-4 transition duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] hover:border-white/12 hover:shadow-[0_26px_68px_rgba(0,0,0,0.34)] focus-within:border-[var(--color-vol-blue)]/35 md:p-6">
+    <article className="section-shell p-4 transition duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] hover:border-[var(--color-border-accent)] focus-within:border-[var(--color-vol-blue)]/35 md:p-6">
       <TrackedLink
         href={`/work/${project.slug}`}
         eventName={ANALYTICS_EVENTS.PROJECT_CARD_CLICK}
@@ -50,20 +49,14 @@ export function ProjectCard({ project }: ProjectCardProps) {
         <ProjectCoverMedia
           src={visualPreviewUrl}
           alt={previewMedia?.alt || previewLabel}
-          className="rounded-[1.6rem]"
+          className="rounded-[var(--radius-md)]"
         >
-          <div
-            className="absolute inset-0"
-            style={{
-              background: `radial-gradient(circle at top right, ${accentA}28, transparent 30%), linear-gradient(135deg, transparent, ${accentC}22)`,
-            }}
-          />
           <div className="absolute inset-x-5 top-5 z-10 flex items-start justify-between gap-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-white/70 md:inset-x-6 md:top-6">
             <div className="flex flex-wrap gap-2">
-              <span className="rounded-full border border-white/12 bg-black/15 px-3 py-1">
+              <span className="rounded-full border border-white/10 bg-[rgba(17,19,21,0.72)] px-3 py-1">
                 {project.projectType}
               </span>
-              <span className="rounded-full border border-white/12 bg-black/15 px-3 py-1">
+              <span className="rounded-full border border-white/10 bg-[rgba(17,19,21,0.72)] px-3 py-1">
                 {project.platform}
               </span>
             </div>
@@ -73,9 +66,9 @@ export function ProjectCard({ project }: ProjectCardProps) {
             <p className="max-w-lg text-2xl font-semibold text-white transition-colors duration-200 group-hover:text-[var(--color-fog-100)] md:text-3xl">
               {project.headline}
             </p>
-            <div className="mt-4 rounded-[var(--radius-md)] border border-white/10 bg-black/22 p-4 backdrop-blur-sm">
+            <div className="mt-4 rounded-[var(--radius-md)] border border-white/10 bg-[rgba(17,19,21,0.78)] p-4">
               <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/60">
-                {previewMedia?.type === "video" ? "Video preview" : previewMedia ? "Media preview" : "Cover image"}
+                {previewMedia?.type === "video" ? "Project context" : previewMedia ? "Project context" : "Project context"}
               </div>
               <p className="mt-2 text-sm font-semibold text-white">{previewLabel}</p>
               {previewDescription ? (
@@ -99,20 +92,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
                     ? "lime"
                     : "purple"
               }
-              className="backdrop-blur-sm"
             />
-          ))}
-        </div>
-        <div className="flex flex-wrap gap-2">
-          {serviceTags.map((tag) => (
-            <span key={tag} className="chip text-xs text-white">
-              {tag}
-            </span>
-          ))}
-          {supportingTags.map((tag) => (
-            <span key={tag} className="chip text-xs text-[var(--color-fog-300)]">
-              {tag}
-            </span>
           ))}
         </div>
         <div className="space-y-3">
@@ -128,10 +108,54 @@ export function ProjectCard({ project }: ProjectCardProps) {
           >
             <p className="text-xl font-semibold text-white">{project.title}</p>
           </TrackedLink>
-          <p className="text-sm font-medium uppercase tracking-[0.12em] text-[var(--color-fog-500)]">
-            {clientLabel}
-          </p>
-          <p className="text-sm leading-7 text-[var(--color-fog-300)]">{project.summary}</p>
+          <div className="grid gap-3 md:grid-cols-2">
+            <div className="rounded-[var(--radius-md)] border border-[var(--color-border-strong)] p-4">
+              <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-[var(--color-fog-500)]">
+                Client
+              </div>
+              <p className="mt-2 text-sm font-semibold text-white">{clientLabel}</p>
+            </div>
+            <div className="rounded-[var(--radius-md)] border border-[var(--color-border-strong)] p-4">
+              <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-[var(--color-fog-500)]">
+                Scope
+              </div>
+              <p className="mt-2 text-sm font-semibold text-white">
+                {project.projectType} for {project.platform}
+              </p>
+            </div>
+          </div>
+          <div className="rounded-[var(--radius-md)] border border-[var(--color-border-strong)] p-4">
+            <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-[var(--color-fog-500)]">
+              Client goal
+            </div>
+            <p className="mt-2 text-sm leading-7 text-[var(--color-fog-300)]">{project.summary}</p>
+          </div>
+          <div className="grid gap-3 md:grid-cols-2">
+            <div className="rounded-[var(--radius-md)] border border-[var(--color-border-strong)] p-4">
+              <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-[var(--color-fog-500)]">
+                Role
+              </div>
+              <div className="mt-2 flex flex-wrap gap-2">
+                {(roleTags.length > 0 ? roleTags : ["Delivery support"]).map((tag) => (
+                  <span key={tag} className="chip text-xs text-[var(--color-fog-300)]">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </div>
+            <div className="rounded-[var(--radius-md)] border border-[var(--color-border-strong)] p-4">
+              <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-[var(--color-fog-500)]">
+                Deliverables
+              </div>
+              <div className="mt-2 flex flex-wrap gap-2">
+                {(deliverableTags.length > 0 ? deliverableTags : ["Scope shared in case study"]).map((tag) => (
+                  <span key={tag} className="chip text-xs text-[var(--color-fog-300)]">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
         <ButtonLink
           href={`/work/${project.slug}`}
