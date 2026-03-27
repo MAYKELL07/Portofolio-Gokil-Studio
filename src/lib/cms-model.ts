@@ -73,6 +73,12 @@ export const cmsCollections: ContentCollection[] = [
       "Homepage section copy and layout-driven content blocks that can be updated without code changes.",
     fields: [
       {
+        key: "heroBackgroundImage",
+        label: "Hero Background Image",
+        type: "image",
+        description: "Homepage hero image. This is separate from the hero text fields stored in Site Settings.",
+      },
+      {
         key: "scrollStory",
         label: "Scroll Story",
         type: "object",

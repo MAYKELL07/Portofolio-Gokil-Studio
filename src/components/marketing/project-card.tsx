@@ -49,24 +49,26 @@ export function ProjectCard({ project }: ProjectCardProps) {
         <ProjectCoverMedia
           src={visualPreviewUrl}
           alt={previewMedia?.alt || previewLabel}
-          className="rounded-[var(--radius-md)]"
+          className="min-h-[20rem] rounded-[var(--radius-md)] md:min-h-[22rem]"
         >
-          <div className="absolute inset-x-5 top-5 z-10 flex items-start justify-between gap-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-white/70 md:inset-x-6 md:top-6">
-            <div className="flex flex-wrap gap-2">
-              <span className="rounded-full border border-white/10 bg-[rgba(17,19,21,0.72)] px-3 py-1">
-                {project.projectType}
-              </span>
-              <span className="rounded-full border border-white/10 bg-[rgba(17,19,21,0.72)] px-3 py-1">
-                {project.platform}
-              </span>
+          <div className="absolute inset-0 z-10 flex flex-col justify-between p-5 md:p-6">
+            <div className="flex items-start justify-between gap-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-white/70">
+              <div className="flex flex-wrap gap-2">
+                <span className="rounded-full border border-white/10 bg-[rgba(17,19,21,0.72)] px-3 py-1">
+                  {project.projectType}
+                </span>
+                <span className="rounded-full border border-white/10 bg-[rgba(17,19,21,0.72)] px-3 py-1">
+                  {project.platform}
+                </span>
+              </div>
+              <span className="shrink-0">{project.year}</span>
             </div>
-            <span>{project.year}</span>
-          </div>
-          <div className="absolute inset-x-5 bottom-5 z-10 md:inset-x-6 md:bottom-6">
-            <p className="max-w-lg text-2xl font-semibold text-white transition-colors duration-200 group-hover:text-[var(--color-fog-100)] md:text-3xl">
-              {project.headline}
-            </p>
-            <div className="mt-4 rounded-[var(--radius-md)] border border-white/10 bg-[rgba(17,19,21,0.78)] p-4">
+            <div className="pt-8">
+              <p className="max-w-md text-xl font-semibold leading-tight text-white transition-colors duration-200 group-hover:text-[var(--color-fog-100)] md:text-[2rem]">
+                {project.headline}
+              </p>
+            </div>
+            <div className="mt-5 rounded-[var(--radius-md)] border border-white/10 bg-[rgba(17,19,21,0.82)] p-4">
               <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/60">
                 {previewMedia?.type === "video" ? "Project context" : previewMedia ? "Project context" : "Project context"}
               </div>
