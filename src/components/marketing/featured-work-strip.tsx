@@ -12,12 +12,14 @@ export function FeaturedWorkStrip({
   projects: Project[];
   title?: string;
 }) {
+  const mobileProjects = projects.slice(0, 2);
+
   return (
     <section>
       <Reveal className="mb-8 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
         <div>
           <p className="eyebrow">Case studies</p>
-          <h2 className="section-heading mt-3 text-4xl font-semibold text-white md:text-6xl">
+          <h2 className="section-heading mt-3 max-w-5xl text-3xl font-semibold text-white md:text-6xl">
             {title}
           </h2>
         </div>
@@ -32,12 +34,21 @@ export function FeaturedWorkStrip({
           <ArrowUpRight className="h-4 w-4" />
         </ButtonLink>
       </Reveal>
-      <div className="grid-responsive-3">
-        {projects.map((project, index) => (
+      <div className="grid gap-6 md:hidden">
+        {mobileProjects.map((project, index) => (
           <Reveal key={project.slug} delay={index * 0.07}>
             <ProjectCard project={project} />
           </Reveal>
         ))}
+      </div>
+      <div className="hidden md:block">
+        <div className="bento-grid bento-grid-3">
+          {projects.map((project, index) => (
+            <Reveal key={project.slug} delay={index * 0.07}>
+              <ProjectCard project={project} />
+            </Reveal>
+          ))}
+        </div>
       </div>
     </section>
   );

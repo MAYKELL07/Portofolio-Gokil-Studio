@@ -8,8 +8,13 @@
     "start": "next start",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
+    "agent-browser": "node ./scripts/agent-browser.mjs",
+    "qa:responsive": "node ./scripts/responsive-qa.mjs",
     "sanity:dev": "sanity dev",
     "sanity:deploy": "sanity deploy"
+  },
+  "bin": {
+    "agent-browser": "./scripts/agent-browser.mjs"
   },
   "dependencies": {
     "@sanity/image-url": "^2.0.3",
@@ -33,6 +38,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.1.6",
+    "playwright": "^1.58.2",
     "tailwindcss": "^4",
     "typescript": "^5"
   },

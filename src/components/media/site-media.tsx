@@ -28,6 +28,7 @@ const MEDIA_BLUR_DATA_URL = `data:image/svg+xml;charset=utf-8,${encodeURICompone
   </svg>`,
 )}`;
 
+
 type MediaSurfaceProps = {
   src?: string;
   alt?: string;

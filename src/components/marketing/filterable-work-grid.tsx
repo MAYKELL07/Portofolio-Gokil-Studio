@@ -6,7 +6,7 @@ import { ArrowRight, RotateCcw } from "lucide-react";
 import { ProjectCard } from "@/components/marketing/project-card";
 import { Button, ButtonLink } from "@/components/ui/button";
 import { ANALYTICS_EVENTS, trackEvent } from "@/lib/analytics";
-import { cn } from "@/lib/utils";
+import { cn, getMobileSummary } from "@/lib/utils";
 import type { Project } from "@/lib/site-content";
 
 type FilterableWorkGridProps = {
@@ -26,7 +26,13 @@ export function FilterableWorkGrid({ projects }: FilterableWorkGridProps) {
         <div className="grid gap-5 lg:grid-cols-[1fr,auto] lg:items-center">
           <div>
             <p className="text-lg font-semibold text-white">Case studies will appear here once work is published.</p>
-            <p className="mt-2 max-w-2xl text-sm leading-7 text-[var(--color-fog-300)]">
+            <p className="mt-2 max-w-2xl text-sm leading-7 text-[var(--color-fog-300)] md:hidden">
+              {getMobileSummary(
+                "Public case studies are not available yet, but selected private work can be discussed on request.",
+                14,
+              )}
+            </p>
+            <p className="mt-2 hidden max-w-2xl text-sm leading-7 text-[var(--color-fog-300)] md:block">
               Public case studies are not available yet, but selected private work can be discussed on request.
             </p>
           </div>
@@ -130,14 +136,14 @@ export function FilterableWorkGrid({ projects }: FilterableWorkGridProps) {
 
   return (
     <div className="space-y-6">
-      <div className="section-shell rounded-[var(--radius-xl)] p-5 md:p-6">
-        <div className="grid gap-6 lg:grid-cols-[1.25fr,0.75fr] lg:items-end">
+      <div className="section-shell rounded-[var(--radius-xl)] p-5 md:p-6 xl:p-7">
+        <div className="bento-split gap-6 xl:gap-8 lg:items-end">
           <div className="grid gap-6">
             {renderChipRow("Category", categoryOptions, category, setCategory, "category")}
             {renderChipRow("Platform", platformOptions, platform, setPlatform, "platform")}
             {renderChipRow("Service fit", serviceOptions, serviceType, setServiceType, "serviceType")}
           </div>
-          <div className="signal-panel rounded-[var(--radius-lg)] p-5">
+          <div className="signal-panel bento-card rounded-[var(--radius-lg)] p-5 md:p-6">
             <div className="font-mono text-[11px] uppercase tracking-[0.2em] text-[var(--color-fog-500)]">
               Relevance check
             </div>
@@ -173,11 +179,19 @@ export function FilterableWorkGrid({ projects }: FilterableWorkGridProps) {
                   Clear filters
                 </Button>
               ) : (
-                <p className="text-xs leading-6 text-[var(--color-fog-500)]">
-                  Use filters to answer whether we have handled something similar to your project.
+                <p className="text-xs leading-6 text-[var(--color-fog-500)] md:hidden">
+                  Find the closest public match first.
                 </p>
               )}
-              <p className="text-xs leading-6 text-[var(--color-fog-500)]">
+              {!hasActiveFilters ? (
+                <p className="hidden text-xs leading-6 text-[var(--color-fog-500)] md:block">
+                  Use filters to answer whether we have handled something similar to your project.
+                </p>
+              ) : null}
+              <p className="text-xs leading-6 text-[var(--color-fog-500)] md:hidden">
+                Private examples are available on request.
+              </p>
+              <p className="hidden text-xs leading-6 text-[var(--color-fog-500)] md:block">
                 Selected private work is available on request for NDA-sensitive or non-public engagements.
               </p>
             </div>
@@ -189,7 +203,13 @@ export function FilterableWorkGrid({ projects }: FilterableWorkGridProps) {
           <div className="grid gap-5 lg:grid-cols-[1fr,auto] lg:items-center">
             <div>
               <p className="text-lg font-semibold text-white">No exact match from this filter mix.</p>
-              <p className="mt-2 max-w-2xl text-sm leading-7 text-[var(--color-fog-300)]">
+              <p className="mt-2 max-w-2xl text-sm leading-7 text-[var(--color-fog-300)] md:hidden">
+                {getMobileSummary(
+                  "The closest-fit projects are still visible below so you can review nearby examples. If the best comparison is private or NDA-protected, that can be discussed on request.",
+                  16,
+                )}
+              </p>
+              <p className="mt-2 hidden max-w-2xl text-sm leading-7 text-[var(--color-fog-300)] md:block">
                 The closest-fit projects are still visible below so you can review nearby examples.
                 If the best comparison is private or NDA-protected, that can be discussed on request.
               </p>
@@ -217,7 +237,7 @@ export function FilterableWorkGrid({ projects }: FilterableWorkGridProps) {
           </div>
         </div>
       ) : null}
-      <div className="grid gap-6 lg:grid-cols-2">
+      <div className="bento-grid gap-6 xl:gap-7">
         {visibleProjects.map((project) => (
           <ProjectCard key={project.slug} project={project} />
         ))}

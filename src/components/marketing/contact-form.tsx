@@ -18,6 +18,7 @@ import {
   timelineOptions,
   type ContactFormValues,
 } from "@/lib/contact-schema";
+import { getMobileSummary } from "@/lib/utils";
 
 type ContactFormState = {
   success: boolean;
@@ -101,8 +102,9 @@ export function ContactForm() {
   return (
     <form
       ref={formRef}
-      className="section-shell rounded-[var(--radius-xl)] p-5 md:p-6"
+      className="section-shell rounded-[var(--radius-xl)] bento-card w-full min-w-0 p-4 md:p-6"
       action={onSubmit}
+      noValidate
       aria-busy={isPending}
       onFocus={() => {
         if (hasStarted) {
@@ -125,27 +127,38 @@ export function ContactForm() {
         aria-hidden="true"
       />
 
-      <div className="grid-responsive-3 mb-6">
-        {[
-          ["Fields", "Contact, project type, goals, timeline, budget"],
-          ["Time", "Usually under 2 minutes"],
-          ["Reply", "Confirmation now, human follow-up next"],
-        ].map(([label, value]) => (
-          <div
-            key={label}
-            className="rounded-[var(--radius-lg)] border border-[var(--color-border-strong)] bg-white/[0.03] px-4 py-3"
-          >
-            <div className="font-mono text-[11px] uppercase tracking-[0.2em] text-[var(--color-fog-500)]">
-              {label}
+      <div className="mb-6 rounded-[var(--radius-lg)] border border-[var(--color-border-strong)] bg-white/[0.03] px-4 py-3 text-sm text-[var(--color-fog-300)] md:hidden">
+        Share the basics. Most inquiries take about two minutes.
+      </div>
+      <div className="mb-6 hidden md:block">
+        <div className="grid-responsive-3">
+          {[
+            ["Fields", "Contact, project type, goals, timeline, budget"],
+            ["Time", "Usually under 2 minutes"],
+            ["Reply", "Confirmation now, human follow-up next"],
+          ].map(([label, value]) => (
+            <div
+              key={label}
+              className="rounded-[var(--radius-lg)] border border-[var(--color-border-strong)] bg-white/[0.03] px-4 py-3"
+            >
+              <div className="font-mono text-[11px] uppercase tracking-[0.2em] text-[var(--color-fog-500)]">
+                {label}
+              </div>
+              <div className="mt-2 text-sm text-[var(--color-fog-300)]">{value}</div>
             </div>
-            <div className="mt-2 text-sm text-[var(--color-fog-300)]">{value}</div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
 
       <div className="mb-5">
         <p className="eyebrow">Inquiry form</p>
-        <p className="mt-2 text-sm leading-7 text-[var(--color-fog-300)]">
+        <p className="mt-2 text-sm leading-7 text-[var(--color-fog-300)] md:hidden">
+          {getMobileSummary(
+            "Share only the details needed to qualify the lead. Budget and timeline help when known, but both can stay flexible.",
+            14,
+          )}
+        </p>
+        <p className="mt-2 hidden text-sm leading-7 text-[var(--color-fog-300)] md:block">
           Share only the details needed to qualify the lead. Budget and timeline help when known, but both can stay flexible.
         </p>
       </div>
@@ -263,7 +276,12 @@ export function ContactForm() {
 
       <div className="mt-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <div className="text-sm text-[var(--color-fog-300)]">
-          You&apos;ll see an immediate confirmation here, and if the brief looks like a fit you can expect a reply within 24 hours.
+          <span className="md:hidden">
+            Immediate confirmation here. If it looks like a fit, expect a reply within 24 hours.
+          </span>
+          <span className="hidden md:inline">
+            You&apos;ll see an immediate confirmation here, and if the brief looks like a fit you can expect a reply within 24 hours.
+          </span>
           <FormStatus
             state={state.message ? (state.success ? "success" : "error") : "idle"}
             message={state.message}

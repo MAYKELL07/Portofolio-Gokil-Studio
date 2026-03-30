@@ -25,7 +25,7 @@ export function FaqAccordion({
           <article
             key={`${item.question}-${index}`}
             className={cn(
-              "section-shell rounded-[var(--radius-xl)] p-5 transition-colors",
+              "section-shell rounded-[var(--radius-xl)] bento-card p-4 transition-colors md:p-5",
               isOpen && "border-[var(--color-border-accent)]",
             )}
           >

@@ -23,7 +23,7 @@ export function MetricChip({
   return (
     <div
       className={cn(
-        "rounded-[var(--radius-lg)] border px-4 py-3",
+        "rounded-[var(--radius-lg)] border px-3.5 py-3 md:px-4",
         accentClasses[accent],
         className,
       )}

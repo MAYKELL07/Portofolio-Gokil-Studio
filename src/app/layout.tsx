@@ -74,8 +74,9 @@ export default async function RootLayout({
         <SiteHeader
           studioName={settings.studioName}
           navLinks={settings.navLinks}
+          responseSla={settings.responseSla}
         />
-        <main id="main-content" className="relative z-10 pt-24 pb-24 md:pb-0" tabIndex={-1}>
+        <main id="main-content" className="relative z-10 pt-24 pb-28 md:pb-0" tabIndex={-1}>
           {children}
         </main>
         <MobileCtaBar responseSla={settings.responseSla} />

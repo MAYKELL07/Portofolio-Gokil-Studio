@@ -5,6 +5,7 @@ import { FaqAccordion } from "@/components/marketing/faq-accordion";
 import { ServiceCard } from "@/components/marketing/service-card";
 import { ButtonLink } from "@/components/ui/button";
 import { buildMetadata } from "@/lib/seo";
+import { getMobileSummary } from "@/lib/utils";
 import { getFaqItems, getServices } from "@/lib/site-content";
 
 export const metadata = buildMetadata({
@@ -55,6 +56,10 @@ export default async function ServicesPage() {
     "Desired timeline or launch window",
     "Where execution support is needed most",
   ];
+  const mobileIntro = getMobileSummary(
+    "Each service below explains what it is, when to hire us, what is included, the typical timeline, and the kind of outcome it is meant to create.",
+    16,
+  );
 
   return (
     <div className="page-stack pb-20 pt-6 md:pb-28">
@@ -64,13 +69,16 @@ export default async function ServicesPage() {
           <h1 className="section-heading type-display-xl mt-4 font-semibold text-white">
             Services built to answer the buying questions fast.
           </h1>
-          <p className="type-body-lg mt-6 max-w-3xl text-[var(--color-fog-300)]">
+          <p className="mt-6 max-w-3xl text-sm leading-7 text-[var(--color-fog-300)] md:hidden">
+            {mobileIntro}
+          </p>
+          <p className="type-body-lg mt-6 hidden max-w-3xl text-[var(--color-fog-300)] md:block">
             Each service below explains what it is, when to hire us, what is included, the typical timeline, and the kind of outcome it is meant to create.
           </p>
         </Reveal>
       </section>
 
-      <section className="site-container">
+      <section className="site-container hidden md:block">
         <Reveal className="section-shell rounded-[var(--radius-xl)] p-6 md:p-8">
           <p className="eyebrow">Before you reach out</p>
           <h2 className="section-heading type-h2 mt-4 font-semibold text-white">
@@ -118,11 +126,12 @@ export default async function ServicesPage() {
             </h2>
             <div className="mt-6 space-y-4 text-sm leading-7 text-[var(--color-fog-300)]">
               <p>Discovery and scope alignment happen first so timeline and budget mean something.</p>
-              <p>Work can be delivered directly, through an agency, or as embedded production support inside an existing pipeline.</p>
-              <p>The goal is to make each service easy to understand and easy to scope before the first call.</p>
+              <p className="md:hidden">Most work is scoped in a direct brief, then delivered against visible milestones.</p>
+              <p className="hidden md:block">Work can be delivered directly, through an agency, or as embedded production support inside an existing pipeline.</p>
+              <p className="hidden md:block">The goal is to make each service easy to understand and easy to scope before the first call.</p>
             </div>
           </Reveal>
-          <Reveal className="section-shell rounded-[var(--radius-xl)] p-6 md:p-8" delay={0.05}>
+          <Reveal className="hidden rounded-[var(--radius-xl)] p-6 md:block md:p-8" delay={0.05}>
             <p className="eyebrow">FAQ</p>
             <div className="mt-6">
               <FaqAccordion items={faqItems.slice(0, 3)} defaultOpen={0} />

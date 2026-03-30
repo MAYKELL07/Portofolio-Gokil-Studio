@@ -20,7 +20,8 @@ function FooterLink({
   label: string;
   external?: boolean;
 }) {
-  const className = "text-sm text-[var(--color-fog-300)] transition hover:text-white";
+  const className =
+    "inline-flex min-h-11 items-center rounded-full border border-white/8 px-4 py-2 text-sm text-[var(--color-fog-300)] transition hover:border-[var(--color-border-accent)] hover:text-white";
 
   if (external) {
     return (
@@ -51,6 +52,17 @@ function FooterLink({
 
 export function SiteFooter({ studioName, email, socials }: SiteFooterProps) {
   const hasEmail = Boolean(email?.trim());
+  const navigationLinks = [
+    { href: "/work", label: "Work" },
+    { href: "/services", label: "Services" },
+    { href: "/about", label: "About" },
+    { href: "/contact", label: "Contact" },
+  ];
+  const utilityLinks = [
+    ...socials.map((social) => ({ ...social, external: true })),
+    { href: "/privacy", label: "Privacy", external: false },
+    { href: "/terms", label: "Terms", external: false },
+  ];
 
   return (
     <footer className="border-t border-white/5 bg-[rgba(17,19,21,0.98)]">
@@ -83,29 +95,25 @@ export function SiteFooter({ studioName, email, socials }: SiteFooterProps) {
           <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--color-fog-500)]">
             Navigate
           </p>
-          <div className="flex flex-col gap-3">
-            <FooterLink href="/" label="Home" />
-            <FooterLink href="/work" label="Work" />
-            <FooterLink href="/services" label="Services" />
-            <FooterLink href="/about" label="About" />
-            <FooterLink href="/contact" label="Contact" />
+          <div className="flex flex-wrap gap-3">
+            {navigationLinks.map((item) => (
+              <FooterLink key={item.href} href={item.href} label={item.label} />
+            ))}
           </div>
         </div>
         <div className="space-y-4">
           <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--color-fog-500)]">
             Company
           </p>
-          <div className="flex flex-col gap-3">
-            {socials.map((social) => (
+          <div className="flex flex-wrap gap-3">
+            {utilityLinks.map((item) => (
               <FooterLink
-                key={social.label}
-                href={social.href}
-                label={social.label}
-                external
+                key={`${item.label}-${item.href}`}
+                href={item.href}
+                label={item.label}
+                external={item.external}
               />
             ))}
-            <FooterLink href="/privacy" label="Privacy" />
-            <FooterLink href="/terms" label="Terms" />
           </div>
         </div>
       </div>

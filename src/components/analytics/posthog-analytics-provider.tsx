@@ -1,7 +1,7 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import posthog from "posthog-js";
 import { PostHogProvider } from "posthog-js/react";
 
@@ -32,9 +32,11 @@ const posthogClient = posthog as typeof posthog & { __loaded?: boolean };
 export function PostHogAnalyticsProvider({
   children,
 }: PostHogAnalyticsProviderProps) {
-  const [client] = useState(() => {
-    if (!posthogEnabled || typeof window === "undefined") {
-      return null;
+  const [client, setClient] = useState<(typeof posthogClient) | null>(null);
+
+  useEffect(() => {
+    if (!posthogEnabled) {
+      return;
     }
 
     if (!posthogClient.__loaded) {
@@ -45,8 +47,14 @@ export function PostHogAnalyticsProvider({
       });
     }
 
-    return posthogClient;
-  });
+    const frame = window.setTimeout(() => {
+      setClient(posthogClient);
+    }, 0);
+
+    return () => {
+      window.clearTimeout(frame);
+    };
+  }, []);
 
   if (!client) {
     return <>{children}</>;

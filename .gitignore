@@ -29,6 +29,15 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
+qa-server.log
+
+# local QA / agent tooling
+.agent-browser/
+.codex-logs/
+.qa-edge/
+.qa-screens/
+.qa-screenshots/
+.sanity/
 
 # env files (can opt-in for committing if needed)
 .env

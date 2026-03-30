@@ -12,7 +12,7 @@ export function TestimonialCard({
   const attribution = [testimonial.role, testimonial.company].filter(Boolean).join(", ");
 
   return (
-    <article className="section-shell interactive-card p-6 md:p-7">
+    <article className="section-shell interactive-card bento-card p-5 md:p-7">
       <div className="mb-5 flex items-center gap-4">
         <ProjectCoverMedia
           src={portraitSrc}

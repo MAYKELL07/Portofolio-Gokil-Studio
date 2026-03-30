@@ -4,6 +4,7 @@ import { Reveal } from "@/components/animation/reveal";
 import { FilterableWorkGrid } from "@/components/marketing/filterable-work-grid";
 import { ButtonLink } from "@/components/ui/button";
 import { buildMetadata } from "@/lib/seo";
+import { getMobileSummary } from "@/lib/utils";
 import { getProjects } from "@/lib/site-content";
 
 export const metadata = buildMetadata({
@@ -16,23 +17,30 @@ export const metadata = buildMetadata({
 export default async function WorkPage() {
   const projects = await getProjects();
   const relatedProjects = projects.slice(0, 2);
+  const mobileIntro = getMobileSummary(
+    "Use the filters and case study summaries to answer a practical buying question: have we done something similar to your build, feature set, delivery model, or support need?",
+    17,
+  );
 
   return (
     <div className="page-stack pb-20 pt-6 md:pb-28">
       <section className="site-container">
         <Reveal className="section-shell rounded-[var(--radius-2xl)] p-6 md:p-8">
-          <div className="grid gap-6 lg:grid-cols-[1.15fr,0.85fr] lg:items-end">
+          <div className="bento-split gap-6 lg:items-end">
             <div>
               <p className="eyebrow">Work / Portfolio</p>
               <h1 className="section-heading type-display-xl mt-4 font-semibold text-white">
                 Find the closest example to your project fast.
               </h1>
-              <p className="type-body-lg mt-6 max-w-3xl text-[var(--color-fog-300)]">
+              <p className="mt-6 max-w-3xl text-sm leading-7 text-[var(--color-fog-300)] md:hidden">
+                {mobileIntro}
+              </p>
+              <p className="type-body-lg mt-6 hidden max-w-3xl text-[var(--color-fog-300)] md:block">
                 Use the filters and case study summaries to answer a practical buying question:
                 have we done something similar to your build, feature set, delivery model, or support need?
               </p>
             </div>
-            <div className="space-y-4">
+            <div className="hidden space-y-4 lg:block">
               <div className="rounded-[var(--radius-lg)] border border-[var(--color-border-strong)] p-5">
                 <div className="font-mono text-[11px] uppercase tracking-[0.2em] text-[var(--color-fog-500)]">
                   Buyer guidance
@@ -64,13 +72,16 @@ export default async function WorkPage() {
 
       <section className="site-container">
         <Reveal className="section-shell rounded-[var(--radius-xl)] p-6 md:p-8">
-          <div className="grid gap-6 lg:grid-cols-[1.05fr,0.95fr] lg:items-end">
+          <div className="bento-split gap-6 lg:items-end">
             <div>
               <p className="eyebrow">Next step</p>
               <h2 className="type-h2 mt-3 font-semibold text-white">
                 Found something close, or need a private example? Move into the brief.
               </h2>
-              <p className="mt-4 max-w-2xl text-sm leading-7 text-[var(--color-fog-300)]">
+              <p className="mt-4 text-sm leading-7 text-[var(--color-fog-300)] md:hidden">
+                Public proof can narrow the fit first. Private examples can follow if needed.
+              </p>
+              <p className="mt-4 hidden max-w-2xl text-sm leading-7 text-[var(--color-fog-300)] md:block">
                 If the public work is directionally right but your project is more confidential,
                 selected private work can be shared on request during the conversation.
               </p>
@@ -89,13 +100,14 @@ export default async function WorkPage() {
                 variant="secondary"
                 eventName="cta_click"
                 eventPayload={{ placement: "work_page_footer", label: "Review services" }}
+                className="hidden sm:inline-flex"
               >
                 Review services
                 <ArrowUpRight className="h-4 w-4" />
               </ButtonLink>
             </div>
           </div>
-          <div className="mt-6 grid gap-4 md:grid-cols-2">
+          <div className="mt-6 hidden gap-4 md:grid md:grid-cols-2">
             {relatedProjects.map((project) => (
               <ButtonLink
                 key={project.slug}
