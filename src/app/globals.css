@@ -1,25 +1,25 @@
 @import "tailwindcss";
 
 :root {
-  --color-ink-950: #111315;
-  --color-ink-900: #171a1d;
-  --color-ink-800: #1d2125;
-  --color-ink-700: #262b31;
-  --color-fog-100: #f5f7fa;
-  --color-fog-300: #c7cdd4;
-  --color-fog-500: #8e98a3;
-  --color-fog-700: #b5bec8;
-  --color-vol-blue: #5b8def;
-  --color-arc-purple: #5b8def;
-  --color-signal-lime: #5b8def;
-  --color-amber: #5b8def;
-  --color-coral: #5b8def;
-  --color-surface-1: #171a1d;
-  --color-surface-2: #1d2125;
-  --color-surface-3: #23282d;
-  --color-border-soft: rgba(255, 255, 255, 0.06);
-  --color-border-strong: rgba(255, 255, 255, 0.1);
-  --color-border-accent: rgba(91, 141, 239, 0.36);
+  --color-ink-950: #05080d;
+  --color-ink-900: #0a1119;
+  --color-ink-800: #121c28;
+  --color-ink-700: #1b2938;
+  --color-fog-100: #f2f5f8;
+  --color-fog-300: #aebac8;
+  --color-fog-500: #74839b;
+  --color-fog-700: #ccd4df;
+  --color-vol-blue: #56bff4;
+  --color-arc-purple: #83a8ff;
+  --color-signal-lime: #cadd6f;
+  --color-amber: #f4b96c;
+  --color-coral: #ff7f6b;
+  --color-surface-1: rgba(14, 21, 31, 0.84);
+  --color-surface-2: rgba(19, 29, 42, 0.8);
+  --color-surface-3: rgba(23, 35, 48, 0.76);
+  --color-border-soft: rgba(142, 176, 214, 0.2);
+  --color-border-strong: rgba(142, 176, 214, 0.3);
+  --color-border-accent: rgba(86, 191, 244, 0.52);
 
   --font-size-display-xl: clamp(3.25rem, 7vw, 6rem);
   --font-size-display-lg: clamp(2.75rem, 5.5vw, 4.5rem);
@@ -53,20 +53,20 @@
   --radius-2xl: 1.75rem;
   --radius-pill: 9999px;
 
-  --shadow-sm: none;
-  --shadow-md: none;
-  --shadow-lg: none;
-  --shadow-focus: 0 0 0 4px rgba(91, 141, 239, 0.12);
-  --shadow-focus-strong: 0 0 0 4px rgba(91, 141, 239, 0.18);
+  --shadow-sm: 0 18px 34px rgba(3, 8, 16, 0.24);
+  --shadow-md: 0 28px 70px rgba(2, 8, 20, 0.36);
+  --shadow-lg: 0 42px 98px rgba(1, 7, 17, 0.45);
+  --shadow-focus: 0 0 0 4px rgba(86, 191, 244, 0.18);
+  --shadow-focus-strong: 0 0 0 4px rgba(86, 191, 244, 0.24);
 
   --elevation-1: var(--color-surface-1);
   --elevation-2: var(--color-surface-2);
   --elevation-3: var(--color-surface-3);
 
-  --container-max: 86rem;
+  --container-max: 90rem;
   --container-pad-x: 1rem;
-  --section-gap: clamp(1.5rem, 3vw, 4rem);
-  --grid-gap: clamp(0.875rem, 1.6vw, 1.4rem);
+  --section-gap: clamp(2rem, 5vw, 5.5rem);
+  --grid-gap: clamp(1rem, 1.8vw, 1.6rem);
 }
 
 @theme inline {
@@ -82,13 +82,17 @@
 }
 
 html {
-  scroll-padding-top: 7rem;
+  scroll-padding-top: 8rem;
 }
 
 body {
   margin: 0;
   min-height: 100vh;
-  background: var(--color-ink-950);
+  background:
+    radial-gradient(circle at 10% -8%, rgba(86, 191, 244, 0.2), transparent 44%),
+    radial-gradient(circle at 88% 4%, rgba(244, 185, 108, 0.15), transparent 38%),
+    linear-gradient(164deg, #04070c 0%, #060b12 46%, #05080d 100%);
+  color: var(--color-fog-100);
 }
 
 a {
@@ -127,7 +131,14 @@ textarea {
 }
 
 .site-grid {
-  display: none;
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  background-image: linear-gradient(to right, rgba(132, 156, 189, 0.09) 1px, transparent 1px);
+  background-size: clamp(4.4rem, 7vw, 7.8rem) 100%;
+  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.6), transparent 86%);
+  opacity: 0.38;
 }
 
 .section-shell {
@@ -137,7 +148,13 @@ textarea {
   max-width: 100%;
   border: 1px solid var(--color-border-soft);
   border-radius: var(--radius-xl);
-  background: var(--elevation-1);
+  background:
+    linear-gradient(155deg, rgba(17, 26, 37, 0.9) 0%, rgba(7, 12, 19, 0.86) 72%),
+    radial-gradient(120% 150% at 0% 0%, rgba(86, 191, 244, 0.12), transparent 48%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    var(--shadow-sm);
+  backdrop-filter: blur(8px);
 }
 
 .interactive-card {
@@ -151,15 +168,17 @@ textarea {
 
 .interactive-card:hover,
 .interactive-card:focus-within {
-  transform: translateY(-2px);
+  transform: translateY(-4px);
   border-color: var(--color-border-accent);
+  box-shadow: var(--shadow-md);
 }
 
 .signal-panel {
   position: relative;
   border: 1px solid var(--color-border-strong);
   border-radius: var(--radius-lg);
-  background: var(--elevation-3);
+  background: linear-gradient(150deg, rgba(17, 26, 37, 0.78), rgba(10, 16, 24, 0.88));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
 
 .signal-outline {
@@ -176,7 +195,8 @@ textarea {
   overflow: hidden;
   border: 1px solid var(--color-border-strong);
   border-radius: var(--radius-lg);
-  background: rgba(255, 255, 255, 0.02);
+  background: linear-gradient(145deg, rgba(20, 31, 44, 0.72), rgba(11, 16, 24, 0.82));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
 }
 
 .media-reveal {
@@ -224,22 +244,22 @@ textarea {
 
 .section-heading {
   font-family: var(--font-display), sans-serif;
-  line-height: var(--line-height-tight);
-  letter-spacing: -0.04em;
+  line-height: 0.98;
+  letter-spacing: -0.05em;
 }
 
 .type-display-xl {
   font-family: var(--font-display), sans-serif;
   font-size: var(--font-size-display-xl);
-  line-height: var(--line-height-tight);
-  letter-spacing: -0.04em;
+  line-height: 0.98;
+  letter-spacing: -0.05em;
 }
 
 .type-display-lg {
   font-family: var(--font-display), sans-serif;
   font-size: var(--font-size-display-lg);
-  line-height: var(--line-height-tight);
-  letter-spacing: -0.04em;
+  line-height: 0.99;
+  letter-spacing: -0.045em;
 }
 
 .type-h1 {
@@ -282,17 +302,18 @@ textarea {
   align-items: center;
   gap: var(--space-2);
   border-radius: 999px;
-  border: 1px solid var(--color-border-strong);
-  background: rgba(255, 255, 255, 0.02);
-  padding: 0.4rem 0.65rem;
+  border: 1px solid rgba(152, 186, 224, 0.28);
+  background: rgba(8, 14, 22, 0.66);
+  padding: 0.42rem 0.72rem;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
 
 .eyebrow {
   font-size: var(--font-size-caption);
   font-weight: 700;
-  letter-spacing: 0.22em;
+  letter-spacing: 0.24em;
   text-transform: uppercase;
-  color: var(--color-fog-700);
+  color: color-mix(in srgb, var(--color-fog-700) 78%, var(--color-vol-blue));
 }
 
 .glass-button {
@@ -398,6 +419,7 @@ textarea {
 }
 
 .scrollstory-card {
+  position: relative;
   transition:
     transform 220ms cubic-bezier(0.22, 1, 0.36, 1),
     border-color 220ms cubic-bezier(0.22, 1, 0.36, 1),
@@ -405,9 +427,53 @@ textarea {
     box-shadow 220ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+.scrollstory-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(150% 110% at 0% 0%, rgba(86, 191, 244, 0.11), transparent 45%);
+  opacity: 0;
+  transition: opacity 220ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.scrollstory-card:hover,
+.scrollstory-card:focus-within {
+  transform: translateY(-3px);
+  border-color: var(--color-border-accent);
+  box-shadow: var(--shadow-md);
+}
+
+.scrollstory-card:hover::before,
+.scrollstory-card:focus-within::before {
+  opacity: 1;
+}
+
 .scrollstory-card-active {
   border-color: var(--color-border-accent);
   background: var(--elevation-2);
+}
+
+.scrollstory-panel {
+  background:
+    linear-gradient(160deg, rgba(18, 27, 39, 0.92), rgba(8, 13, 21, 0.86)),
+    radial-gradient(160% 180% at 100% 0%, rgba(244, 185, 108, 0.14), transparent 52%);
+}
+
+.scrollstory-step-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.4rem;
+  border-radius: 999px;
+  border: 1px solid rgba(152, 186, 224, 0.28);
+  background: rgba(10, 16, 24, 0.65);
+  padding: 0.32rem 0.75rem;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-fog-500);
 }
 
 .scrollstory-progress {
@@ -419,7 +485,7 @@ textarea {
 .scrollstory-progress-segment {
   height: 0.35rem;
   border-radius: 9999px;
-  background: rgba(255, 255, 255, 0.14);
+  background: rgba(142, 176, 214, 0.2);
   transition:
     transform 200ms cubic-bezier(0.22, 1, 0.36, 1),
     background 200ms cubic-bezier(0.22, 1, 0.36, 1);
@@ -428,6 +494,92 @@ textarea {
 .scrollstory-progress-segment-active {
   transform: none;
   background: var(--color-vol-blue);
+}
+
+.hero-shell {
+  isolation: isolate;
+}
+
+.hero-shell::before {
+  content: "";
+  position: absolute;
+  inset: -45% 38% 25% -12%;
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(86, 191, 244, 0.26), transparent 72%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.hero-shell::after {
+  content: "";
+  position: absolute;
+  inset: 28% -12% -44% 44%;
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(244, 185, 108, 0.18), transparent 72%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.hero-kicker {
+  font-family: var(--font-mono), monospace;
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--color-fog-500);
+}
+
+.hero-offer-card {
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  background: rgba(9, 14, 22, 0.58);
+  padding: 0.85rem 1rem;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.hero-note-card {
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(150deg, rgba(17, 26, 37, 0.72), rgba(10, 15, 23, 0.88));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    var(--shadow-sm);
+}
+
+.texture-divider {
+  position: relative;
+  overflow: hidden;
+  border-radius: 999px;
+  border: 1px solid rgba(142, 176, 214, 0.24);
+  background: linear-gradient(90deg, rgba(10, 15, 23, 0.8), rgba(17, 25, 36, 0.74));
+  padding: 0.75rem 1rem;
+}
+
+.texture-divider-track {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 0.55rem;
+}
+
+.texture-divider-segment {
+  height: 0.28rem;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(86, 191, 244, 0.25), rgba(244, 185, 108, 0.58));
+  transform-origin: center;
+  animation: texture-pulse 3.6s ease-in-out infinite;
+}
+
+@keyframes texture-pulse {
+  0%,
+  100% {
+    opacity: 0.32;
+    transform: scaleX(0.9);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scaleX(1);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -466,6 +618,21 @@ textarea {
   .scrollstory-progress-segment-active {
     transform: none;
   }
+
+  .texture-divider-segment {
+    animation: none;
+  }
+}
+
+@media (max-width: 47.99rem) {
+  .site-grid {
+    opacity: 0.2;
+    background-size: 5rem 100%;
+  }
+
+  .texture-divider-track {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
 }
 
 @media (min-width: 48rem) {
@@ -494,6 +661,10 @@ textarea {
   :root {
     --container-max: 92rem;
     --container-pad-x: 2.25rem;
+  }
+
+  .site-grid {
+    opacity: 0.44;
   }
 }
 

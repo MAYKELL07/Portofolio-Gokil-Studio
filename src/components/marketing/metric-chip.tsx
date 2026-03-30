@@ -8,10 +8,10 @@ type MetricChipProps = {
 };
 
 const accentClasses = {
-  default: "border-[var(--color-border-strong)] bg-transparent",
-  blue: "border-[var(--color-vol-blue)]/30 bg-[rgba(91,141,239,0.06)]",
-  purple: "border-[var(--color-vol-blue)]/30 bg-[rgba(91,141,239,0.06)]",
-  lime: "border-[var(--color-vol-blue)]/30 bg-[rgba(91,141,239,0.06)]",
+  default: "border-[var(--color-border-strong)] bg-[rgba(9,14,22,0.38)]",
+  blue: "border-[var(--color-vol-blue)]/44 bg-[rgba(86,191,244,0.1)]",
+  purple: "border-[var(--color-arc-purple)]/44 bg-[rgba(131,168,255,0.12)]",
+  lime: "border-[var(--color-signal-lime)]/44 bg-[rgba(202,221,111,0.12)]",
 } as const;
 
 export function MetricChip({

@@ -48,10 +48,10 @@ export function HomeHero({
   ].filter((item): item is string => Boolean(item));
 
   return (
-    <section className="site-container pb-8 pt-5 md:pb-16 md:pt-6">
-      <div className="section-shell p-5 sm:p-6 md:p-8 xl:p-9">
-        <div className="grid gap-6 md:gap-8 xl:gap-10 lg:grid-cols-[minmax(0,1.2fr)_minmax(24rem,0.8fr)] lg:items-start">
-          <Reveal className="min-w-0 w-full p-0" distance={12}>
+    <section className="site-container pb-10 pt-4 md:pb-20 md:pt-7">
+      <div className="hero-shell section-shell p-5 sm:p-7 md:p-9 xl:p-10">
+        <div className="grid gap-7 md:gap-9 xl:gap-11 lg:grid-cols-[minmax(0,1.16fr)_minmax(23rem,0.84fr)] lg:items-start">
+          <Reveal className="relative z-10 min-w-0 w-full p-0" distance={12}>
             <div className="flex flex-wrap items-center gap-3">
               <span className="chip text-xs font-semibold uppercase tracking-[0.18em] text-[var(--color-fog-300)]">
                 {settings.heroEyebrow}
@@ -65,8 +65,8 @@ export function HomeHero({
             </div>
 
             <div className="mt-8">
-              <p className="eyebrow">Client delivery partner</p>
-              <h1 className="section-heading type-display-xl text-balance mt-4 max-w-4xl font-semibold text-white">
+              <p className="hero-kicker">Client delivery partner</p>
+              <h1 className="section-heading type-display-xl text-balance mt-4 max-w-[16ch] font-semibold text-white">
                 {settings.heroHeadline}
               </h1>
               <p className="mt-6 max-w-2xl text-base leading-7 text-[var(--color-fog-300)] md:hidden">
@@ -75,29 +75,35 @@ export function HomeHero({
               <p className="type-body-lg mt-6 hidden max-w-3xl text-[var(--color-fog-300)] md:block">
                 {settings.heroDescription}
               </p>
-              <div className="mt-5 grid gap-2 md:hidden">
-                {mobileOfferPoints.map((point) => (
+              <div className="mt-6 grid gap-3 md:hidden">
+                {mobileOfferPoints.map((point, index) => (
                   <div
                     key={point}
-                    className="rounded-[var(--radius-md)] border border-[var(--color-border-strong)] px-4 py-3 text-sm text-[var(--color-fog-300)]"
+                    className="hero-offer-card"
                   >
-                    {point}
+                    <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--color-fog-500)]">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                    <p className="mt-2 text-sm leading-6 text-[var(--color-fog-300)]">{point}</p>
                   </div>
                 ))}
               </div>
-              <div className="mt-6 hidden gap-3 sm:grid-cols-3 md:grid">
-                {offerPoints.map((point) => (
+              <div className="mt-7 hidden gap-3 sm:grid-cols-2 xl:grid-cols-3 md:grid">
+                {offerPoints.map((point, index) => (
                   <div
                     key={point}
-                    className="rounded-[var(--radius-md)] border border-[var(--color-border-strong)] px-4 py-3 text-sm text-[var(--color-fog-300)]"
+                    className="hero-offer-card"
                   >
-                    {point}
+                    <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--color-fog-500)]">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                    <p className="mt-2 text-sm leading-6 text-[var(--color-fog-300)]">{point}</p>
                   </div>
                 ))}
               </div>
             </div>
 
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+            <div className="mt-9 flex flex-col gap-3 sm:flex-row">
               <ButtonLink
                 href="/contact"
                 size="lg"
@@ -141,14 +147,14 @@ export function HomeHero({
                 cta_label: "Explore services",
                 destination: "/services",
               }}
-              className="mt-4 hidden justify-start px-0 py-0 text-[var(--color-fog-300)] hover:text-white md:inline-flex"
+              className="mt-5 hidden justify-start px-0 py-0 text-[var(--color-fog-300)] hover:text-white md:inline-flex"
             >
               Explore services
               <ArrowUpRight className="h-4 w-4" />
             </ButtonLink>
           </Reveal>
 
-          <Reveal className="min-w-0 w-full space-y-4" delay={0.04} distance={12}>
+          <Reveal className="relative z-10 min-w-0 w-full space-y-4" delay={0.04} distance={12}>
             {heroModelSrc ? (
               <SafeModelHighlight
                 modelSrc={heroModelSrc}
@@ -156,7 +162,7 @@ export function HomeHero({
                 alt="Project highlight model"
                 ratio="free"
                 className="h-[13.5rem] sm:h-[17rem] xl:h-[19rem]"
-                overlayClassName="bg-[linear-gradient(180deg,rgba(17,19,21,0.04),rgba(17,19,21,0.32))]"
+                overlayClassName="bg-[linear-gradient(180deg,rgba(8,12,20,0.03),rgba(8,12,20,0.42))]"
               />
             ) : (
               <DecorativeBackgroundMedia
@@ -165,11 +171,11 @@ export function HomeHero({
                 sizes="(max-width: 1023px) 100vw, 36vw"
                 quality={68}
                 className="h-[13.5rem] sm:h-[17rem] xl:h-[19rem]"
-                overlayClassName="bg-[linear-gradient(180deg,rgba(17,19,21,0.04),rgba(17,19,21,0.32))]"
+                overlayClassName="bg-[linear-gradient(180deg,rgba(8,12,20,0.03),rgba(8,12,20,0.42))]"
                 imageClassName="opacity-100"
               />
             )}
-            <div className="rounded-[var(--radius-md)] border border-[var(--color-border-strong)] p-5">
+            <div className="hero-note-card p-5">
               <p className="eyebrow">How we help</p>
               <p className="mt-3 text-sm leading-7 text-[var(--color-fog-300)] md:hidden">
                 {mobileTagline}
@@ -178,13 +184,17 @@ export function HomeHero({
                 {settings.tagline}
               </p>
               {proofMeta.length > 0 ? (
-                <p className="mt-4 hidden text-sm leading-7 text-[var(--color-fog-500)] md:block">
-                  {proofMeta.join(" · ")}
-                </p>
+                <div className="mt-4 hidden flex-wrap gap-2 md:flex">
+                  {proofMeta.map((item) => (
+                    <span key={item} className="chip text-[11px] text-[var(--color-fog-300)]">
+                      {item}
+                    </span>
+                  ))}
+                </div>
               ) : null}
             </div>
             {settings.heroMetrics.length > 0 ? (
-              <div className="hidden gap-4 md:grid md:grid-cols-3">
+              <div className="hidden gap-4 md:grid md:grid-cols-2 xl:grid-cols-3">
                 {settings.heroMetrics.map((metric) => (
                   <HeroMetric key={metric.label} metric={metric} />
                 ))}

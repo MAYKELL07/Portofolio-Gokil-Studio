@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
-import { IBM_Plex_Mono, Manrope, Sora } from "next/font/google";
+import { IBM_Plex_Mono, Manrope, Syne } from "next/font/google";
 
 import "./globals.css";
 
@@ -12,9 +12,10 @@ import { buildMetadata } from "@/lib/seo";
 import { getSiteSettings } from "@/lib/site-content";
 import { createAbsoluteUrl } from "@/lib/utils";
 
-const sora = Sora({
+const syne = Syne({
   variable: "--font-display",
   subsets: ["latin"],
+  weight: ["500", "600", "700", "800"],
 });
 
 const manrope = Manrope({
@@ -65,11 +66,12 @@ export default async function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${sora.variable} ${manrope.variable} ${plexMono.variable} bg-[var(--color-ink-950)] font-sans text-[var(--color-fog-100)] antialiased`}
+        className={`${syne.variable} ${manrope.variable} ${plexMono.variable} relative isolate overflow-x-clip bg-[var(--color-ink-950)] font-sans text-[var(--color-fog-100)] antialiased`}
       >
         <a href="#main-content" className="skip-link">
           Skip to main content
         </a>
+        <div aria-hidden className="site-grid" />
         <AnalyticsProvider />
         <SiteHeader
           studioName={settings.studioName}

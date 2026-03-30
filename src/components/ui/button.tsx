@@ -24,34 +24,34 @@ export function buttonClasses({
   disabled = false,
 }: ButtonClassOptions = {}) {
   const base =
-    "inline-flex items-center justify-center gap-2 rounded-[999px] border text-sm font-semibold transition duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] focus-visible:outline-none focus-visible:ring-0 disabled:pointer-events-none disabled:opacity-55";
+    "inline-flex items-center justify-center gap-2 rounded-[999px] border text-sm font-semibold tracking-[-0.01em] transition duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] focus-visible:outline-none focus-visible:ring-0 disabled:pointer-events-none disabled:opacity-55";
   const sizeClass =
-    size === "lg" ? "min-h-13 px-6 py-4" : "min-h-12 px-5 py-3";
+    size === "lg" ? "min-h-13 px-6 py-4 text-[0.95rem]" : "min-h-12 px-5 py-3";
 
   const toneMap = {
     default: {
       primary:
-        "border-[var(--color-vol-blue)] bg-[var(--color-vol-blue)] text-white hover:opacity-92 focus-visible:shadow-[0_0_0_4px_rgba(91,141,239,0.18)]",
+        "border-[var(--color-vol-blue)]/55 bg-[linear-gradient(135deg,var(--color-vol-blue),#8fdaff)] text-[var(--color-ink-950)] shadow-[0_16px_36px_rgba(86,191,244,0.28)] hover:-translate-y-0.5 hover:shadow-[0_22px_44px_rgba(86,191,244,0.36)] focus-visible:shadow-[0_0_0_4px_rgba(86,191,244,0.24)]",
       secondary:
-        "border-[var(--color-border-strong)] bg-transparent text-white hover:border-[var(--color-border-accent)] hover:bg-white/[0.02] focus-visible:shadow-[0_0_0_4px_rgba(91,141,239,0.14)]",
+        "border-[var(--color-border-strong)] bg-[rgba(9,14,22,0.62)] text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.05)] hover:-translate-y-0.5 hover:border-[var(--color-border-accent)] hover:bg-[rgba(13,22,34,0.9)] hover:shadow-[0_14px_34px_rgba(1,7,17,0.35)] focus-visible:shadow-[0_0_0_4px_rgba(86,191,244,0.18)]",
       ghost:
-        "border-transparent bg-transparent text-[var(--color-fog-300)] hover:text-white focus-visible:shadow-[0_0_0_4px_rgba(91,141,239,0.1)]",
+        "border-transparent bg-transparent text-[var(--color-fog-300)] hover:-translate-y-0.5 hover:text-white focus-visible:shadow-[0_0_0_4px_rgba(86,191,244,0.12)]",
     },
     success: {
       primary:
-        "border-[var(--color-signal-lime)]/40 bg-[var(--color-signal-lime)] text-[var(--color-ink-950)] shadow-[0_10px_26px_rgba(232,200,108,0.14)] hover:border-[var(--color-signal-lime)] hover:bg-[#efd489] hover:shadow-[0_14px_34px_rgba(232,200,108,0.24)] focus-visible:shadow-[0_0_0_4px_rgba(232,200,108,0.16)]",
+        "border-[var(--color-signal-lime)]/52 bg-[linear-gradient(135deg,var(--color-signal-lime),#e3ec99)] text-[var(--color-ink-950)] shadow-[0_12px_30px_rgba(202,221,111,0.26)] hover:-translate-y-0.5 hover:shadow-[0_18px_38px_rgba(202,221,111,0.34)] focus-visible:shadow-[0_0_0_4px_rgba(202,221,111,0.2)]",
       secondary:
-        "border-[var(--color-signal-lime)]/28 bg-[rgba(232,200,108,0.1)] text-white hover:bg-[rgba(232,200,108,0.16)] hover:shadow-[0_12px_28px_rgba(0,0,0,0.18)] focus-visible:shadow-[0_0_0_4px_rgba(232,200,108,0.14)]",
+        "border-[var(--color-signal-lime)]/32 bg-[rgba(202,221,111,0.12)] text-white hover:-translate-y-0.5 hover:bg-[rgba(202,221,111,0.18)] hover:shadow-[0_14px_34px_rgba(0,0,0,0.22)] focus-visible:shadow-[0_0_0_4px_rgba(202,221,111,0.16)]",
       ghost:
-        "border-transparent bg-transparent text-[var(--color-signal-lime)] hover:text-[#f4dd9b] focus-visible:shadow-[0_0_0_4px_rgba(232,200,108,0.1)]",
+        "border-transparent bg-transparent text-[var(--color-signal-lime)] hover:-translate-y-0.5 hover:text-[#e6f2a1] focus-visible:shadow-[0_0_0_4px_rgba(202,221,111,0.12)]",
     },
     danger: {
       primary:
-        "border-[var(--color-coral)]/40 bg-[var(--color-coral)] text-[var(--color-ink-950)] shadow-[0_10px_26px_rgba(255,107,107,0.14)] hover:border-[var(--color-coral)] hover:bg-[#ff8787] hover:shadow-[0_14px_34px_rgba(255,107,107,0.22)] focus-visible:shadow-[0_0_0_4px_rgba(255,107,107,0.18)]",
+        "border-[var(--color-coral)]/52 bg-[linear-gradient(135deg,var(--color-coral),#ffae8b)] text-[var(--color-ink-950)] shadow-[0_12px_30px_rgba(255,127,107,0.24)] hover:-translate-y-0.5 hover:shadow-[0_18px_38px_rgba(255,127,107,0.32)] focus-visible:shadow-[0_0_0_4px_rgba(255,127,107,0.2)]",
       secondary:
-        "border-[var(--color-coral)]/28 bg-[rgba(255,107,107,0.08)] text-white hover:bg-[rgba(255,107,107,0.14)] hover:shadow-[0_12px_28px_rgba(0,0,0,0.18)] focus-visible:shadow-[0_0_0_4px_rgba(255,107,107,0.14)]",
+        "border-[var(--color-coral)]/34 bg-[rgba(255,127,107,0.1)] text-white hover:-translate-y-0.5 hover:bg-[rgba(255,127,107,0.16)] hover:shadow-[0_14px_34px_rgba(0,0,0,0.22)] focus-visible:shadow-[0_0_0_4px_rgba(255,127,107,0.16)]",
       ghost:
-        "border-transparent bg-transparent text-[var(--color-coral)] hover:text-[#ff9b9b] focus-visible:shadow-[0_0_0_4px_rgba(255,107,107,0.1)]",
+        "border-transparent bg-transparent text-[var(--color-coral)] hover:-translate-y-0.5 hover:text-[#ffb2a3] focus-visible:shadow-[0_0_0_4px_rgba(255,127,107,0.12)]",
     },
   } as const;
 
